@@ -40,7 +40,7 @@ public class Alinity {
      * @return boolean. True or false, depending on
      * whether the connection has been established.
      */
-    public void connect() {
+    public boolean connect() throws AlinityException{
         try {
             Properties connectionProps = new Properties();
             connectionProps.put("user", this.username);
@@ -48,14 +48,14 @@ public class Alinity {
             connection = DriverManager.getConnection("jdbc:" + dbms + "://" + serverName + ":" + portNumber + "/" + dbName, connectionProps);
             if (connection.isValid(3)) {
                 System.out.println("Connected to database: " + this.dbName);
-                //return true;
+                return true;
             } else {
-                //return false;
+                return false;
             }
         } catch (SQLException sqle) {
-            System.out.println("Error connecting to database: " + sqle);
+            throw new AlinityException(sqle, "Error connecting to database: ", null);
         } catch (NullPointerException npe) {
-            System.out.println("Error in processing information at the connect method: " + npe);
+            throw new AlinityException(npe,"Error in processing information at the connect method: ", null);
         }
     }
 
@@ -70,19 +70,19 @@ public class Alinity {
      * @return True or false, depending on
      * whether the connection has been closed.
      */
-    public void close() {
+    public boolean close() throws AlinityException {
         try {
             connection.close();
             if (connection.isClosed()) {
                 System.out.println("The connection has closed successfully.");
-                //return true;
+                return true;
             } else {
-                //return false;
+                return false;
             }
         } catch (SQLException sqle) {
-            System.out.println("Error closing connection: " + sqle);
+            throw new AlinityException(sqle,"Error closing connection: ",null);
         } catch (NullPointerException npe) {
-            System.out.println("Error in processing information at the close method: " + npe);
+            throw new AlinityException(npe,"Error in processing information at the close method: ",null);
         }
     }
 
@@ -102,7 +102,7 @@ public class Alinity {
      * @param stringValues
      * @return ArrayList<ArrayList<String>>
      */
-    public ArrayList<ArrayList<String>> getData(String sqlStatement, ArrayList<String> stringValues)  {
+    public ArrayList<ArrayList<String>> getData(String sqlStatement, ArrayList<String> stringValues) throws AlinityException {
         ArrayList<ArrayList<String>> result = null;
         try {
             result = new ArrayList<>();
@@ -125,9 +125,9 @@ public class Alinity {
                 result.add(row);
             }
         } catch (SQLException sqle) {
-            System.out.println("-> Error in processing data retrieval (SQLException) to the database at getData(String, ArrayList<String>) method.");
+            throw new AlinityException(sqle,"-> Error in processing data retrieval (SQLException) to the database at getData(String, ArrayList<String>) method.",sqlStatement);
         } catch (NullPointerException npe) {
-            System.out.println("-> Error in processing data retrieval (NullPointerException) to the database at getData(String, ArrayList<String>) method.");
+            throw new AlinityException(npe,"-> Error in processing data retrieval (NullPointerException) to the database at getData(String, ArrayList<String>) method.",sqlStatement);
         }
         return result;
     }
@@ -143,7 +143,7 @@ public class Alinity {
      * @param stringValues
      * @return boolean
      */
-    public boolean setData(String sqlStatement, ArrayList<String> stringValues) {
+    public boolean setData(String sqlStatement, ArrayList<String> stringValues) throws AlinityException{
         try {
             PreparedStatement prep = prepare(sqlStatement, stringValues);
             int update = prep.executeUpdate();
@@ -151,9 +151,9 @@ public class Alinity {
                 return true;
             } return false;
         } catch (SQLException sqle) {
-            System.out.println("-> Error in processing data manipulation (SQLException) to the database at setData(String, ArrayList<String>) method.");
+            throw new AlinityException(sqle, "-> Error in processing data manipulation (SQLException) to the database at setData(String, ArrayList<String>) method.", sqlStatement);
         } catch (NullPointerException npe) {
-            System.out.println("-> Error in processing data manipulation (NullPointerException) to the database at setData(String, ArrayList<String>) method.");
+            throw new AlinityException(npe, "-> Error in processing data manipulation (NullPointerException) to the database at setData(String, ArrayList<String>) method.", sqlStatement);
         }
     }
 
@@ -168,7 +168,7 @@ public class Alinity {
      * @param stringList
      * @return PreparedStatement
      */
-    public PreparedStatement prepare(String sqlStatement, ArrayList<String> stringList) {
+    public PreparedStatement prepare(String sqlStatement, ArrayList<String> stringList) throws AlinityException{
         try {
             PreparedStatement prepStmt = connection.prepareStatement(sqlStatement);
             for(int i = 0; i < stringList.size(); i++) {
@@ -176,9 +176,9 @@ public class Alinity {
             }
             return prepStmt;
         } catch (SQLException sqle) {
-            System.out.println("Error preparing statement: " + sqle);
+            throw new AlinityException(sqle,"Error preparing statement: ", sqlStatement);
         } catch (NullPointerException npe) {
-            System.out.println("Error processing information at prepare method: " + npe);
+            throw new AlinityException(npe,"Error processing information at prepare method: ", sqlStatement);
         }
     }
 
