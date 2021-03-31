@@ -1,0 +1,125 @@
+CREATE TABLE User
+(
+  userId INT NOT NULL,
+  username VARCHAR(50) NOT NULL,
+  password VARCHAR(20) NOT NULL,
+  birthday DATE NOT NULL,
+  email VARCHAR(50) NOT NULL,
+  PRIMARY KEY (userId)
+);
+
+CREATE TABLE Genre
+(
+  genreId INT NOT NULL,
+  genreName VARCHAR(50) NOT NULL,
+  PRIMARY KEY (genreId)
+);
+
+CREATE TABLE Record_Label
+(
+  recordLabelId INT NOT NULL,
+  recordLabelName VARCHAR(50) NOT NULL,
+  dateCreated DATE NOT NULL,
+  labelInfo VARCHAR(200) NOT NULL,
+  PRIMARY KEY (recordLabelId)
+);
+
+CREATE TABLE Platform
+(
+  platformId INT NOT NULL,
+  platformName VARCHAR(50) NOT NULL,
+  platformInfo VARCHAR(200) NOT NULL,
+  PRIMARY KEY (platformId)
+);
+
+CREATE TABLE Artist
+(
+  artistId INT NOT NULL,
+  artistName VARCHAR(50) NOT NULL,
+  artistInfo VARCHAR(200) NOT NULL,
+  recordLabelId INT NOT NULL,
+  PRIMARY KEY (artistId),
+  FOREIGN KEY (recordLabelId) REFERENCES Record_Label(recordLabelId)
+);
+
+CREATE TABLE Album
+(
+  albumId INT NOT NULL,
+  albumName VARCHAR(50) NOT NULL,
+  albumInfo VARCHAR(200) NOT NULL,
+  releaseDate DATE NOT NULL,
+  artistId INT NOT NULL,
+  genreId INT NOT NULL,
+  PRIMARY KEY (albumId),
+  FOREIGN KEY (artistId) REFERENCES Artist(artistId),
+  FOREIGN KEY (genreId) REFERENCES Genre(genreId)
+);
+
+CREATE TABLE Award
+(
+  awardId INT NOT NULL,
+  awardName VARCHAR(50) NOT NULL,
+  awardInfo VARCHAR(200) NOT NULL,
+  artistId INT NOT NULL,
+  PRIMARY KEY (awardId),
+  FOREIGN KEY (artistId) REFERENCES Artist(artistId)
+);
+
+CREATE TABLE Saved_Artist
+(
+  userId INT NOT NULL,
+  artistId INT NOT NULL,
+  PRIMARY KEY (userId, artistId),
+  FOREIGN KEY (userId) REFERENCES User(userId),
+  FOREIGN KEY (artistId) REFERENCES Artist(artistId)
+);
+
+CREATE TABLE Saved_Album
+(
+  userId INT NOT NULL,
+  albumId INT NOT NULL,
+  PRIMARY KEY (userId, albumId),
+  FOREIGN KEY (userId) REFERENCES User(userId),
+  FOREIGN KEY (albumId) REFERENCES Album(albumId)
+);
+
+CREATE TABLE Artist_Genre
+(
+  artistId INT NOT NULL,
+  genreId INT NOT NULL,
+  PRIMARY KEY (artistId, genreId),
+  FOREIGN KEY (artistId) REFERENCES Artist(artistId),
+  FOREIGN KEY (genreId) REFERENCES Genre(genreId)
+);
+
+CREATE TABLE Available_On
+(
+  artistId INT NOT NULL,
+  platformId INT NOT NULL,
+  PRIMARY KEY (artistId, platformId),
+  FOREIGN KEY (artistId) REFERENCES Artist(artistId),
+  FOREIGN KEY (platformId) REFERENCES Platform(platformId)
+);
+
+CREATE TABLE Song
+(
+  songId INT NOT NULL,
+  songName VARCHAR(50) NOT NULL,
+  songDuration INT NOT NULL,
+  albumId INT,
+  artistId INT NOT NULL,
+  genreId INT NOT NULL,
+  PRIMARY KEY (songId),
+  FOREIGN KEY (albumId) REFERENCES Album(albumId),
+  FOREIGN KEY (artistId) REFERENCES Artist(artistId),
+  FOREIGN KEY (genreId) REFERENCES Genre(genreId)
+);
+
+CREATE TABLE Saved_Songs
+(
+  userId INT NOT NULL,
+  songId INT NOT NULL,
+  PRIMARY KEY (userId, songId),
+  FOREIGN KEY (userId) REFERENCES User(userId),
+  FOREIGN KEY (songId) REFERENCES Song(songId)
+);
