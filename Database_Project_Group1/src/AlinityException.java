@@ -6,8 +6,6 @@ import java.util.Date;
 import java.sql.SQLException;
 
 public class AlinityException extends Exception{
-    private String errorMessage;
-    private String sqlStmt;
     private static final String logFile = "log.txt";
     private PrintWriter pw;
 
@@ -19,12 +17,10 @@ public class AlinityException extends Exception{
 
     public AlinityException (Exception e, String errorMessage, String sqlStmt){
         super(e);
-        this.errorMessage = errorMessage;
-        this.sqlStmt = sqlStmt;
         createLog(e, errorMessage, sqlStmt);
     }
 
-    public void createLog(Exception e, String errorMessage, String SQLStatement) {
+    public void createLog(Exception e, String errorMessage, String sqlStmt) {
         try {
             Date time = new Date();
             String timeStamp = time.toString();
