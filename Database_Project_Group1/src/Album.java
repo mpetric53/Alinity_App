@@ -101,7 +101,7 @@ public class Album {
      * A SQL statement as a String is created using the current name, info,
      * releaseDate, artistId, and genreId where the albumId is based on the values which will be bound
      * from the input ArrayList of Strings.
-     * Executes using the setDada method.
+     * Executes using the setData method.
      * This method will specifically work only when updating ALL the information for said album
      * id.
      * If the attempt of the executing the statement fails, log the error to the file.
