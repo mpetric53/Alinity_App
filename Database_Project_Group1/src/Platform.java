@@ -142,7 +142,6 @@ public class Platform {
         System.out.println("\nID: " + this.platformId);
         System.out.println("Platform name: " + this.platformName);
         System.out.println("Platform Info: " + this.platformInfo);
-
     }
 
 
