@@ -20,26 +20,6 @@ public class User {
     public User() {
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
     public void setUserId(int userId) {
         this.userId = userId;
     }
