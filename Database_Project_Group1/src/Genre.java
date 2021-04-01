@@ -5,7 +5,7 @@ public class Genre {
     public int genreId;
     public String genreName;
 
-    public Genre(){ }
+    public Genre(){}
 
     public Genre(int genreId, String name) {
         this.genreId = genreId;
