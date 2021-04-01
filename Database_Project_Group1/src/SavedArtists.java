@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public class SavedArtists {
-    public int userId;
-    public int artistId;
+    private int userId;
+    private int artistId;
     private String artistName;
 
     public String getArtistName() {
