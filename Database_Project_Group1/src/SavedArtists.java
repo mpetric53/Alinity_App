@@ -136,11 +136,11 @@ public class SavedArtists {
     }
 
     /**
-     * printSaved_Albums method of the SavedAlbums class.
-     * Print values for the saved albums for that
+     * printSaved_Artists method of the SavedAlbums class.
+     * Print values for the saved artists for that
      * specific user.
      */
-    public void printSaved_Albums() {
+    public void printSaved_Artists() {
         System.out.println("\nAlbum name: " + this.artistName);
     }
 }
