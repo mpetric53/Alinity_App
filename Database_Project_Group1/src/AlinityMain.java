@@ -4,6 +4,7 @@ public class AlinityMain {
 
     public static void main(String[] args) {
         try {
+            alinityDB = new Alinity("mysql", "localHost", "3306", "alinity", "root", "Marlenagang4519995711121999robot123-");
             alinityDB.connect();
         } catch (AlinityException ae) {
             System.out.println("Test error!");

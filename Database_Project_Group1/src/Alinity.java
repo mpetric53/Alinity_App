@@ -37,10 +37,8 @@ public class Alinity {
      * print out a confirmation message.
      * Else, return false
      *
-     * @return boolean. True or false, depending on
-     * whether the connection has been established.
      */
-    public boolean connect() throws AlinityException{
+    public void connect() throws AlinityException {
         try {
             Properties connectionProps = new Properties();
             connectionProps.put("user", this.username);
@@ -48,14 +46,11 @@ public class Alinity {
             connection = DriverManager.getConnection("jdbc:" + dbms + "://" + serverName + ":" + portNumber + "/" + dbName, connectionProps);
             if (connection.isValid(3)) {
                 System.out.println("Connected to database: " + this.dbName);
-                return true;
-            } else {
-                return false;
             }
         } catch (SQLException sqle) {
-            throw new AlinityException(sqle, "Error connecting to database: ", null);
+            throw new AlinityException(sqle, "-> Error in processing the connection (SQLException) to the database at connect() method.", null);
         } catch (NullPointerException npe) {
-            throw new AlinityException(npe,"Error in processing information at the connect method: ", null);
+            throw new AlinityException(npe, "-> Error in processing the connection (NullPointerException) to the database at connect() method.", null);
         }
     }
 
@@ -67,17 +62,12 @@ public class Alinity {
      * and set the boolean isClosed to true.
      * Else, return false.
      *
-     * @return True or false, depending on
-     * whether the connection has been closed.
      */
-    public boolean close() throws AlinityException {
+    public void close() throws AlinityException {
         try {
             connection.close();
             if (connection.isClosed()) {
                 System.out.println("The connection has closed successfully.");
-                return true;
-            } else {
-                return false;
             }
         } catch (SQLException sqle) {
             throw new AlinityException(sqle,"Error closing connection: ",null);
