@@ -72,7 +72,7 @@ public class User {
             ArrayList<String> credentials = new ArrayList<>();
             credentials.add(username);
             credentials.add(password);
-            ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM User WHERE User.id = ? AND User.password = ?" , credentials);
+            ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM User WHERE User.username = ? AND User.password = ?" , credentials);
             if(result.size() <= 1) {
                 System.out.println("Invalid credentials.");
                 return false;
