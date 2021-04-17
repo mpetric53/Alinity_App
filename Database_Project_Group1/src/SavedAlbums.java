@@ -48,51 +48,52 @@ public class SavedAlbums {
      *
      * @throws AlinityException
      */
-    public void selectAll(ArrayList<String> stringList) throws AlinityException {
+    public void selectAll(User user) throws AlinityException {
         try {
-            ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT Album.albumName \n" +
-                    "FROM ((Album INNER JOIN Saved_Album\n" +
-                    "ON Album.albumId = Saved_Album.albumId)\n" +
-                    "INNER JOIN User ON Saved_Album.userId = User.userId)\n" +
-                    "WHERE User.userId = ?" , stringList);
+            ArrayList<String> info = new ArrayList<>();
+            info.add(String.valueOf(user.getUserId()));
+            ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT Album.albumName FROM User\n" +
+                    "NATURAL JOIN Saved_Album Natural JOIN Album\n" +
+                    "WHERE User.userId = ?" , info);
             System.out.print("\nColumn headers: " + result.get(0));
             ArrayList<String> savedAlbumData = result.get(1);
             setAlbumName(savedAlbumData.get(0));
+            printSaved_Albums();
         } catch (IndexOutOfBoundsException ioobe) {
-            throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT Album.albumName \n" +
-                    "FROM ((Album INNER JOIN Saved_Album\n" +
-                    "ON Album.albumId = Saved_Album.albumId)\n" +
-                    "INNER JOIN User ON Saved_Album.userId = User.userId)\n" +
+            throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT Album.albumName FROM User\n" +
+                    "NATURAL JOIN Saved_Album Natural JOIN Album\n" +
                     "WHERE User.userId = ?");
         } catch (NullPointerException npe) {
-            throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT Album.albumName \n" +
-                    "FROM ((Album INNER JOIN Saved_Album\n" +
-                    "ON Album.albumId = Saved_Album.albumId)\n" +
-                    "INNER JOIN User ON Saved_Album.userId = User.userId)\n" +
+            throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT Album.albumName FROM User\n" +
+                    "NATURAL JOIN Saved_Album Natural JOIN Album\n" +
                     "WHERE User.userId = ?");
         }
     }
 
-    /**
-     * updateAll method of the SavedAlbums class.
-     * A SQL statement as a String is created using the current albumId
-     * and userId where the userId is based on the values which will be bound
-     * from the input ArrayList of Strings.
-     * Executes using the setDada method.
-     * If the attempt of the executing the statement fails, log the error to the file.
-     *
-     * @throws AlinityException
-     */
-    public boolean updateAll(ArrayList<String> stringList) throws AlinityException {
-        try {
-            String putStmt = "UPDATE Saved_Album SET userId = ?, albumId = ? WHERE awardId = ?";
-            return AlinityMain.alinityDB.setData(putStmt, stringList);
-        } catch (NullPointerException npe) {
-            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the updateAll(ArrayList<String>) method.", "UPDATE Saved_Album SET userId = ?, albumId = ? WHERE awardId = ?");
-        } catch (IndexOutOfBoundsException ioobe) {
-            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the updateAll(ArrayList<String>) method.", "UPDATE Saved_Album SET userId = ?, albumId = ? WHERE awardId = ?");
-        }
-    }
+//    /**
+//     * updateAll method of the SavedAlbums class.
+//     * A SQL statement as a String is created using the current albumId
+//     * and userId where the userId is based on the values which will be bound
+//     * from the input ArrayList of Strings.
+//     * Executes using the setDada method.
+//     * If the attempt of the executing the statement fails, log the error to the file.
+//     *
+//     * @throws AlinityException
+//     */
+//    public boolean updateAll(User user, Album album, int albumId) throws AlinityException {
+//        try {
+//            album.setAlbumId(albumId);
+//            ArrayList<String> info = new ArrayList<>();
+//            info.add(String.valueOf(album.getAlbumId()));
+//            info.add(String.valueOf(user.getUserId()));
+//            String putStmt = "UPDATE Saved_Album SET albumId = ? WHERE userId = ?";
+//            return AlinityMain.alinityDB.setData(putStmt, info);
+//        } catch (NullPointerException npe) {
+//            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the updateAll(ArrayList<String>) method.", "UPDATE Saved_Album SET albumId = ? WHERE userId = ?");
+//        } catch (IndexOutOfBoundsException ioobe) {
+//            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the updateAll(ArrayList<String>) method.", "UPDATE Saved_Album SET albumId = ? WHERE userId = ?");
+//        }
+//    }
 
     /**
      * insertAll method of the SavedAlbums class.
@@ -104,10 +105,13 @@ public class SavedAlbums {
      *
      * @throws AlinityException
      */
-    public boolean insertAll(ArrayList<String> stringList) throws AlinityException {
+    public boolean insertAll(User user, Album album) throws AlinityException {
         try {
+            ArrayList<String> info = new ArrayList<>();
+            info.add(String.valueOf(user.getUserId()));
+            info.add(String.valueOf(album.getAlbumId()));
             String insertStmt = "INSERT INTO Saved_Album (userId, albumId) VALUES (?, ?)";
-            return AlinityMain.alinityDB.setData(insertStmt, stringList);
+            return AlinityMain.alinityDB.setData(insertStmt, info);
         } catch (NullPointerException npe) {
             throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the insertAll(ArrayList<String>) method.","INSERT INTO Saved_Album (userId, albumId) VALUES (?, ?)");
         } catch (IndexOutOfBoundsException ioobe) {
@@ -124,10 +128,12 @@ public class SavedAlbums {
      *
      * @throws AlinityException
      */
-    public boolean deleteAll(ArrayList<String> stringList) throws AlinityException {
+    public boolean deleteAll(Album album) throws AlinityException {
         try {
+            ArrayList<String> info = new ArrayList<>();
+            info.add(String.valueOf(album.getAlbumId()));
             String deleteStmt = "DELETE FROM Saved_Album WHERE albumId = ?";
-            return AlinityMain.alinityDB.setData(deleteStmt, stringList);
+            return AlinityMain.alinityDB.setData(deleteStmt, info);
         } catch (NullPointerException npe) {
             throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the deleteAll() method.", "DELETE FROM Saved_Album WHERE albumId = ?");
         } catch (IndexOutOfBoundsException ioobe) {

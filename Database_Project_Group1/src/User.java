@@ -1,3 +1,9 @@
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import java.math.BigInteger;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -53,6 +59,25 @@ public class User {
         this.role = role;
     }
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 
     /**
      * authenticate method of the User class.
@@ -71,24 +96,103 @@ public class User {
         try{
             ArrayList<String> credentials = new ArrayList<>();
             credentials.add(username);
-            credentials.add(password);
-            ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM User WHERE User.username = ? AND User.password = ?" , credentials);
+            ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM User WHERE User.username = ?" , credentials);
             if(result.size() <= 1) {
                 System.out.println("Invalid credentials.");
                 return false;
             }
             ArrayList<String> userData = result.get(1);
-            setUserId(Integer.parseInt(userData.get(0)));
-            setUsername(userData.get(1));
-            setPassword(userData.get(2));
-            setBirthday(Date.valueOf(userData.get(3)));
-            setEmail(userData.get(4));
-            setRole(userData.get(5));
-            return true;
-        } catch (IndexOutOfBoundsException ioobe) {
+            if (validatePassword(password, userData.get(2))) {
+                setUserId(Integer.parseInt(userData.get(0)));
+                setUsername(userData.get(1));
+                setPassword(userData.get(2));
+                setBirthday(Date.valueOf(userData.get(3)));
+                setEmail(userData.get(4));
+                setRole(userData.get(5));
+                return true;
+            } else {
+                return false;
+            }
+        } catch (IndexOutOfBoundsException | NoSuchAlgorithmException | InvalidKeySpecException ioobe) {
             throw new AlinityException(ioobe, "-> Error authenticating.", null);
         }
     }
+
+    private boolean signUp(String username, String password, Date birthday, String email) throws AlinityException {
+        try {
+            ArrayList<String> signUpInfo = new ArrayList<>();
+            String hashedPassword = generateStrongPasswordHash(password);
+            signUpInfo.add(username);
+            signUpInfo.add(hashedPassword);
+            signUpInfo.add(String.valueOf(birthday));
+            signUpInfo.add(email);
+            String insertStmt = "INSERT INTO User (username, password, birthday, email) VALUES (?, ?, ?, ?)";
+            AlinityMain.alinityDB.setData(insertStmt, signUpInfo);
+            return login(username, password);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new AlinityException(e, "Error inserting new user into DB (sign up) at signUp method.", "INSERT INTO User (username, password, birthday, email) VALUES (?, ?, ?, ?)");
+        }
+    }
+
+    private byte[] getSalt() throws NoSuchAlgorithmException {
+        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
+        byte[] salt = new byte[16];
+        sr.nextBytes(salt);
+        return salt;
+    }
+
+    private String toHex(byte[] array)
+    {
+        BigInteger bi = new BigInteger(1, array);
+        String hex = bi.toString(16);
+        int paddingLength = (array.length * 2) - hex.length();
+        if(paddingLength > 0)
+        {
+            return String.format("%0"  +paddingLength + "d", 0) + hex;
+        }else{
+            return hex;
+        }
+    }
+
+    private String generateStrongPasswordHash(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        int iterations = 1000;
+        char[] chars = password.toCharArray();
+        byte[] salt = getSalt();
+
+        PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 64 * 8);
+        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        byte[] hash = skf.generateSecret(spec).getEncoded();
+        return iterations + ":" + toHex(salt) + ":" + toHex(hash);
+    }
+
+    private boolean validatePassword(String password, String storedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        String[] parts = storedPassword.split(":");
+        int iterations = Integer.parseInt(parts[0]);
+        byte[] salt = fromHex(parts[1]);
+        byte[] hash = fromHex(parts[2]);
+
+        PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations, hash.length * 8);
+        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        byte[] testHash = skf.generateSecret(spec).getEncoded();
+
+        int diff = hash.length ^ testHash.length;
+        for(int i = 0; i < hash.length && i < testHash.length; i++)
+        {
+            diff |= hash[i] ^ testHash[i];
+        }
+        return diff == 0;
+    }
+
+    private byte[] fromHex(String hex)
+    {
+        byte[] bytes = new byte[hex.length() / 2];
+        for(int i = 0; i<bytes.length ;i++)
+        {
+            bytes[i] = (byte)Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
+        }
+        return bytes;
+    }
+
 
     /**
      * login method of the User class.
