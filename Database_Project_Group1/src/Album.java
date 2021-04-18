@@ -116,15 +116,15 @@ public class Album {
      *
      * @throws AlinityException
      */
-    public boolean updateAlbum(User user, String albumName, String albumInfo, Date releaseDate, int artistId, int genreId) throws AlinityException {
+    public boolean updateAlbum(User user, String albumName, String albumInfo, Date releaseDate, Artist artist, Genre genre) throws AlinityException {
         try {
             if(user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(albumName);
                 info.add(albumInfo);
                 info.add(String.valueOf(releaseDate));
-                info.add(String.valueOf(artistId));
-                info.add(String.valueOf(genreId));
+                info.add(String.valueOf(artist.getArtistId()));
+                info.add(String.valueOf(genre.getGenreId()));
                 info.add(String.valueOf(this.getAlbumId()));
                 String putStmt = "UPDATE Album SET albumName = ? , albumInfo = ?, releaseDate = ?, artistId = ?, genreId = ? WHERE albumId = ?";
                 return AlinityMain.alinityDB.setData(putStmt, info);
@@ -148,15 +148,15 @@ public class Album {
      *
      * @throws AlinityException
      */
-    public boolean insertAlbum(User user, String albumName, String albumInfo, Date releaseDate, int artistId, int genreId) throws AlinityException {
+    public boolean insertAlbum(User user, String albumName, String albumInfo, Date releaseDate, Artist artist, Genre genre) throws AlinityException {
         try {
             if(user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(albumName);
                 info.add(albumInfo);
                 info.add(String.valueOf(releaseDate));
-                info.add(String.valueOf(artistId));
-                info.add(String.valueOf(genreId));
+                info.add(String.valueOf(artist.getArtistId()));
+                info.add(String.valueOf(genre.getGenreId()));
                 String insertStmt = "INSERT INTO Album (albumName, albumInfo, releaseDate, artistId, genreId) VALUES (?, ?, ?, ?, ?)";
                 return AlinityMain.alinityDB.setData(insertStmt, info);
             } else System.out.println("You do not have the correct permissions to use this function. Please contact an administrator."); return false;

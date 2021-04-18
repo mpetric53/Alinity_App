@@ -363,7 +363,7 @@ public class User {
 //     *
 //     * @throws AlinityException
 //     */
-//    public boolean insertAll(ArrayList<String> stringList) throws AlinityException {
+//    public boolean insertUser(ArrayList<String> stringList) throws AlinityException {
 //        try {
 //            String insertStmt = "INSERT INTO User (username, password, birthday, email) VALUES (?, ?, ?, ?)";
 //            return AlinityMain.alinityDB.setData(insertStmt, stringList);

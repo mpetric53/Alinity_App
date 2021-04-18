@@ -46,7 +46,7 @@ public class Award {
     }
 
     /**
-     * selectAll method of the Award class.
+     * selectAward method of the Award class.
      * This method will use the getData(String, ArrayList<String>) method of the Alinity
      * class. The SQL statement will select Awards where the ID value input will be bound
      * from the ArrayList, and save the result.
@@ -57,24 +57,29 @@ public class Award {
      *
      * @throws AlinityException
      */
-    public void selectAll(ArrayList<String> stringList) throws AlinityException {
+    public void selectAward(User user, String awardName) throws AlinityException {
         try {
-            ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM Award WHERE awardId = ?" , stringList);
-            System.out.print("\nColumn headers: " + result.get(0));
-            ArrayList<String> awardData = result.get(1);
-            setAwardId(Integer.parseInt(awardData.get(0)));
-            setAwardName(awardData.get(1));
-            setAwardInfo(awardData.get(2));
-            setArtistId(Integer.parseInt(awardData.get(3)));
+            if(user.getRole().equals("General") || user.getRole().equals("Admin")){
+                ArrayList<String> info = new ArrayList<>();
+                info.add(awardName);
+                ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM Award WHERE awardName = ?" , info);
+                System.out.print("\nColumn headers: " + result.get(0));
+                ArrayList<String> awardData = result.get(1);
+                setAwardId(Integer.parseInt(awardData.get(0)));
+                setAwardName(awardData.get(1));
+                setAwardInfo(awardData.get(2));
+                setArtistId(Integer.parseInt(awardData.get(3)));
+                printAward();
+            } else System.out.println("You do not have access to this function. Please contact an administrator.");
         } catch (IndexOutOfBoundsException ioobe) {
-            throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Award WHERE awardId = ?");
+            throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Award WHERE awardName = ?");
         } catch (NullPointerException npe) {
-            throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Award WHERE awardId = ?");
+            throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Award WHERE awardName = ?");
         }
     }
 
     /**
-     * updateAll method of the Award class.
+     * updateAward method of the Award class.
      * A SQL statement as a String is created using the current name, info,
      * and artistId where the awardId is based on the values which will be bound
      * from the input ArrayList of Strings.
@@ -85,10 +90,17 @@ public class Award {
      *
      * @throws AlinityException
      */
-    public boolean updateAll(ArrayList<String> stringList) throws AlinityException {
+    public boolean updateAward(User user, String awardName, String awardInfo, Artist artist) throws AlinityException {
         try {
-            String putStmt = "UPDATE Award SET awardName = ? , awardInfo = ?, artistId = ? WHERE awardId = ?";
-            return AlinityMain.alinityDB.setData(putStmt, stringList);
+            if(user.getRole().equals("Admin")) {
+                ArrayList<String> info = new ArrayList<>();
+                info.add(awardName);
+                info.add(awardInfo);
+                info.add(String.valueOf(artist.getArtistId()));
+                info.add(String.valueOf(this.getAwardId()));
+                String putStmt = "UPDATE Award SET awardName = ? , awardInfo = ?, artistId = ? WHERE awardId = ?";
+                return AlinityMain.alinityDB.setData(putStmt, info);
+            } else System.out.println("You do not have access to this function. Please contact an administrator."); return false;
         } catch (NullPointerException npe) {
             throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the updateAll(ArrayList<String>) method.", "UPDATE Award SET awardName = ? , awardInfo = ?, artistId = ? WHERE awardId = ?");
         } catch (IndexOutOfBoundsException ioobe) {
@@ -97,7 +109,7 @@ public class Award {
     }
 
     /**
-     * insertAll method of the Award class.
+     * insertAward method of the Award class.
      * A SQL statement as a String is created, which takes in
      * values based on the values to be bound from the ArrayList of Strings.
      * Executes using the setData method.
@@ -106,10 +118,16 @@ public class Award {
      *
      * @throws AlinityException
      */
-    public boolean insertAll(ArrayList<String> stringList) throws AlinityException {
+    public boolean insertAward(User user, String awardName, String awardInfo, Artist artist) throws AlinityException {
         try {
-            String insertStmt = "INSERT INTO Award (awardName, awardInfo, artistId) VALUES (?, ?, ?)";
-            return AlinityMain.alinityDB.setData(insertStmt, stringList);
+            if(user.getRole().equals("Admin")) {
+                ArrayList<String> info = new ArrayList<>();
+                info.add(awardName);
+                info.add(awardInfo);
+                info.add(String.valueOf(artist.getArtistId()));
+                String insertStmt = "INSERT INTO Award (awardName, awardInfo, artistId) VALUES (?, ?, ?)";
+                return AlinityMain.alinityDB.setData(insertStmt, info);
+            } else System.out.println("You do not have access to this function. Please contact an administrator."); return false;
         } catch (NullPointerException npe) {
             throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the insertAll(ArrayList<String>) method.","INSERT INTO Award (awardName, awardInfo, artistId) VALUES (?, ?, ?)");
         } catch (IndexOutOfBoundsException ioobe) {
@@ -118,7 +136,7 @@ public class Award {
     }
 
     /**
-     * deleteAll method of the Award class.
+     * deleteAward method of the Award class.
      * Deletes the given award data where the awardId is bound
      * via tha value inside the ArrayList of Strings.
      * Executes using the setData method.
@@ -128,10 +146,14 @@ public class Award {
      *
      * @throws AlinityException
      */
-    public boolean deleteAll(ArrayList<String> stringList) throws AlinityException {
+    public boolean deleteAward(User user) throws AlinityException {
         try {
-            String deleteStmt = "DELETE FROM Award WHERE awardId = ?";
-            return AlinityMain.alinityDB.setData(deleteStmt, stringList);
+            if(user.getRole().equals("Admin")) {
+                ArrayList<String> info = new ArrayList<>();
+                info.add(String.valueOf(this.getAwardId()));
+                String deleteStmt = "DELETE FROM Award WHERE awardId = ?";
+                return AlinityMain.alinityDB.setData(deleteStmt, info);
+            } else System.out.println("You do not have access to this function. Please contact an administrator."); return false;
         } catch (NullPointerException npe) {
             throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the deleteAll() method.", "DELETE FROM Award WHERE awardId = ?");
         } catch (IndexOutOfBoundsException ioobe) {

@@ -94,13 +94,13 @@ public class Artist {
      *
      * @throws AlinityException
      */
-    public boolean updateArtist(User user, String artistName, String artistInfo, int recordLabelId) throws AlinityException {
+    public boolean updateArtist(User user, String artistName, String artistInfo, RecordLabel recordLabel) throws AlinityException {
         try {
             if(user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(artistName);
                 info.add(artistInfo);
-                info.add(String.valueOf(recordLabelId));
+                info.add(String.valueOf(recordLabel.getRecordLabelId()));
                 info.add(String.valueOf(this.getArtistId()));
                 String putStmt = "UPDATE Artist SET artistName = ? , artistInfo = ?, recordLabelId = ? WHERE artistId = ?";
                 return AlinityMain.alinityDB.setData(putStmt, info);
@@ -124,13 +124,13 @@ public class Artist {
      *
      * @throws AlinityException
      */
-    public boolean insertArtist(User user, String artistName, String artistInfo, int recordLabelId) throws AlinityException {
+    public boolean insertArtist(User user, String artistName, String artistInfo, RecordLabel recordLabel) throws AlinityException {
         try {
             if(user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(artistName);
                 info.add(artistInfo);
-                info.add(String.valueOf(recordLabelId));
+                info.add(String.valueOf(recordLabel.getRecordLabelId()));
                 String insertStmt = "INSERT INTO Artist (artistName, artistInfo, recordLabelId) VALUES (?, ?, ?)";
                 return AlinityMain.alinityDB.setData(insertStmt, info);
             } else System.out.println("You do not have the correct permissions to use this function. Please contact an administrator."); return false;

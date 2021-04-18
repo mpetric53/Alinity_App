@@ -45,46 +45,46 @@ public class ArtistGenre {
 
 
     /**
-     * selectAll method of the ArtistGenre class.
+     * selectArtistGenre method of the ArtistGenre class.
      * This method will use the getData(String, ArrayList<String>) method of the Alinity
-     * class. The SQL statement will select ArtistGenres where the ID value input will be bound
+     * class. The SQL statement will select ArtistGenres where the name value input will be bound
      * from the ArrayList, and save the result.
-     * Sets names of artist and genre based on result data IDs.
-     * This method will work only when selecting A SPECIFIC the information for said genre id,
-     * since this table allows for joining. It will show all artists that belong to the specified genre
+     * Sets names of artist and genre based on result data name of genre..
+     * This method will work only when selecting A SPECIFIC the information for said genre name,
+     * since this table allows for joining. It will show all artists that belong to the specified genre name.
+     * This action can be performed by both admins and general users.
      * If the attempt of the executing the statement fails, log the error to the file.
      * NOTE: This version of selecting is still in development, expect this to be changed.
      *
      * @throws AlinityException
      */
-    public void selectAll(ArrayList<String> stringList) throws AlinityException {
+    public void selectArtistGenre(User user, Genre genre) throws AlinityException {
         try {
-            ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT Artist.artistName,  Genre.genreName\n" +
-                    "FROM ((Artist INNER JOIN Artist_Genre\n" +
-                    "ON Artist.artistId = Artist_Genre.artistId)\n" +
-                    "INNER JOIN Genre ON Artist_Genre.genreId = Genre.genreId)\n" +
-                    "WHERE Genre.genreId = ?" , stringList);
-            System.out.print("\nColumn headers: " + result.get(0));
-            ArrayList<String> artistData = result.get(1);
-            setArtistName(artistData.get(0));
-            setGenreName(artistData.get(1));
+            if(user.getRole().equals("General") || user.getRole().equals("Admin")) {
+                ArrayList<String> info = new ArrayList<>();
+                info.add(String.valueOf(genre.getGenreId()));
+                ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT Artist.artistName, Genre.genreName FROM Genre\n" +
+                        "NATURAL JOIN Artist_Genre NATURAL JOIN Artist\n" +
+                        "WHERE Genre.genreId = ?" , info);
+                System.out.print("\nColumn headers: " + result.get(0));
+                ArrayList<String> artistData = result.get(1);
+                setArtistName(artistData.get(0));
+                setGenreName(artistData.get(1));
+                printArtist_Genre();
+            } else System.out.println("You do not have access to this function. Please contact an administrator.");
         } catch (IndexOutOfBoundsException ioobe) {
-            throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT Artist.artistName,  Genre.genreName\n" +
-                    "FROM ((Artist INNER JOIN Artist_Genre\n" +
-                    "ON Artist.artistId = Artist_Genre.artistId)\n" +
-                    "INNER JOIN Genre ON Artist_Genre.genreId = Genre.genreId)\n" +
-                    "WHERE Genre.genreId = ?");
+            throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT Artist.artistName, Genre.genreName FROM Genre\\n\" +\n" +
+                    "                        \"NATURAL JOIN Artist_Genre NATURAL JOIN Artist\\n\" +\n" +
+                    "                        \"WHERE Genre.genreName = ?");
         } catch (NullPointerException npe) {
-            throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT Artist.artistName,  Genre.genreName\n" +
-                    "FROM ((Artist INNER JOIN Artist_Genre\n" +
-                    "ON Artist.artistId = Artist_Genre.artistId)\n" +
-                    "INNER JOIN Genre ON Artist_Genre.genreId = Genre.genreId)\n" +
-                    "WHERE Genre.genreId = ?");
+            throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT Artist.artistName, Genre.genreName FROM Genre\\n\" +\n" +
+                    "                        \"NATURAL JOIN Artist_Genre NATURAL JOIN Artist\\n\" +\n" +
+                    "                        \"WHERE Genre.genreName = ?");
         }
     }
 
     /**
-     * updateAll method of the ArtistGenre class.
+     * updateArtistGenre method of the ArtistGenre class.
      * A SQL statement as a String is created using the current ids of the
      * artist and genre where the artistId is based on the values which will be bound
      * from the input ArrayList of Strings.
@@ -93,10 +93,15 @@ public class ArtistGenre {
      *
      * @throws AlinityException
      */
-    public boolean updateAll(ArrayList<String> stringList) throws AlinityException {
+    public boolean updateArtistGenre(User user, Artist artist, Genre genre) throws AlinityException {
         try {
-            String putStmt = "UPDATE Artist_Genre SET artistId = ? , genreId = ? WHERE artistId = ?";
-            return AlinityMain.alinityDB.setData(putStmt, stringList);
+            if(user.getRole().equals("Admin")){
+                ArrayList<String> info = new ArrayList<>();
+                info.add(String.valueOf(genre.getGenreId()));
+                info.add(String.valueOf(artist.getArtistId()));
+                String putStmt = "UPDATE Artist_Genre SET genreId = ? WHERE artistId = ?";
+                return AlinityMain.alinityDB.setData(putStmt, info);
+            } else System.out.println("You do not have access to this function. Please contact an administrator."); return false;
         } catch (NullPointerException npe) {
             throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the updateAll(ArrayList<String>) method.", "UPDATE Artist_Genre SET artistId = ? , genreId = ? WHERE artistId = ?");
         } catch (IndexOutOfBoundsException ioobe) {
@@ -105,7 +110,7 @@ public class ArtistGenre {
     }
 
     /**
-     * insertAll method of the ArtistGenre class.
+     * insertArtistGenre method of the ArtistGenre class.
      * A SQL statement as a String is created, which takes in
      * values based on the values to be bound from the ArrayList of Strings.
      * Executes using the setData method.
@@ -114,10 +119,15 @@ public class ArtistGenre {
      *
      * @throws AlinityException
      */
-    public boolean insertAll(ArrayList<String> stringList) throws AlinityException {
+    public boolean insertArtistGenre(User user, Artist artist, Genre genre) throws AlinityException {
         try {
-            String insertStmt = "INSERT INTO Artist_Genre (artistId, genreId) VALUES (?, ?)";
-            return AlinityMain.alinityDB.setData(insertStmt, stringList);
+            if(user.getRole().equals("Admin")) {
+                ArrayList<String> info = new ArrayList<>();
+                info.add(String.valueOf(artist.getArtistId()));
+                info.add(String.valueOf(genre.getGenreId()));
+                String insertStmt = "INSERT INTO Artist_Genre (artistId, genreId) VALUES (?, ?)";
+                return AlinityMain.alinityDB.setData(insertStmt, info);
+            } else System.out.println("You do not have access to this function. Please contact an administrator."); return false;
         } catch (NullPointerException npe) {
             throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the insertAll(ArrayList<String>) method.","INSERT INTO Artist_Genre (artistId, genreId) VALUES (?, ?)");
         } catch (IndexOutOfBoundsException ioobe) {
@@ -126,7 +136,7 @@ public class ArtistGenre {
     }
 
     /**
-     * deleteAll method of the ArtistGenre class.
+     * deleteArtistGenre method of the ArtistGenre class.
      * Deletes the given Artist_Genre data where the artistId is bound
      * via tha value inside the ArrayList of Strings.
      * Executes using the setData method.
@@ -134,10 +144,14 @@ public class ArtistGenre {
      *
      * @throws AlinityException
      */
-    public boolean deleteAll(ArrayList<String> stringList) throws AlinityException {
+    public boolean deleteArtistGenre(User user, Artist artist) throws AlinityException {
         try {
-            String deleteStmt = "DELETE FROM Artist_Genre WHERE artistId = ?";
-            return AlinityMain.alinityDB.setData(deleteStmt, stringList);
+            if(user.getRole().equals("Admin")) {
+                ArrayList<String> info = new ArrayList<>();
+                info.add(String.valueOf(artist.getArtistId()));
+                String deleteStmt = "DELETE FROM Artist_Genre WHERE artistId = ?";
+                return AlinityMain.alinityDB.setData(deleteStmt, info);
+            } else System.out.println("You do not have access to this function. Please contact an administrator."); return false;
         } catch (NullPointerException npe) {
             throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the deleteAll() method.", "DELETE FROM Artist_Genre WHERE artistId = ?");
         } catch (IndexOutOfBoundsException ioobe) {
