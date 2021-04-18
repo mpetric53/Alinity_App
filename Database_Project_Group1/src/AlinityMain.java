@@ -1,3 +1,5 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 public class AlinityMain {
@@ -38,6 +40,7 @@ public class AlinityMain {
              * attempts to login with the information the
              * user has presented. If the user has failed,
              * ask again up to a total of three times.
+             * to be placed within login gui code
              */
             User user = new User();
             System.out.println("Enter your username and password: ");
@@ -48,6 +51,18 @@ public class AlinityMain {
                 userId = scan.nextLine();
                 passwordId = scan.nextLine();
             }
+            /**
+             * to be placed within signup GUI code
+             */
+            System.out.println("First time here? Sign up to use Alinity to its fullest!");
+            System.out.println("Enter a username, email, birthday (in YYYY-MM-DD format), and password: ");
+            String signUpUsername = scan.nextLine();
+            String signUpEmail = scan.nextLine();
+            String bday = scan.nextLine();
+            java.sql.Date dateBday = java.sql.Date.valueOf(bday);
+            String signUpPassword = scan.nextLine();
+            User user2 = new User();
+            user2.signUp(signUpUsername, signUpPassword, dateBday, signUpEmail);
         } catch (AlinityException ae) {
             System.out.println("Test error!");
         } finally {
