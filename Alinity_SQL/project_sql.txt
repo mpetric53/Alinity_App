@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS alinity;
 CREATE DATABASE alinity;
 USE alinity;
 
-select * from user;
+
 -- creating the user table
 DROP TABLE IF EXISTS User;
 CREATE TABLE User
