@@ -9,7 +9,7 @@ CREATE TABLE User
 (
   userId INT AUTO_INCREMENT,
   username VARCHAR(50) NOT NULL,
-  password VARCHAR(20) NOT NULL,
+  password VARCHAR(500) NOT NULL,
   birthday DATE NOT NULL,
   email VARCHAR(50) NOT NULL,
   role VARCHAR(20) NOT NULL DEFAULT 'General',
@@ -156,3 +156,77 @@ CREATE TABLE Saved_Songs
   CONSTRAINT FOREIGN KEY (userId) REFERENCES User(userId),
   CONSTRAINT FOREIGN KEY (songId) REFERENCES Song(songId)
 );
+
+
+
+INSERT INTO User (username, password, birthday, email, role) VALUES('mjr8741', '1000:80e78dac99243719882ac06e4b497fb5:880fd26823afc0a1c1192b687960f5400f57156dea53166334d707c508dbe24a69d395652a2b7f362a6988cd0bb30ac671d7822abb77c1946f1e5c0eca9b2bb5', '1999-12-12', 'mjr8741@rit.edu', 'Admin');
+INSERT INTO User (username, password, birthday, email, role) VALUES('lf7864', '1000:362f43cb13e0428ec7803a438845c5bf:f0aed27b0fa8827f628aba6d4ab621ff48dadc32cdda93c3d1780dc13de639f0968f60b46cec42a536a3da950b3f1f1266669483e1cbc12321a9d4dadb9d1a45', '1999-06-29', 'lf7894@rit.edu', 'Admin'),
+('mp2272', '1000:cac5cd9ce6efb9fb63557243787b070d:e05ea4ff68cd6dd2b62472dc2ed478af98c2ed4259aa7b2e87d5b75b6b935a1459e5ecf103acbe7916b38afe574a739cca925604c712c8e1def95ea9d4367e82', '1999-07-09', 'mp2272@rit.edu', 'Admin'),
+('ss5174', '1000:e443cc38b980fb97cbe6f064e61a0d26:a298e81cd5a8d5981061e3b6121dafed91f32ca85b2dbec91e759b822ee166d71142ef2972aea115899f191adccab5143153c3088761da8f5af555ee66a7c016', '2000-05-05', 'ss5174@rit.edu', 'Admin');
+SELECT * FROM User;
+INSERT INTO Genre (genreName) VALUES ('Rap'), ('Metal');
+INSERT INTO Record_Label(recordLabelName, dateCreated, labelInfo) VALUES ('Test', '1991-03-21', 'Death Row Records was formed by some of the largest names in rap, such as Dr. DRE and
+Suge Knight'), ('Elektra Records', '1950-06-12', 'Elektra records is one of the oldest standing music record companies');
+SELECT * FROM Record_Label;
+INSERT INTO Platform(platformName, platformInfo) VALUES ('Spotify', 'Spotify is the leading music streaming platform in the world');
+INSERT INTO Artist (artistName, artistInfo, recordLabelId) VALUES
+('Eminem', 'M&M', 1),
+('Metallica', 'Best Metal band!', 2),
+('Snoop Dogg', 'Highest in the room', 1);
+INSERT INTO Album (albumName, albumInfo, releaseDate, artistId, genreId) VALUES ('Gin and Juice', 'This was one of Snoop`s best selling albums', '2001-10-03', 3, 1);
+INSERT INTO Song (songName, songDuration, albumId, artistId, genreId) VALUES ('CEO', '200', 1, 3, 1);
+INSERT INTO Award (awardName, awardInfo, artistId) VALUES ('Best Rap Single', 'This song represents the best in rap of the year', 3);
+
+INSERT INTO Saved_Artist (userId, artistId) VALUES (2, 3);
+select * from Saved_Artist;
+SELECT * FROM Artist;
+
+INSERT INTO Saved_Album (userId, albumId) VALUES (1, 1);
+
+INSERT INTO Artist_Genre(artistId, genreId) VALUES (2, 2);
+INSERT INTO Artist_Genre(artistId, genreId) VALUES (3, 1);
+INSERT INTO Artist_Genre(artistId, genreId) VALUES (1, 1);
+SELECT * FROM Song NATURAL JOIN Artist;
+
+INSERT INTO Saved_Songs (userId, songID) VALUES (1, 1);
+
+SELECT User.userId, Artist.artistName FROM
+Saved_Artist NATURAL JOIN Artist
+NATURAL JOIN User
+WHERE User.userId = '2';
+
+SELECT Artist.artistName, Genre.genreName
+FROM Artist_Genre NATURAL JOIN
+Genre NATURAL JOIN Artist;
+
+SELECT Artist.artistName,  Genre.genreName
+FROM ((Artist INNER JOIN Artist_Genre
+ON Artist.artistId = Artist_Genre.artistId)
+INNER JOIN Genre ON Artist_Genre.genreId = Genre.genreId)
+WHERE Genre.genreId = 2;
+
+SELECT Artist.artistName, Platform.platformName
+FROM ((Artist INNER JOIN Available_On
+ON Artist.artistId = Available_On.artistId)
+INNER JOIN Platform ON Available_On.platformId = Platform.platformId)
+WHERE Platform.platformId = 1;
+
+SELECT Album.albumName
+FROM ((Album INNER JOIN Saved_Album
+ON Album.albumId = Saved_Album.albumId)
+INNER JOIN User ON Saved_Album.userId = User.userId)
+WHERE User.userId = 1;
+
+SELECT Album.albumName FROM User
+NATURAL JOIN Saved_Album Natural JOIN Album
+WHERE User.userId = 1;
+
+SELECT Artist.artistName FROM User
+NATURAL JOIN Saved_Artist NATURAL JOIN Artist
+WHERE User.userId = 2;
+
+SELECT Song.songName FROM User
+NATURAL JOIN Saved_Songs NATURAL JOIN Song
+WHERE User.userId = 1;
+
+SELECT * FROM Album WHERE albumName = 'Gin and Juice';
