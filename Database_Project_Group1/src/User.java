@@ -278,6 +278,7 @@ public class User {
             return false;
         } else {
             authenticate(username, password);
+            this.setPassword(password);
             if(this.getRole().equals("Admin")) {
                 printInfo();
             }
