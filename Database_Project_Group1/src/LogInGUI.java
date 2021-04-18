@@ -177,8 +177,8 @@ public class LogInGUI extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         this.setVisible(false);
-        ViewGUI vw = new ViewGUI();
-        vw.setVisible(true);
+        SearchGUI search = new SearchGUI();
+        search.setVisible(true);
     }
 
     /**
