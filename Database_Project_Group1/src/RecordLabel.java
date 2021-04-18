@@ -51,98 +51,110 @@ public class RecordLabel {
     }
 
     /**
-     * selectAll method of the RecordLabel class.
+     * selectRecordLabel method of the RecordLabel class.
      * This method will use the getData(String, ArrayList<String>) method of the Alinity
-     * class. The SQL statement will select RecordLabels where the ID value input will be bound
-     * from the ArrayList, and save the result.
      * Sets RecordLabelID, RecordLabelName, recordDateCreated, labelInfo
-     * This method will specifically work only when selecting ALL the information for said Record Label
-     * id.
      * If the attempt of the executing the statement fails, log the error to the file.
      *
      * @throws AlinityException
      */
-    public void selectAll(ArrayList<String> stringList) throws AlinityException {
+    public void selectRecordLabel(User user, String recordLabelName) throws AlinityException {
         try {
-            ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM Record_Label WHERE recordLabelId = ?" , stringList);
-            System.out.print("\nColumn headers: " + result.get(0));
-            ArrayList<String> RecordLabelData = result.get(1);
-            setRecordLabelId(Integer.parseInt(RecordLabelData.get(0)));
-            setRecordLabelName(RecordLabelData.get(1));
-            setRecordDateCreated(Date.valueOf(RecordLabelData.get(2)));
-            setLabelInfo(RecordLabelData.get(3));
-
+            if(user.getRole().equals("General") || user.getRole().equals("Admin")){
+                ArrayList<String> info = new ArrayList<>();
+                info.add(recordLabelName);
+                ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM Record_Label WHERE recordLabelName = ?" , info);
+                System.out.print("\nColumn headers: " + result.get(0));
+                ArrayList<String> albumData = result.get(1);
+                setRecordLabelId(Integer.parseInt(albumData.get(0)));
+                setRecordLabelName(albumData.get(1));
+                setRecordDateCreated(Date.valueOf(albumData.get(2)));
+                setLabelInfo(albumData.get(3));
+                printRecordLabel();
+            } else System.out.println("You do not have access to this function. Please contact an administrator.");
         } catch (IndexOutOfBoundsException ioobe) {
-            throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Album WHERE awardId = ?");
+            throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectRecordLabel(ArrayList<String>) method.", "SELECT * FROM Record_Label WHERE recordLabelName = ?");
         } catch (NullPointerException npe) {
-            throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Album WHERE awardId = ?");
+            throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectRecordLabel(ArrayList<String>) method.", "SELECT * FROM Record_Label WHERE recordLabelName = ?");
         }
     }
 
+
     /**
-     * updateAll method of the RecordLabel class.
+     * updateRecordLabel method of the RecordLabel class.
      * A SQL statement as a String is created using the current recordLabelName, dateCreated,
      * labelInfo and recordLabelId where the recordLabelId is based on the values which will be bound
      * from the input ArrayList of Strings.
      * Executes using the setDada method.
-     * This method will specifically work only when updating ALL the information for said RecordLabel
      * If the attempt of the executing the statement fails, log the error to the file.
      *
      * @throws AlinityException
      */
-    public boolean updateAll(ArrayList<String> stringList) throws AlinityException {
+    public boolean updateRecordLabel(User user, String recordLabelName, Date dateCreated, String labelInfo) throws AlinityException {
         try {
-            String putStmt = "UPDATE Record_Label SET recordLabelName = ? , dateCreated = ?, labelInfo = ? WHERE recordLabelId = ?";
-            return AlinityMain.alinityDB.setData(putStmt, stringList);
+            if(user.getRole().equals("Admin")) {
+                ArrayList<String> info = new ArrayList<>();
+                info.add(recordLabelName);
+                info.add(String.valueOf(dateCreated));
+                info.add(labelInfo);
+                info.add(String.valueOf(this.getRecordLabelId()));
+                String putStmt = "UPDATE Album SET recordLabelName = ? , dateCreated = ?, labelInfo = ? WHERE recordLabelId = ?";
+                return AlinityMain.alinityDB.setData(putStmt, info);
+            } else System.out.println("You do not have the correct permissions to use this function. Please contact an administrator."); return false;
         } catch (NullPointerException npe) {
-            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the updateAll(ArrayList<String>) method.", "UPDATE album SET albumName = ? , albumInfo = ?, releaseDate = ?, artistId = ?, genreId = ? WHERE artistId = ?");
+            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the updateRecordLabel(ArrayList<String>) method.", "UPDATE Album SET recordLabelName = ? , dateCreated = ?, labelInfo = ? WHERE recordLabelId = ?");
         } catch (IndexOutOfBoundsException ioobe) {
-            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the updateAll(ArrayList<String>) method.", "UPDATE album SET albumName = ? , albumInfo = ?, releaseDate = ?, artistId = ?, genreId = ? WHERE artistId = ?");
+            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the updateRecordLabel(ArrayList<String>) method.", "UPDATE Album SET recordLabelName = ? , dateCreated = ?, labelInfo = ? WHERE recordLabelId = ?");
         }
     }
 
-
-
     /**
-     * insertAll method of the Album class.
+     * insertRecordLabel method of the Album class.
      * A SQL statement as a String is created, which takes in
      * values based on the values to be bound from the ArrayList of Strings.
      * Executes using the setData method.
-     * This method will specifically work only when inserting ALL the information for said Record Label.
      * If the attempt of the executing the statement fails, log the error to the file.
      *
      * @throws AlinityException
      */
-    public boolean insertAll(ArrayList<String> stringList) throws AlinityException {
+    public boolean insertRecordLabel(User user, String recordLabelName, Date recordDateCreated, String labelInfo) throws AlinityException {
         try {
-            String insertStmt = "INSERT INTO Record_Label (recordLabelName, dateCreated, labelInfo) VALUES (?, ?, ?)";
-            return AlinityMain.alinityDB.setData(insertStmt, stringList);
+            if(user.getRole().equals("Admin")) {
+                ArrayList<String> info = new ArrayList<>();
+                info.add(recordLabelName);
+                info.add(String.valueOf(recordDateCreated));
+                info.add(String.valueOf(labelInfo));
+                String insertStmt = "INSERT INTO Record_Label (recordLabelName, dateCreated, labelInfo) VALUES (?, ?, ?)";
+                return AlinityMain.alinityDB.setData(insertStmt, info);
+            } else System.out.println("You do not have the correct permissions to use this function. Please contact an administrator."); return false;
         } catch (NullPointerException npe) {
-            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the insertAll(ArrayList<String>) method.","INSERT INTO Album (albumName, albumInfo, releaseDate, artistId, genreId) VALUES (?, ?, ?, ?, ?)");
+            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the insertRecordLabel(ArrayList<String>) method.","INSERT INTO Record_Label (recordLabelName, dateCreated, labelInfo) VALUES (?, ?, ?)");
         } catch (IndexOutOfBoundsException ioobe) {
-            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the insertAll(ArrayList<String>) method.","INSERT INTO Album (albumName, albumInfo, releaseDate, artistId, genreId) VALUES (?, ?, ?, ?, ?)");
+            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the insertRecordLabel(ArrayList<String>) method.","INSERT INTO Record_Label (recordLabelName, dateCreated, labelInfo) VALUES (?, ?, ?)");
         }
     }
 
     /**
-     * deleteAll method of the Album class.
+     * deleteAlbum method of the Album class.
      * Deletes the given Record Label data where the recordLabelId is bound
      * via tha value inside the ArrayList of Strings.
      * Executes using the setData method.
-     * This method will specifically work only when deleting ALL the information for said Record Label
-     * id
      * If the attempt of the executing the statement fails, log the error to the file.
      *
      * @throws AlinityException
      */
-    public boolean deleteAll(ArrayList<String> stringList) throws AlinityException {
+    public boolean deleteAlbum(User user) throws AlinityException {
         try {
-            String deleteStmt = "DELETE FROM Record_Label WHERE recordLabelId = ?";
-            return AlinityMain.alinityDB.setData(deleteStmt, stringList);
+            if(user.getRole().equals("Admin")) {
+                ArrayList<String> info = new ArrayList<>();
+                info.add(String.valueOf(this.getRecordLabelId()));
+                String deleteStmt = "DELETE FROM Record_Label WHERE albumId = ?";
+                return AlinityMain.alinityDB.setData(deleteStmt, info);
+            } else System.out.println("You do not have the correct permissions to use this function. Please contact an administrator."); return false;
         } catch (NullPointerException npe) {
-            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the deleteAll() method.", "DELETE FROM Album WHERE albumId = ?");
+            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the deleteAlbum() method.", "DELETE FROM Record_Label WHERE albumId = ?");
         } catch (IndexOutOfBoundsException ioobe) {
-            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the deleteAll() method.", "DELETE FROM Album WHERE albumId = ?");
+            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the deleteAlbum() method.", "DELETE FROM Record_Label WHERE albumId = ?");
         }
     }
 
