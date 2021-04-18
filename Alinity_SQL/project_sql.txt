@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS alinity;
 CREATE DATABASE alinity;
 USE alinity;
 
-
+select * from user;
 -- creating the user table
 DROP TABLE IF EXISTS User;
 CREATE TABLE User
@@ -160,7 +160,7 @@ CREATE TABLE Saved_Songs
 
 
 INSERT INTO User (username, password, birthday, email, role) VALUES('mjr8741', '1000:80e78dac99243719882ac06e4b497fb5:880fd26823afc0a1c1192b687960f5400f57156dea53166334d707c508dbe24a69d395652a2b7f362a6988cd0bb30ac671d7822abb77c1946f1e5c0eca9b2bb5', '1999-12-12', 'mjr8741@rit.edu', 'Admin');
-INSERT INTO User (username, password, birthday, email, role) VALUES('lf7486', '1000:362f43cb13e0428ec7803a438845c5bf:f0aed27b0fa8827f628aba6d4ab621ff48dadc32cdda93c3d1780dc13de639f0968f60b46cec42a536a3da950b3f1f1266669483e1cbc12321a9d4dadb9d1a45', '1999-06-29', 'lf7894@rit.edu', 'Admin'),
+INSERT INTO User (username, password, birthday, email, role) VALUES('lf7486', '1000:362f43cb13e0428ec7803a438845c5bf:f0aed27b0fa8827f628aba6d4ab621ff48dadc32cdda93c3d1780dc13de639f0968f60b46cec42a536a3da950b3f1f1266669483e1cbc12321a9d4dadb9d1a45', '1999-06-29', 'lf7486@rit.edu', 'Admin'),
 ('mp2272', '1000:cac5cd9ce6efb9fb63557243787b070d:e05ea4ff68cd6dd2b62472dc2ed478af98c2ed4259aa7b2e87d5b75b6b935a1459e5ecf103acbe7916b38afe574a739cca925604c712c8e1def95ea9d4367e82', '1999-07-09', 'mp2272@rit.edu', 'Admin'),
 ('ss5174', '1000:e443cc38b980fb97cbe6f064e61a0d26:a298e81cd5a8d5981061e3b6121dafed91f32ca85b2dbec91e759b822ee166d71142ef2972aea115899f191adccab5143153c3088761da8f5af555ee66a7c016', '2000-05-05', 'ss5174@rit.edu', 'Admin');
 SELECT * FROM User;
