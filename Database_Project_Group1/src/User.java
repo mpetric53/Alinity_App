@@ -118,7 +118,23 @@ public class User {
         }
     }
 
-    private boolean signUp(String username, String password, Date birthday, String email) throws AlinityException {
+    /**
+     * signUp method of the User class.
+     * Will be used to perform an initial signup for a new user.
+     * This is needed because this is the first time a user's hashed password
+     * will be generated with a random salt. Since the salt changes every time,
+     * this is needed to store the generated password into the database, so when
+     * the user logs in, it can match the stored hashed password with the hash of the
+     * input password (otherwise it would be a different password hash every time due to
+     * random salt generation).
+     *
+     * @param username
+     * @param password
+     * @param birthday
+     * @param email
+     * @throws AlinityException
+     */
+    public void signUp(String username, String password, Date birthday, String email) throws AlinityException {
         try {
             ArrayList<String> signUpInfo = new ArrayList<>();
             String hashedPassword = generateStrongPasswordHash(password);
@@ -128,12 +144,20 @@ public class User {
             signUpInfo.add(email);
             String insertStmt = "INSERT INTO User (username, password, birthday, email) VALUES (?, ?, ?, ?)";
             AlinityMain.alinityDB.setData(insertStmt, signUpInfo);
-            return login(username, password);
+            login(username, password);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new AlinityException(e, "Error inserting new user into DB (sign up) at signUp method.", "INSERT INTO User (username, password, birthday, email) VALUES (?, ?, ?, ?)");
         }
     }
 
+    /**
+     * getSalt method of the User class.
+     * Generates a random salt to be used when
+     * password hashing.
+     *
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
     private byte[] getSalt() throws NoSuchAlgorithmException {
         SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
         byte[] salt = new byte[16];
@@ -141,6 +165,13 @@ public class User {
         return salt;
     }
 
+    /**
+     * toHex method of the User class.
+     * Turns the byte array into hex values.
+     *
+     * @param array
+     * @return
+     */
     private String toHex(byte[] array)
     {
         BigInteger bi = new BigInteger(1, array);
@@ -154,6 +185,16 @@ public class User {
         }
     }
 
+    /**
+     * generateStrongPasswordHash method of the User class.
+     * Will generate a hashed password based on what the user inputs as their password.
+     * This is used when the user is signing up for the first time, to store this to the database.
+     *
+     * @param password
+     * @return
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException
+     */
     private String generateStrongPasswordHash(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
         int iterations = 1000;
         char[] chars = password.toCharArray();
@@ -165,6 +206,18 @@ public class User {
         return iterations + ":" + toHex(salt) + ":" + toHex(hash);
     }
 
+    /**
+     * validatePassword method of the User class.
+     * Compares the input password (from the user) and the password from the database.
+     * If the check passes, the hashes match, and the user will be logged in.
+     * Else, the user will be denied access to login.
+     *
+     * @param password
+     * @param storedPassword
+     * @return
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException
+     */
     private boolean validatePassword(String password, String storedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
         String[] parts = storedPassword.split(":");
         int iterations = Integer.parseInt(parts[0]);
@@ -183,6 +236,13 @@ public class User {
         return diff == 0;
     }
 
+    /**
+     * fromHex method of the User class.
+     * Turns the hex value into an array of bytes,
+     *
+     * @param hex
+     * @return
+     */
     private byte[] fromHex(String hex)
     {
         byte[] bytes = new byte[hex.length() / 2];
@@ -235,20 +295,25 @@ public class User {
     }
 
     /**
-     * selectAll method of the User class.
+     * selectUser method of the User class.
      * This method will use the getData(String, ArrayList<String>) method of the Alinity
      * class. The SQL statement will select Users where the ID value input will be bound
      * from the ArrayList, and save the result.
-     * Sets ID, username, password, birthday, email
+     * Sets ID, username, password, birthday, email. Prints said information
+     * for testing purposes.
      * This method will specifically work only when selecting ALL the information for said User
+     * Only admins wil have access to this method, since users should not be allowed
+     * to see information about any user.
      * If the attempt of the executing the statement fails, log the error to the file.
      *
      * @throws AlinityException
      */
-    public void selectAll(ArrayList<String> stringList) throws AlinityException {
+    public void selectUser(int userId) throws AlinityException {
         try {
             if(this.getRole().equals("Admin")) {
-                ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM User WHERE userId = ?", stringList);
+                ArrayList<String> info = new ArrayList<>();
+                info.add(String.valueOf(userId));
+                ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM User WHERE userId = ?", info);
                 System.out.print("\nColumn headers: " + result.get(0));
                 ArrayList<String> userData = result.get(1);
                 setUserId(Integer.parseInt(userData.get(0)));
@@ -256,6 +321,7 @@ public class User {
                 setPassword(userData.get(2));
                 setBirthday(Date.valueOf(userData.get(3)));
                 setEmail(userData.get(4));
+                printInfo();
             } else System.out.println("You do not have the right permissions to perform this action!");
         } catch (IndexOutOfBoundsException ioobe) {
             throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM User WHERE userId = ?");
@@ -264,71 +330,76 @@ public class User {
         }
     }
 
+//    /**
+//     * updateUser method of the User class.
+//     * A SQL statement as a String is created using the current username, password, birthday, email
+//     * from the input ArrayList of Strings.
+//     * Executes using the setDada method.
+//     * This method will specifically work only when updating ALL the information for said userId
+//     * If the attempt of the executing the statement fails, log the error to the file.
+//     *
+//     * @throws AlinityException
+//     */
+//    public boolean updateUser(ArrayList<String> stringList) throws AlinityException {
+//        try {
+//            String putStmt = "UPDATE User SET username = ? , password = ?, birthday = ?, email = ? WHERE userId = ?";
+//            return AlinityMain.alinityDB.setData(putStmt, stringList);
+//        } catch (NullPointerException npe) {
+//            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the updateAll(ArrayList<String>) method.", "UPDATE User SET username = ? , password = ?, birthday = ?, email = ? WHERE userId = ?");
+//        } catch (IndexOutOfBoundsException ioobe) {
+//            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the updateAll(ArrayList<String>) method.", "UPDATE User SET username = ? , password = ?, birthday = ?, email = ? WHERE userId = ?");
+//
+//        }
+//    }
+//
+//    /**
+//     * insertAll method of the User class.
+//     * A SQL statement as a String is created, which takes in
+//     * values based on the values to be bound from the ArrayList of Strings.
+//     * Executes using the setData method.
+//     * This method will specifically work only when inserting ALL the information for said User.
+//     * If the attempt of the executing the statement fails, log the error to the file.
+//     *
+//     * @throws AlinityException
+//     */
+//    public boolean insertAll(ArrayList<String> stringList) throws AlinityException {
+//        try {
+//            String insertStmt = "INSERT INTO User (username, password, birthday, email) VALUES (?, ?, ?, ?)";
+//            return AlinityMain.alinityDB.setData(insertStmt, stringList);
+//        } catch (NullPointerException npe) {
+//            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the insertAll(ArrayList<String>) method.","INSERT INTO User (username, password, birthday, email) VALUES (?, ?, ?, ?)");
+//        } catch (IndexOutOfBoundsException ioobe) {
+//            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the insertAll(ArrayList<String>) method.","INSERT INTO User (username, password, birthday, email) VALUES (?, ?, ?, ?)");
+//        }
+//    }
+
+
+
     /**
-     * updateAll method of the User class.
-     * A SQL statement as a String is created using the current username, password, birthday, email
-     * from the input ArrayList of Strings.
-     * Executes using the setDada method.
-     * This method will specifically work only when updating ALL the information for said userId
-     * If the attempt of the executing the statement fails, log the error to the file.
-     *
-     * @throws AlinityException
-     */
-    public boolean updateAll(ArrayList<String> stringList) throws AlinityException {
-        try {
-            String putStmt = "UPDATE User SET username = ? , password = ?, birthday = ?, email = ? WHERE userId = ?";
-            return AlinityMain.alinityDB.setData(putStmt, stringList);
-        } catch (NullPointerException npe) {
-            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the updateAll(ArrayList<String>) method.", "UPDATE User SET username = ? , password = ?, birthday = ?, email = ? WHERE userId = ?");
-        } catch (IndexOutOfBoundsException ioobe) {
-            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the updateAll(ArrayList<String>) method.", "UPDATE User SET username = ? , password = ?, birthday = ?, email = ? WHERE userId = ?");
-
-        }
-    }
-
-    /**
-     * insertAll method of the User class.
-     * A SQL statement as a String is created, which takes in
-     * values based on the values to be bound from the ArrayList of Strings.
-     * Executes using the setData method.
-     * This method will specifically work only when inserting ALL the information for said User.
-     * If the attempt of the executing the statement fails, log the error to the file.
-     *
-     * @throws AlinityException
-     */
-    public boolean insertAll(ArrayList<String> stringList) throws AlinityException {
-        try {
-            String insertStmt = "INSERT INTO User (username, password, birthday, email) VALUES (?, ?, ?, ?)";
-            return AlinityMain.alinityDB.setData(insertStmt, stringList);
-        } catch (NullPointerException npe) {
-            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the insertAll(ArrayList<String>) method.","INSERT INTO User (username, password, birthday, email) VALUES (?, ?, ?, ?)");
-        } catch (IndexOutOfBoundsException ioobe) {
-            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the insertAll(ArrayList<String>) method.","INSERT INTO User (username, password, birthday, email) VALUES (?, ?, ?, ?)");
-        }
-    }
-
-
-
-    /**
-     * deleteAll method of the User class.
+     * deleteUser method of the User class.
      * Deletes the given User data where the userId is bound
      * via tha value inside the ArrayList of Strings.
+     * This value is retrieved from the object
+     * on which this method is called.
      * Executes using the setData method.
      * This method will specifically work only when deleting ALL the information for said userId
+     * Only admins can delete users from the database.
      * If the attempt of the executing the statement fails, log the error to the file.
      *
      * @throws AlinityException
      */
-    public boolean deleteAll(ArrayList<String> stringList) throws AlinityException {
+    public boolean deleteUser() throws AlinityException {
         try {
-            String deleteStmt = "DELETE FROM User WHERE userId = ?";
-            return AlinityMain.alinityDB.setData(deleteStmt, stringList);
+            if(this.getRole().equals("Admin")) {
+                ArrayList<String> info = new ArrayList<>();
+                info.add(String.valueOf(this.getUserId()));
+                String deleteStmt = "DELETE FROM User WHERE userId = ?";
+                return AlinityMain.alinityDB.setData(deleteStmt, info);
+            } else System.out.println("You do not have the right permissions to perform this action!"); return false;
         } catch (NullPointerException npe) {
             throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the deleteAll() method.", "DELETE FROM User WHERE userId = ?");
         } catch (IndexOutOfBoundsException ioobe) {
             throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the deleteAll() method.", "DELETE FROM User WHERE userId = ?");
         }
     }
-
-
 }
