@@ -49,7 +49,6 @@ public class RecordLabel {
     public void setLabelInfo(String labelInfo) {
         this.labelInfo = labelInfo;
     }
-
     /**
      * selectRecordLabel method of the RecordLabel class.
      * This method will use the getData(String, ArrayList<String>) method of the Alinity

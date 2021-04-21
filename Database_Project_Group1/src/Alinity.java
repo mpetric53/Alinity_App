@@ -171,5 +171,4 @@ public class Alinity {
             throw new AlinityException(npe,"Error processing information at prepare method: ", sqlStatement);
         }
     }
-
 }
