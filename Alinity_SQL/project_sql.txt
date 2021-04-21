@@ -32,7 +32,7 @@ CREATE TABLE Record_Label
   recordLabelId INT AUTO_INCREMENT,
   recordLabelName VARCHAR(50) NOT NULL,
   dateCreated DATE NOT NULL,
-  labelInfo VARCHAR(200) NOT NULL,
+  labelInfo VARCHAR(400) NOT NULL,
   PRIMARY KEY (recordLabelId)
 );
 
@@ -42,7 +42,7 @@ CREATE TABLE Platform
 (
   platformId INT AUTO_INCREMENT,
   platformName VARCHAR(50) NOT NULL,
-  platformInfo VARCHAR(200) NOT NULL,
+  platformInfo VARCHAR(400) NOT NULL,
   PRIMARY KEY (platformId)
 );
 
@@ -52,7 +52,7 @@ CREATE TABLE Artist
 (
   artistId INT AUTO_INCREMENT,
   artistName VARCHAR(50) NOT NULL,
-  artistInfo VARCHAR(200) NOT NULL,
+  artistInfo VARCHAR(400) NOT NULL,
   recordLabelId INT NOT NULL,
   PRIMARY KEY (artistId),
   CONSTRAINT FOREIGN KEY (recordLabelId) REFERENCES Record_Label(recordLabelId)
@@ -158,23 +158,83 @@ CREATE TABLE Saved_Songs
 );
 
 
-
-INSERT INTO User (username, password, birthday, email, role) VALUES('mjr8741', '1000:80e78dac99243719882ac06e4b497fb5:880fd26823afc0a1c1192b687960f5400f57156dea53166334d707c508dbe24a69d395652a2b7f362a6988cd0bb30ac671d7822abb77c1946f1e5c0eca9b2bb5', '1999-12-12', 'mjr8741@rit.edu', 'Admin');
+-- admin users
+INSERT INTO User (username, password, birthday, email, role) VALUES('mjr8741', '1000:80e78dac99243719882ac06e4b497fb5:880fd26823afc0a1c1192b687960f5400f57156dea53166334d707c508dbe24a69d395652a2b7f362a6988cd0bb30ac671d7822abb77c1946f1e5c0eca9b2bb5', '1999-12-11', 'mjr8741@rit.edu', 'Admin');
 INSERT INTO User (username, password, birthday, email, role) VALUES('lf7486', '1000:362f43cb13e0428ec7803a438845c5bf:f0aed27b0fa8827f628aba6d4ab621ff48dadc32cdda93c3d1780dc13de639f0968f60b46cec42a536a3da950b3f1f1266669483e1cbc12321a9d4dadb9d1a45', '1999-06-29', 'lf7486@rit.edu', 'Admin'),
 ('mp2272', '1000:cac5cd9ce6efb9fb63557243787b070d:e05ea4ff68cd6dd2b62472dc2ed478af98c2ed4259aa7b2e87d5b75b6b935a1459e5ecf103acbe7916b38afe574a739cca925604c712c8e1def95ea9d4367e82', '1999-07-09', 'mp2272@rit.edu', 'Admin'),
 ('ss5174', '1000:e443cc38b980fb97cbe6f064e61a0d26:a298e81cd5a8d5981061e3b6121dafed91f32ca85b2dbec91e759b822ee166d71142ef2972aea115899f191adccab5143153c3088761da8f5af555ee66a7c016', '2000-05-05', 'ss5174@rit.edu', 'Admin');
-SELECT * FROM User;
-INSERT INTO Genre (genreName) VALUES ('Rap'), ('Metal');
-INSERT INTO Record_Label(recordLabelName, dateCreated, labelInfo) VALUES ('Test', '1991-03-21', 'Death Row Records was formed by some of the largest names in rap, such as Dr. DRE and
-Suge Knight'), ('Elektra Records', '1950-06-12', 'Elektra records is one of the oldest standing music record companies');
-SELECT * FROM Record_Label;
-INSERT INTO Platform(platformName, platformInfo) VALUES ('Spotify', 'Spotify is the leading music streaming platform in the world');
+select * from user;
+-- inserting genres
+INSERT INTO Genre (genreName) VALUES ('Rap'), ('Metal'), ('Pop'), ('Punk'), ('Rock'), ('R&B'), ('Folk'), ('Jazz'), ('Hip Hop'), ('Blues'), ('Country'), ('Classical'), ('Electronic'), ('House'),
+('Soul'), ('Reggae'), ('Dance'), ('Funk'), ('Alternative rock'), ('Techno'), ('Techno'), ('Disco'), ('Gospel'), ('Trance'), ('Indie rock'), ('Heavy Metal'), ('Death Metal'), ('Instrumental'), ('Rock and Roll'),
+('Pop rock'), ('Opera'), ('Latin'), ('Orchestra'), ('Ambient'), ('World'), ('Dubstep'), ('Swing'), ('Industrial'), ('New wave'),
+('Grunge'), ('Hardcore'), ('Jazz fusion'), ('Breakbeat'), ('Easy listening'), ('Experimental'), ('Trap'), ('Progressive rock'), ('Ska'), ('Emo'), ('Psychedelic rock'), ('Ska punk');
+
+-- Inserting record labels
+INSERT INTO Record_Label(recordLabelName, dateCreated, labelInfo) VALUES
+('Columbia Records', '1889-01-15', 'Columbia Records is an American record label owned by Sony Music Entertainment, a subsidiary of Sony Corporation of America, the North American division of Japanese conglomerate Sony'),
+('Elektra Records', '1950-06-12', 'Elektra records is one of the oldest standing music record companies'),
+('Warner Records', '1958-03-19', 'Warner Records Inc. is an American record label owned by Warner Music Group and headquartered in Los Angeles, California.'),
+('Atlantic Records', '1947-10-10', 'Atlantic Records is an American record label founded in October 1947 by Ahmet Ertegun and Herb Abramson.'),
+('Parlophone', '1896-05-19', ' Parlophone is a German–British record label founded in Germany in 1896 by the Carl Lindström Company as Parlophon'),
+('Aftermath Entertainment', '1996-03-22', 'Aftermath Entertainment is an American record label founded by hip hop producer and rapper Dr. Dre'),
+('Sarajevo Disk', '1997-05-05', 'Sarajevo Disk is a record label founded and based in Sarajevo, Bosnia and Herzegovina in 1978 by Hanka Paldum, Muradif Brkić and Braco Đirlo. It became inactive in 2000 and began releasing music again in September 2012'),
+('EMI', '1931-03-31', 'EMI Group Limited was a British transnational conglomerate founded in March 1931 in London. At the time of its break-up in 2012, it was the fourth largest business group and record label conglomerate in the music industry, and was one of the "Big Four" record companies.'),
+('Sony Music Entertainment', '1929-06-23', 'Sony Music Entertainment is an American global music company. Owned by the Japanese conglomerate Sony Group Corporation, it is part of the Sony Music Group, which is owned by Sony Corporation of America.'),
+('Universal Music Group', '1934-09-09', 'Universal Music Group B.V. is a global music corporation that is majority owned by the French media conglomerate Vivendi, with Chinese tech company Tencent owning a minority stake.');
+
+
+
+-- inserting into platform
+INSERT INTO Platform(platformName, platformInfo) VALUES ('Spotify', 'Spotify is the leading music streaming platform in the world'),
+('Apple Music', 'Apple music was founded with the intention of providing excellent musical services to its customers.'),
+('Deezer', 'Deezer is a French online music streaming service. It allows users to listen to music content from record labels, including Universal Music Group, Sony Music and Warner Music Group as well as podcasts on various devices online or offline'),
+('YouTube Music', 'YouTube Music is a music streaming service developed by YouTube, a subsidiary of Google. It provides a tailored interface for the service oriented towards music streaming, allowing users to browse through songs and music videos on YouTube based on genres, playlists, and recommendations'),
+('SoundCloud', 'SoundCloud is an online audio distribution platform and music sharing website based in Berlin, Germany, that enables its users to upload, promote, and share audio, as well as a DSP enabling listeners to stream audio.');
+
+
+-- Inserting artists
 INSERT INTO Artist (artistName, artistInfo, recordLabelId) VALUES
-('Eminem', 'M&M', 1),
-('Metallica', 'Best Metal band!', 2),
-('Snoop Dogg', 'Highest in the room', 1);
-INSERT INTO Album (albumName, albumInfo, releaseDate, artistId, genreId) VALUES ('Gin and Juice', 'This was one of Snoop`s best selling albums', '2001-10-03', 3, 1);
+('Eminem', 'Marshall Bruce Mathers III, known professionally as Eminem, is an American rapper, songwriter, and record producer. Eminem is among the best-selling music artists of all time, with estimated worldwide sales of more than 220 million records.', 1),
+('Metallica', 'Metallica is an American heavy metal band. The band was formed in 1981 in Los Angeles by vocalist/guitarist James Hetfield and drummer Lars Ulrich, and has been based in San Francisco for most of its career.', 2),
+('Snoop Dogg', 'Calvin Cordozar Broadus Jr., known professionally as Snoop Dogg, is an American rapper and media personality. His fame dates to 1992 when he featured on Dr. Dres debut solo single, "Deep Cover", and then on Dres debut solo album, The Chronic', 1),
+('Green Day', 'Green Day is an American rock band formed in the East Bay of California in 1987 by lead vocalist and guitarist Billie Joe Armstrong and bassist and backing vocalist Mike Dirnt', 3),
+('Lady Gaga', 'Stefani Joanne Angelina Germanotta, known professionally as Lady Gaga, is an American singer, songwriter, and actress. She is known for her image reinventions and musical versatility. Gaga began performing as a teenager, singing at open mic nights and acting in school plays', 3),
+('Ed Sheeran', 'Edward Christopher Sheeran MBE is an English singer, songwriter, musician, record producer, actor, and businessman. After first recording music in 2004, he began gaining attention through YouTube. In early 2011, Sheeran independently released the extended play, No. 5 Collaborations Project.', 3),
+('Mile Kitić', 'Milojko "Mile" Kitić is a Bosnian-born Serbian singer. He rose to prominence as a member of the popular eighties folk collective Južni Vetar with fellow folk singers Sinan Sakić, Dragana Mirković, Kemal Malovčić and Šemsa Suljaković', 7),
+('Katy Perry', 'Katheryn Elizabeth Hudson, known professionally as Katy Perry, is an American singer, songwriter, and television judge. After singing in church during her childhood, she pursued a career in gospel music as a teenager', 3),
+('Arctic Monkeys', 'Arctic Monkeys are an English rock band formed in Sheffield in 2002. The group consists of Alex Turner, Jamie Cook, Nick O`Malley, and Matt Helders. Former band member Andy Nicholson left the band in 2006 shortly after their debut album was released.', 3),
+('Black Sabbath', 'Black Sabbath were an English rock band formed in Birmingham in 1968 by guitarist Tony Iommi, drummer Bill Ward, bassist Geezer Butler and vocalist Ozzy Osbourne. They are often cited as pioneers of heavy metal music.', 3),
+('Billy Idol', 'William Michael Albert Broad, known professionally as Billy Idol, is an English musician, singer, songwriter, and actor who holds dual British and American citizenship.', 8),
+('Hardwell',  'Robbert van de Corput, known professionally as Hardwell, is a Dutch DJ, record producer, and remixer from Breda, North Brabant. Hardwell was voted the world`s number one DJ on DJ Mag in 2013 and again in 2014. He was ranked at number twelve in the top 100 DJs 2019 poll by DJ Mag.', 9),
+('Avicii', 'Tim Bergling, known by his stage name Avicii, was a Swedish DJ, remixer, record producer, musician, and songwriter. At the age of 16, Bergling began posting his remixes on electronic music forums, which led to his first record deal. He rose to prominence in 2011 with his single "Levels".', 8),
+('Elton John', 'Sir Elton Hercules John CH CBE is an English singer, songwriter, pianist, and composer. Collaborating with lyricist Bernie Taupin since 1967 on more than 30 albums, John has sold over 300 million records, making him one of the best-selling music artists of all time.', 10),
+('Michael Jackson', 'Michael Joseph Jackson was an American singer, songwriter, and dancer. Dubbed the "King of Pop", he is regarded as one of the most significant cultural figures of the 20th century.', 9);
+
+
+-- inserting albums
+INSERT INTO Album (albumName, albumInfo, releaseDate, artistId, genreId) VALUES ('Doggystyle', 'Doggystyle is the debut studio album by American rapper Snoop Doggy Dogg. It was released on November 23, 1993, by Death Row Records and Interscope Records. The album was recorded and produced following Snoops appearances on Dr. Dres debut solo album The Chronic, to which Snoop contributed significantly', '1993-11-23', 3, 1),
+('Tha Doggfather', 'Tha Doggfather is the second studio album by American rapper Snoop Dogg. It was released on November 12, 1996, by Death Row Records and Interscope Records. After the success of his debut album Doggystyle, Snoop was charged with murder and in 1995, spent time preparing for the case that went to trial', '1996-11-12', 3, 1),
+('Relapse', 'Relapse is the sixth studio album by American rapper Eminem. The album was released on May 19, 2009, under Aftermath Entertainment, Shady Records, and Interscope Records.', '2009-05-15', 1, 1),
+('Kamikaze', 'Kamikaze is the tenth studio album by American rapper Eminem, released on August 31, 2018 through Shady Records, Aftermath Entertainment, and Interscope Records, and without prior announcement. The album features guest appearances from Joyner Lucas, Royce da 5`9 Jessie Reyez, and uncredited vocals by Justin Vernon', '2018-08-31', 1, 1),
+('Master of Puppets', 'Master of Puppets is the third studio album by American heavy metal band Metallica, released on March 3, 1986, by Elektra Records', '1986-03-03', 2, 2),
+('...And Justice For All', '...And Justice for All is the fourth studio album by American heavy metal band Metallica, released on September 7, 1988 by Elektra Records. It was the first album following the death of bassist Cliff Burton in 1986, and the first to feature new bassist Jason Newsted.', '1988-08-25', 2, 2),
+('Nimrod', 'Nimrod is the fifth studio album by American rock band Green Day, released on October 14, 1997, by Reprise Records. The band began work on the album in the wake of the cancellation of a European tour after the release of their previous album, Insomniac.', '1997-10-14', 4, 4),
+('American Idiot', 'American Idiot is the seventh studio album by American rock band Green Day, released on September 21, 2004, by Reprise Records. The album was produced by Rob Cavallo in collaboration with Green Day, an arrangement the group have been using since they signed with a major label.', '2004-09-21', 4, 4),
+('The Fame', 'The Fame is the debut studio album by American singer Lady Gaga. It was released on August 19, 2008, by Interscope Records. After joining Kon Live Distribution and Cherrytree Records in 2008, Gaga began working on the album with different producers, primarily RedOne, Martin Kierszenbaum, and Rob Fusari.', '2008-08-19', 5, 3),
+('Born This Way', 'Born This Way is the second studio album by American singer Lady Gaga, released by Interscope Records on May 23, 2011. It was co-written and co-produced by Gaga with several producers, including RedOne and Fernando Garibay, with whom she had previously worked', '2011-05-23', 5, 3),
+('Divide', '÷ is the third studio album by English singer-songwriter Ed Sheeran. It was released on 3 March 2017 through Asylum Records and Atlantic Records. "Castle on the Hill" and "Shape of You" were released as the album`s lead singles on 6 January 2017', '2017-03-03', 6, 3),
+('No. 6 Collaborations Project', 'No.6 Collaborations Project is the fourth studio album by English singer-songwriter Ed Sheeran. It was released on 12 July 2019 by Asylum Records and Atlantic Records', '2019-07-12', 6, 3),
+('Sampanja', 'Šampanjac is an album of Bosnian Serb singer Mile Kitić. It was released in 2005 under the label Grand Production', '2005-12-26', 7, 3);
+
+
+
+
+-- inserting into song
 INSERT INTO Song (songName, songDuration, albumId, artistId, genreId) VALUES ('CEO', '200', 1, 3, 1);
+
+
+
 INSERT INTO Award (awardName, awardInfo, artistId) VALUES ('Best Rap Single', 'This song represents the best in rap of the year', 3);
 
 INSERT INTO Saved_Artist (userId, artistId) VALUES (2, 3);
@@ -189,6 +249,10 @@ INSERT INTO Artist_Genre(artistId, genreId) VALUES (1, 1);
 SELECT * FROM Song NATURAL JOIN Artist;
 
 INSERT INTO Saved_Songs (userId, songID) VALUES (1, 1);
+
+INSERT INTO Available_On (artistId, platformId) VALUES (1, 1);
+
+SELECT * FROM Available_On;
 
 SELECT User.userId, Artist.artistName FROM
 Saved_Artist NATURAL JOIN Artist
@@ -230,3 +294,13 @@ NATURAL JOIN Saved_Songs NATURAL JOIN Song
 WHERE User.userId = 1;
 
 SELECT * FROM Album WHERE albumName = 'Gin and Juice';
+
+SELECT Artist.artistName FROM Genre
+NATURAL JOIN Artist_Genre NATURAL JOIN Artist
+WHERE Genre.genreId = 1;
+
+SELECT Artist.artistName, Platform.platformName
+FROM Platform NATURAL JOIN Available_On NATURAL JOIN
+Artist WHERE Platform.platformId = 1;
+
+SELECT * FROM Award WHERE awardName = 'Best Rap Single';
