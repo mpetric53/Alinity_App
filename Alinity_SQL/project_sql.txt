@@ -64,7 +64,7 @@ CREATE TABLE Album
 (
   albumId INT AUTO_INCREMENT,
   albumName VARCHAR(50) NOT NULL,
-  albumInfo VARCHAR(200) NOT NULL,
+  albumInfo VARCHAR(400) NOT NULL,
   releaseDate DATE NOT NULL,
   artistId INT NOT NULL,
   genreId INT NOT NULL,
@@ -79,8 +79,8 @@ DROP TABLE IF EXISTS Award;
 CREATE TABLE Award
 (
   awardId INT AUTO_INCREMENT,
-  awardName VARCHAR(50) NOT NULL,
-  awardInfo VARCHAR(200) NOT NULL,
+  awardName VARCHAR(200) NOT NULL,
+  awardInfo VARCHAR(400) NOT NULL,
   artistId INT NOT NULL,
   PRIMARY KEY (awardId),
   CONSTRAINT FOREIGN KEY (artistId) REFERENCES Artist(artistId)
@@ -163,7 +163,8 @@ INSERT INTO User (username, password, birthday, email, role) VALUES('mjr8741', '
 INSERT INTO User (username, password, birthday, email, role) VALUES('lf7486', '1000:362f43cb13e0428ec7803a438845c5bf:f0aed27b0fa8827f628aba6d4ab621ff48dadc32cdda93c3d1780dc13de639f0968f60b46cec42a536a3da950b3f1f1266669483e1cbc12321a9d4dadb9d1a45', '1999-06-29', 'lf7486@rit.edu', 'Admin'),
 ('mp2272', '1000:cac5cd9ce6efb9fb63557243787b070d:e05ea4ff68cd6dd2b62472dc2ed478af98c2ed4259aa7b2e87d5b75b6b935a1459e5ecf103acbe7916b38afe574a739cca925604c712c8e1def95ea9d4367e82', '1999-07-09', 'mp2272@rit.edu', 'Admin'),
 ('ss5174', '1000:e443cc38b980fb97cbe6f064e61a0d26:a298e81cd5a8d5981061e3b6121dafed91f32ca85b2dbec91e759b822ee166d71142ef2972aea115899f191adccab5143153c3088761da8f5af555ee66a7c016', '2000-05-05', 'ss5174@rit.edu', 'Admin');
-select * from user;
+
+
 -- inserting genres
 INSERT INTO Genre (genreName) VALUES ('Rap'), ('Metal'), ('Pop'), ('Punk'), ('Rock'), ('R&B'), ('Folk'), ('Jazz'), ('Hip Hop'), ('Blues'), ('Country'), ('Classical'), ('Electronic'), ('House'),
 ('Soul'), ('Reggae'), ('Dance'), ('Funk'), ('Alternative rock'), ('Techno'), ('Techno'), ('Disco'), ('Gospel'), ('Trance'), ('Indie rock'), ('Heavy Metal'), ('Death Metal'), ('Instrumental'), ('Rock and Roll'),
@@ -213,29 +214,107 @@ INSERT INTO Artist (artistName, artistInfo, recordLabelId) VALUES
 
 
 -- inserting albums
-INSERT INTO Album (albumName, albumInfo, releaseDate, artistId, genreId) VALUES ('Doggystyle', 'Doggystyle is the debut studio album by American rapper Snoop Doggy Dogg. It was released on November 23, 1993, by Death Row Records and Interscope Records. The album was recorded and produced following Snoops appearances on Dr. Dres debut solo album The Chronic, to which Snoop contributed significantly', '1993-11-23', 3, 1),
-('Tha Doggfather', 'Tha Doggfather is the second studio album by American rapper Snoop Dogg. It was released on November 12, 1996, by Death Row Records and Interscope Records. After the success of his debut album Doggystyle, Snoop was charged with murder and in 1995, spent time preparing for the case that went to trial', '1996-11-12', 3, 1),
-('Relapse', 'Relapse is the sixth studio album by American rapper Eminem. The album was released on May 19, 2009, under Aftermath Entertainment, Shady Records, and Interscope Records.', '2009-05-15', 1, 1),
-('Kamikaze', 'Kamikaze is the tenth studio album by American rapper Eminem, released on August 31, 2018 through Shady Records, Aftermath Entertainment, and Interscope Records, and without prior announcement. The album features guest appearances from Joyner Lucas, Royce da 5`9 Jessie Reyez, and uncredited vocals by Justin Vernon', '2018-08-31', 1, 1),
-('Master of Puppets', 'Master of Puppets is the third studio album by American heavy metal band Metallica, released on March 3, 1986, by Elektra Records', '1986-03-03', 2, 2),
-('...And Justice For All', '...And Justice for All is the fourth studio album by American heavy metal band Metallica, released on September 7, 1988 by Elektra Records. It was the first album following the death of bassist Cliff Burton in 1986, and the first to feature new bassist Jason Newsted.', '1988-08-25', 2, 2),
-('Nimrod', 'Nimrod is the fifth studio album by American rock band Green Day, released on October 14, 1997, by Reprise Records. The band began work on the album in the wake of the cancellation of a European tour after the release of their previous album, Insomniac.', '1997-10-14', 4, 4),
-('American Idiot', 'American Idiot is the seventh studio album by American rock band Green Day, released on September 21, 2004, by Reprise Records. The album was produced by Rob Cavallo in collaboration with Green Day, an arrangement the group have been using since they signed with a major label.', '2004-09-21', 4, 4),
-('The Fame', 'The Fame is the debut studio album by American singer Lady Gaga. It was released on August 19, 2008, by Interscope Records. After joining Kon Live Distribution and Cherrytree Records in 2008, Gaga began working on the album with different producers, primarily RedOne, Martin Kierszenbaum, and Rob Fusari.', '2008-08-19', 5, 3),
+INSERT INTO Album (albumName, albumInfo, releaseDate, artistId, genreId) VALUES
+ ('Doggystyle', 'Doggystyle is the debut studio album by American rapper Snoop Doggy Dogg. It was released on November 23, 1993, by Death Row Records and Interscope Records. The album was recorded and produced following Snoops appearances on Dr. Dres debut solo album The Chronic, to which Snoop contributed significantly', '1993-11-23', 3, 1),
+ ('Tha Doggfather', 'Tha Doggfather is the second studio album by American rapper Snoop Dogg. It was released on November 12, 1996, by Death Row Records and Interscope Records. After the success of his debut album Doggystyle, Snoop was charged with murder and in 1995, spent time preparing for the case that went to trial', '1996-11-12', 3, 1),
+ ('Relapse', 'Relapse is the sixth studio album by American rapper Eminem. The album was released on May 19, 2009, under Aftermath Entertainment, Shady Records, and Interscope Records.', '2009-05-15', 1, 1),
+ ('Kamikaze', 'Kamikaze is the tenth studio album by American rapper Eminem, released on August 31, 2018 through Shady Records, Aftermath Entertainment, and Interscope Records, and without prior announcement. The album features guest appearances from Joyner Lucas, Royce da 5`9 Jessie Reyez, and uncredited vocals by Justin Vernon', '2018-08-31', 1, 1),
+ ('Master of Puppets', 'Master of Puppets is the third studio album by American heavy metal band Metallica, released on March 3, 1986, by Elektra Records', '1986-03-03', 2, 2),
+ ('...And Justice For All', '...And Justice for All is the fourth studio album by American heavy metal band Metallica, released on September 7, 1988 by Elektra Records. It was the first album following the death of bassist Cliff Burton in 1986, and the first to feature new bassist Jason Newsted.', '1988-08-25', 2, 2),
+ ('Nimrod', 'Nimrod is the fifth studio album by American rock band Green Day, released on October 14, 1997, by Reprise Records. The band began work on the album in the wake of the cancellation of a European tour after the release of their previous album, Insomniac.', '1997-10-14', 4, 4),
+ ('American Idiot', 'American Idiot is the seventh studio album by American rock band Green Day, released on September 21, 2004, by Reprise Records. The album was produced by Rob Cavallo in collaboration with Green Day, an arrangement the group have been using since they signed with a major label.', '2004-09-21', 4, 4),
+ ('The Fame', 'The Fame is the debut studio album by American singer Lady Gaga. It was released on August 19, 2008, by Interscope Records. After joining Kon Live Distribution and Cherrytree Records in 2008, Gaga began working on the album with different producers, primarily RedOne, Martin Kierszenbaum, and Rob Fusari.', '2008-08-19', 5, 3),
 ('Born This Way', 'Born This Way is the second studio album by American singer Lady Gaga, released by Interscope Records on May 23, 2011. It was co-written and co-produced by Gaga with several producers, including RedOne and Fernando Garibay, with whom she had previously worked', '2011-05-23', 5, 3),
-('Divide', '÷ is the third studio album by English singer-songwriter Ed Sheeran. It was released on 3 March 2017 through Asylum Records and Atlantic Records. "Castle on the Hill" and "Shape of You" were released as the album`s lead singles on 6 January 2017', '2017-03-03', 6, 3),
-('No. 6 Collaborations Project', 'No.6 Collaborations Project is the fourth studio album by English singer-songwriter Ed Sheeran. It was released on 12 July 2019 by Asylum Records and Atlantic Records', '2019-07-12', 6, 3),
-('Sampanja', 'Šampanjac is an album of Bosnian Serb singer Mile Kitić. It was released in 2005 under the label Grand Production', '2005-12-26', 7, 3);
+ ('Divide', '÷ is the third studio album by English singer-songwriter Ed Sheeran. It was released on 3 March 2017 through Asylum Records and Atlantic Records. "Castle on the Hill" and "Shape of You" were released as the album`s lead singles on 6 January 2017', '2017-03-03', 6, 3),
+ ('No. 6 Collaborations Project', 'No.6 Collaborations Project is the fourth studio album by English singer-songwriter Ed Sheeran. It was released on 12 July 2019 by Asylum Records and Atlantic Records', '2019-07-12', 6, 3),
+ ('Sampanja', 'Šampanjac is an album of Bosnian Serb singer Mile Kitić. It was released in 2005 under the label Grand Production', '2005-12-26', 7, 3),
+ ('Kockar', 'Studio album by Mile Kitic', '2000-01-10', 7, 3),
+('Prism', 'Prism is the fourth studio album by American singer Katy Perry. It was released by Capitol Records on October 18, 2013. While the album was initially planned to be "darker" than her previous material, Prism ultimately became a prominently dance-inspired record', '2013-10-18', 8, 3),
+('Teenage Dream', 'Teenage Dream is the third studio album by American singer Katy Perry. It was released on August 24, 2010, through Capitol Records. Musically, the record contains songs in the genres of pop and rock, with influences of disco, electronic, funk, house, gothic rock, Hi-NRG, and hip hop laced throughout the album.', '2010-08-24', 8, 3),
+('AM', 'AM is the fifth studio album by English indie rock band Arctic Monkeys. It was produced by James Ford and co-produced by Ross Orton at Sage & Sound Recording in Los Angeles and Rancho De La Luna in Joshua Tree, California, and released in September 2013 through Domino.', '2013-09-09', 9, 25),
+('Favourite Worst Nightmare', 'Favourite Worst Nightmare is the second studio album by English rock band Arctic Monkeys, released on 23 April 2007 by Domino Recording Company. Recorded in east London`s Miloco Studios with producers James Ford and Mike Crossey, the album was preceded by the release of "Brianstorm" on 16 April 2007', '2007-04-18', 9, 25),
+('Paranoid', 'Paranoid is the second studio album by the English rock band Black Sabbath, released in September 1970 through Vertigo Records. It contains several of the band`s signature songs, including "Iron Man", "War Pigs" and the title track, which was the band`s only Top 20 hit, reaching number 4 in the UK charts.', '1970-09-18', 10, 2),
+('Sabbath Bloody Sabbath', 'Sabbath Bloody Sabbath is the fifth studio album by English rock band Black Sabbath, released in December 1973. It was produced by the band and recorded at Morgan Studios in London in September 1973', '1973-12-01', 10, 2),
+('Rebel Yell', 'Rebel Yell is the second studio album by English rock singer Billy Idol, released on 10 November 1983 by Chrysalis Records. After the release of his 1982 eponymous debut album, Idol continued his collaboration with producer Keith Forsey and multi-instrumentalist Steve Stevens', '1983-11-10', 11, 5),
+('Cyberpunk', 'Cyberpunk is the fifth studio album by English rock musician Billy Idol, released on 29 June 1993 by Chrysalis Records. A concept album, it was inspired by his personal interest in technology and his first attempts to use computers in the creation of his music', '1993-06-05', 11, 5),
+('United We Are', 'United We Are is the debut studio album by Dutch DJ and record producer Robbert van de Corput, more commonly known as Hardwell. It was released on 23 January 2015 by Cloud 9 Music, Revealed Recordings, Sony Music and Ultra Music', '2015-01-23', 12, 14),
+('I Am Hardwell', 'This is Hardwell`s best album', '2013-03-01', 12, 14),
+('True', 'True is the debut studio album by Swedish electronic music producer Avicii, released on 13 September 2013 by PRMD Music and Island Records. Avicii said that sonically, the album would move away from his earlier house music sound on previous records by incorporating elements of other genres such as country music', '2013-09-13', 13, 14),
+('Stories', 'Stories is the second studio album by Swedish electronic music producer Avicii, released on 2 October 2015 by PRMD Music and Island Records', '2015-10-02', 13, 14),
+('Goodbye Yellow Brick Road', 'Goodbye Yellow Brick Road is the seventh studio album by English singer-songwriter Elton John, first released in 1973 as a double LP. The album has sold more than 30 million copies worldwide and is widely regarded as John`s magnum opus', '1973-10-05', 14, 5),
+('Elton John', 'Elton John is the second studio album by English singer-songwriter Elton John, released on 10 April 1970 by DJM Records. It was released by Uni Records as John`s debut album in the United States; many people there assumed it was his first album, as Empty Sky was not released in that country until 1975', '1970-04-10', 14, 5),
+('Thriller', 'Thriller is the sixth studio album by American singer Michael Jackson, released on November 30, 1982, by Epic Records. Reunited with Off the Wall producer Quincy Jones, Jackson was inspired to create an album where "every song was a killer"', '1982-12-01', 15, 3),
+('Off the Wall', 'Off the Wall is the fifth solo studio album by American singer Michael Jackson, released on August 10, 1979, by Epic Records', '1979-08-10', 15, 3);
 
 
 
 
 -- inserting into song
-INSERT INTO Song (songName, songDuration, albumId, artistId, genreId) VALUES ('CEO', '200', 1, 3, 1);
+INSERT INTO Song (songName, songDuration, albumId, artistId, genreId) VALUES
+('Bathtub', 110, 1,3,1),
+('G Funk', 144, 1,3,1),
+('Doggfather', 237, 2,3,1),
+('Ride 4 Me', 71, 2,3,1),
+('Dr. West', 89, 3,1,1),
+('3 a.m', 320, 3,1,1),
+('The Ringer', 338, 3,1,1),
+('Greatest', 227, 3,1,1),
+('Battery', 312, 4,2,2),
+('Master of Puppets', 515, 4,2,2),
+('Blackened', 402, 5,2,2),
+('...And Justice for All', 586, 5,2,2),
+('Nice Guys Finish Last', 244, 7, 4, 4), ('Jinx', 129, 7, 4, 4),
+('American Idiot', 181, 8, 4, 4), ('Holiday / Boulevard of Broken Dreams', 487, 8, 4, 4),
+('Just Dance', 243, 9, 5, 3), ('Paparazzi', 426, 9, 5, 3),
+('Marry The Night', 314, 10, 5, 3), ('Americano', 199, 10, 5, 3),
+('Eraser', 254, 11, 6, 3), ('Perfect', 273, 11, 6, 3),
+('Beautiful people', 208, 11, 6, 3), ('1000 Nights', 329, 11, 6, 3),
+('Sampanjac', 156, 12, 7, 3), ('Ljubav bez Pravila', 139, 12, 7, 3),
+('Eclipse', 193, 23, 12, 14), ('Follow Me', 192, 23, 12, 14),
+('Spaceman', 101, 24, 12, 14), ('Zero 76', 193, 24, 12, 14),
+('Wake Me Up', 248, 25, 13, 14), ('Hey Brother', 232, 25, 13, 14),
+('Waiting For Love', 230, 26, 13, 14), ('Talk to Myself', 236, 26, 12, 14),
+('Candle in the Wind', 230, 27, 14, 5), ('Goodbye Yellow Brick Road', 195, 27, 14, 5),
+('Your Song', 242, 28, 14, 5), ('Take me to the Pilot', 227, 28, 14, 5),
+('Baby Be Mine', 260, 29, 15, 3), ('Thriller', 356, 29, 15, 3),
+('Rock With You', 218, 30, 15, 3), ('Workin` Day and Night', 314, 30, 15, 3),
+('Stari kockar', 220, 13, 7, 3),
+('Trosio sam pare i kapom i sakom', 164, 13, 7, 3),
+('Dark Horse', 167, 14, 3, 3),
+('Roar', 257, 14, 3, 3),
+('Last Friday Night', 205, 15, 8, 3),
+('Fireworks', 169, 15, 8, 3),
+('Do I Wanna know?', 367, 16, 9, 25),
+('Snap out of it', 257, 16, 9, 25),
+('Teddy Picker', 288, 17, 9, 25),
+('Do Me a Favour', 245, 17, 9, 25),
+('War  Pigs', 168, 18, 10, 2),
+('Electric Funeral', 245, 18, 10, 2),
+('Killing Yourself to Live', '387', 19, 10, 2),
+('Do Me a Favour', 301, 19, 10, 2),
+('Dayime Drama', 243, 20, 11, 5),
+('Blue Highway', 301, 20, 11, 5),
+('Wasteland', 256, 21, 11, 5),
+('Power Junkie', 198, 21, 11, 5);
 
 
-
-INSERT INTO Award (awardName, awardInfo, artistId) VALUES ('Best Rap Single', 'This song represents the best in rap of the year', 3);
+INSERT INTO Award (awardName, awardInfo, artistId) VALUES ('Best Rap Single', 'This song represents the best in rap of the year', 3),
+('American Music Award For Favorite Artist Rap/Hip-Hop','The American Music Award for Favorite Artist – Rap/Hip Hop has been awarded since 1989. Years reflect the year during which the awards were presented, for works released in the previous year. Eminem and Nicki Minaj have received the most wins and Eminem has received the most nominations',1),
+('Grammy Award for Best Metal Performance','The Grammy Award for Best Metal Performance is an award presented at the Grammy Awards to recording artists for works containing quality performances in the heavy metal music genre.',2),
+('American Music Award For Favorite Artist Rap/Hip-Hop','The American Music Award for Favorite Artist – Rap/Hip Hop has been awarded since 1989. Years reflect the year during which the awards were presented, for works released in the previous year. Eminem and Nicki Minaj have received the most wins and Eminem has received the most nominations.',3),
+('Grammy Award for Best Rock Album','The Grammy Award for Best Rock Album is an award presented at the Grammy Awards, a ceremony that was established in 1958 and originally called the Gramophone Awards, to recording artists for quality albums in the rock music genre.',4),
+('Academy Award for Best Music (Original Song)','The Academy Award for Best Original Song is one of the awards given annually to people working in the motion picture industry by the Academy of Motion Picture Arts and Sciences. It is presented to the songwriters who have composed the best original song written specifically for a film.',5),
+('Grammy Award for Song of the Year','The Grammy Award for Song of the Year is an honor presented at the Grammy Awards, a ceremony that was established in 1958 and originally called the Gramophone Awards. The Song of the Year award is one of the four most prestigious categories at the awards, presented annually since the 1st Grammy Awards in 1959.',6),
+('Best Bosnian Song of All Time','It`s real, I swear', 7),
+('MTV Video Music Award for Video of the Year','The MTV Video Music Award for Video of the Year is the most prestigious competitive award and the final award presented at the annual MTV Video Music Awards. The award was created by the US network MTV to honor artists with the best music videos.',8),
+('Mercury Prize','The Mercury Prize, formerly called the Mercury Music Prize, is an annual music prize awarded for the best album released in the United Kingdom by a British or Irish act.',9),
+('Grammy Lifetime Achievement Award','The Grammy Lifetime Achievement Award is a special Grammy Award that is awarded by The Recording Academy to "performers who, during their lifetimes, have made creative contributions of outstanding artistic significance to the field of recording.',10),
+('MTV Video Music Award for Best Video from a Film','The MTV Video Music Award for Best Video from a Film was first awarded in 1987, recognizing the best videos whose songs were a part of a movie soundtrack or featured in a film. As time went on, though, music videos taken from movie soundtracks became more rare, and so the last of this award was given out in 2003.',11),
+('DJ Award for Best Electro / Progressive House','An award for Best Electro/Progressive House',12),
+('American Music Award for Favorite Artist Electronic Dance Music','The American Music Award for Favorite Artist – Electronic Dance Music has been awarded since 2012. Years reflect the year during which the awards were presented, for works released in the previous year.',13),
+('Academy Award for Best Music (Original Song)','The Academy Award for Best Original Song is one of the awards given annually to people working in the motion picture industry by the Academy of Motion Picture Arts and Sciences. It is presented to the songwriters who have composed the best original song written specifically for a film.',14),
+('Grammy Award for Album of the Year','The Grammy Award for Album of the Year is presented by the National Academy of Recording Arts and Sciences of the United States to "honor artistic achievement, technical proficiency and overall excellence in the recording industry, without regard to album sales, chart position, or critical reception.',15);
+;
 
 INSERT INTO Saved_Artist (userId, artistId) VALUES (2, 3);
 select * from Saved_Artist;
