@@ -46,6 +46,10 @@ public class Artist {
         this.recordLabelId = recordLabelId;
     }
 
+    public Artist() {
+
+    }
+
     /**
      * selectArtist method of the Artist class.
      * This method will use the getData(String, ArrayList<String>) method of the Alinity
