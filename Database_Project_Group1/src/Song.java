@@ -66,6 +66,10 @@ public class Song {
         this.genreId = genreId;
     }
 
+    public Song() {
+
+    }
+
     /**
      * selectSong method of the Song class.
      * This method will use the getData(String, ArrayList<String>) method of the Alinity
@@ -78,11 +82,34 @@ public class Song {
      *
      * @throws AlinityException
      */
-    public void selectSong(User user, String songName) throws AlinityException {
+    public boolean selectSong(User user, String songName) throws AlinityException {
         try {
             if(user.getRole().equals("General") || user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(songName);
+                ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM Song WHERE songName = ?", info);
+                System.out.print("\nColumn headers: " + result.get(0));
+                ArrayList<String> songData = result.get(1);
+                setSongId(Integer.parseInt(songData.get(0)));
+                setSongName(songData.get(1));
+                setSongDuration(Integer.parseInt(songData.get(2)));
+                setAlbumId(Integer.parseInt(songData.get(3)));
+                setArtistId(Integer.parseInt(songData.get(4)));
+                setGenreId(Integer.parseInt(songData.get(5)));
+                printSong();
+            } else System.out.println("You do not have access to this function. Please contact an administrator."); return false;
+        } catch (IndexOutOfBoundsException ioobe) {
+            throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Song WHERE songId = ?");
+        } catch (NullPointerException npe) {
+            throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Song WHERE songId = ?");
+        }
+    }
+
+    public boolean selectSong(User user, int songId) throws AlinityException {
+        try {
+            if(user.getRole().equals("General") || user.getRole().equals("Admin")) {
+                ArrayList<String> info = new ArrayList<>();
+                info.add(String.valueOf(songId));
                 ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM Song WHERE songId = ?", info);
                 System.out.print("\nColumn headers: " + result.get(0));
                 ArrayList<String> songData = result.get(1);
@@ -93,7 +120,7 @@ public class Song {
                 setArtistId(Integer.parseInt(songData.get(4)));
                 setGenreId(Integer.parseInt(songData.get(5)));
                 printSong();
-            } else System.out.println("You do not have access to this function. Please contact an administrator.");
+            } else System.out.println("You do not have access to this function. Please contact an administrator."); return false;
         } catch (IndexOutOfBoundsException ioobe) {
             throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Song WHERE songId = ?");
         } catch (NullPointerException npe) {

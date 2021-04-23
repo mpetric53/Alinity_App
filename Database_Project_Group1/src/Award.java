@@ -45,6 +45,10 @@ public class Award {
         this.artistId = artistId;
     }
 
+    public Award() {
+
+    }
+
     /**
      * selectAward method of the Award class.
      * This method will use the getData(String, ArrayList<String>) method of the Alinity
@@ -57,7 +61,7 @@ public class Award {
      *
      * @throws AlinityException
      */
-    public void selectAward(User user, String awardName) throws AlinityException {
+    public boolean selectAward(User user, String awardName) throws AlinityException {
         try {
             if(user.getRole().equals("General") || user.getRole().equals("Admin")){
                 ArrayList<String> info = new ArrayList<>();
@@ -70,7 +74,28 @@ public class Award {
                 setAwardInfo(awardData.get(2));
                 setArtistId(Integer.parseInt(awardData.get(3)));
                 printAward();
-            } else System.out.println("You do not have access to this function. Please contact an administrator.");
+            } else System.out.println("You do not have access to this function. Please contact an administrator."); return false;
+        } catch (IndexOutOfBoundsException ioobe) {
+            throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Award WHERE awardName = ?");
+        } catch (NullPointerException npe) {
+            throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Award WHERE awardName = ?");
+        }
+    }
+
+    public boolean selectAward(User user, int awardId) throws AlinityException {
+        try {
+            if(user.getRole().equals("General") || user.getRole().equals("Admin")){
+                ArrayList<String> info = new ArrayList<>();
+                info.add(String.valueOf(awardId));
+                ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM Award WHERE awardId = ?" , info);
+                System.out.print("\nColumn headers: " + result.get(0));
+                ArrayList<String> awardData = result.get(1);
+                setAwardId(Integer.parseInt(awardData.get(0)));
+                setAwardName(awardData.get(1));
+                setAwardInfo(awardData.get(2));
+                setArtistId(Integer.parseInt(awardData.get(3)));
+                printAward();
+            } else System.out.println("You do not have access to this function. Please contact an administrator."); return false;
         } catch (IndexOutOfBoundsException ioobe) {
             throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Award WHERE awardName = ?");
         } catch (NullPointerException npe) {

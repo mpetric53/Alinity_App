@@ -39,7 +39,7 @@ public class Genre {
      *
      * @throws AlinityException
      */
-    public void selectGenre(User user, String genreName) throws AlinityException {
+    public boolean selectGenre(User user, String genreName) throws AlinityException {
         try {
             if(user.getRole().equals("General") || user.getRole().equals("Admin")){
                 ArrayList<String> info = new ArrayList<>();
@@ -50,7 +50,26 @@ public class Genre {
                 setGenreId(Integer.parseInt(genreData.get(0)));
                 setGenreName(genreData.get(1));
                 printGenre();
-            } else System.out.println("You do not have access to this function. Please contact an administrator.");
+            } else System.out.println("You do not have access to this function. Please contact an administrator."); return false;
+        } catch (IndexOutOfBoundsException ioobe) {
+            throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectGenre(ArrayList<String>) method.", "SELECT * FROM Album WHERE genreName = ?");
+        } catch (NullPointerException npe) {
+            throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectGenre(ArrayList<String>) method.", "SELECT * FROM Album WHERE genreName = ?");
+        }
+    }
+
+    public boolean selectGenre(User user, int genreId) throws AlinityException {
+        try {
+            if(user.getRole().equals("General") || user.getRole().equals("Admin")){
+                ArrayList<String> info = new ArrayList<>();
+                info.add(String.valueOf(genreId));
+                ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM Album WHERE genreId = ?" , info);
+                System.out.print("\nColumn headers: " + result.get(0));
+                ArrayList<String> genreData = result.get(1);
+                setGenreId(Integer.parseInt(genreData.get(0)));
+                setGenreName(genreData.get(1));
+                printGenre();
+            } else System.out.println("You do not have access to this function. Please contact an administrator."); return false;
         } catch (IndexOutOfBoundsException ioobe) {
             throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectGenre(ArrayList<String>) method.", "SELECT * FROM Album WHERE genreName = ?");
         } catch (NullPointerException npe) {
