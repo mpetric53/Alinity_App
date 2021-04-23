@@ -30,7 +30,8 @@ public class LogInGUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        JPasswordField pass = new JPasswordField(20);
+        pass.setEchoChar('*');
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
@@ -70,16 +71,16 @@ public class LogInGUI extends javax.swing.JFrame {
             }
         });
 
-        jTextField2.setBackground(new java.awt.Color(224, 224, 224));
-        jTextField2.setForeground(new java.awt.Color(100, 100, 100));
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        jTextField2.setText("Password");
-        jTextField2.setAutoscrolls(false);
-        jTextField2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(192, 192, 192), 1, true));
-        jTextField2.setCaretColor(new java.awt.Color(152, 154, 14));
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        pass.setBackground(new java.awt.Color(224, 224, 224));
+        pass.setForeground(new java.awt.Color(100, 100, 100));
+        pass.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        pass.setText("Password");
+        pass.setAutoscrolls(false);
+        pass.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(192, 192, 192), 1, true));
+        pass.setCaretColor(new java.awt.Color(152, 154, 14));
+        pass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                PassActionPerformed(evt);
             }
         });
 
@@ -116,7 +117,7 @@ public class LogInGUI extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addGap(11, 11, 11)
                                 .addComponent(jLabel2))
-                            .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(pass, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addGap(40, 40, 40)
                                 .addComponent(jLabel1))))
@@ -139,7 +140,7 @@ public class LogInGUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(57, Short.MAX_VALUE))
@@ -171,9 +172,10 @@ public class LogInGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {
+    private void PassActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
+
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         this.setVisible(false);
@@ -215,7 +217,7 @@ public class LogInGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField pass;
 
     public JButton getjButton1() {
         return jButton1;
@@ -233,12 +235,12 @@ public class LogInGUI extends javax.swing.JFrame {
         this.jTextField1 = jTextField1;
     }
 
-    public JTextField getjTextField2() {
-        return jTextField2;
+    public JTextField getPass() {
+        return pass;
     }
 
-    public void setjTextField2(JTextField jTextField2) {
-        this.jTextField2 = jTextField2;
+    public void setPass(JTextField pass) {
+        this.pass = pass;
     }
 // End of variables declaration//GEN-END:variables
 }
