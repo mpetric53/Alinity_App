@@ -54,15 +54,23 @@ public class AlinityMain {
             /**
              * to be placed within signup GUI code
              */
-            System.out.println("First time here? Sign up to use Alinity to its fullest!");
-            System.out.println("Enter a username, email, birthday (in YYYY-MM-DD format), and password: ");
-            String signUpUsername = scan.nextLine();
-            String signUpEmail = scan.nextLine();
-            String bday = scan.nextLine();
-            java.sql.Date dateBday = java.sql.Date.valueOf(bday);
-            String signUpPassword = scan.nextLine();
-            User user2 = new User();
-            user2.signUp(signUpUsername, signUpPassword, dateBday, signUpEmail);
+//            System.out.println("First time here? Sign up to use Alinity to its fullest!");
+//            System.out.println("Enter a username, email, birthday (in YYYY-MM-DD format), and password: ");
+//            String signUpUsername = scan.nextLine();
+//            String signUpEmail = scan.nextLine();
+//            String bday = scan.nextLine();
+//            java.sql.Date dateBday = java.sql.Date.valueOf(bday);
+//            String signUpPassword = scan.nextLine();
+//            User user2 = new User();
+//            user2.signUp(signUpUsername, signUpPassword, dateBday, signUpEmail);
+
+            Album album = new Album();
+            album.selectAlbum(user, "Rebel Yell");
+            int artistId = album.getArtistId();
+            Artist artist = new Artist();
+            artist.selectArtist(user, artistId);
+
+
         } catch (AlinityException ae) {
             System.out.println("Test error!");
         } finally {
