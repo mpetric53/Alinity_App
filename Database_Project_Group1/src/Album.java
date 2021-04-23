@@ -66,6 +66,10 @@ public class Album {
         this.genreId = genreId;
     }
 
+    public Album() {
+
+    }
+
     /**
      * selectAlbum method of the Album class.
      * This method will use the getData(String, ArrayList<String>) method of the Alinity
