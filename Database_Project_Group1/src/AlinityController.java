@@ -1,7 +1,5 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.sql.Date;
 
 public class AlinityController {
@@ -55,23 +53,6 @@ public class AlinityController {
         this.login.getjButton1().addActionListener((ActionEvent e) -> {
             try {
                 //Action Listener for the button SignUpGUI class
-                this.signup.getjButton1().addActionListener((ActionEvent ae) -> {
-
-                    try {
-                        System.out.println("b");
-                        signingUp();
-                        if(user.login(signName, signPassword) == true){
-                            signup.setVisible(false);
-                            search.setVisible(true);
-
-                        }else System.out.println("User not authenicated");
-
-
-                    } catch (AlinityException alinityException) {
-                        alinityException.printStackTrace();
-                    }
-
-                });
 
                 logging();
                 if(user.authenticate(username, password) == true){
@@ -85,10 +66,28 @@ public class AlinityController {
             }
         });
 
+        this.signup.getjButton1().addActionListener((ActionEvent ae) -> {
 
+            try {
+                signingUp();
+                if(user.login(signName, signPassword) == true){
+                    signup.setVisible(false);
+                    search.setVisible(true);
 
+                }else System.out.println("User not authenicated");
 
+            } catch (AlinityException alinityException) {
+                alinityException.printStackTrace();
+            }
+        });
 
+        this.login.getJLabel2().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                login.setVisible(false);
+                signup.setVisible(true);
+            }
+        });
 
         login.addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e) {

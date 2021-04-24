@@ -53,14 +53,14 @@ public class LogInGUI extends javax.swing.JFrame {
         jLabel1.setText("Log In");
 
         jLabel2.setText("New user? Create an account");
-        jLabel2.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                setVisible(false);
-                SignUpGUI su = new SignUpGUI();
-                su.setVisible(true);
-            }
-        });
+//        jLabel2.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                setVisible(false);
+//                SignUpGUI su = new SignUpGUI();
+//                su.setVisible(true);
+//            }
+//        });
 
         jTextField1.setBackground(new java.awt.Color(224, 224, 224));
         jTextField1.setForeground(new java.awt.Color(100, 100, 100));
@@ -248,6 +248,10 @@ public class LogInGUI extends javax.swing.JFrame {
 
     public JPasswordField getPass() {
         return pass;
+    }
+
+    public JLabel getJLabel2(){
+         return jLabel2;
     }
 
 
