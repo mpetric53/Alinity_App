@@ -49,7 +49,7 @@ public class SearchGUI extends javax.swing.JFrame {
         jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(200, 205, 210), 1, true));
 
         jLabel1.setBackground(new Color(240,240,240,200));
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\LucijaPC\\Desktop\\databaseConnectivity\\Alinity_App\\Database_Project_Group1\\src\\images\\s2.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("images\\s2.png"))); // NOI18N
         jLabel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null));
 
         jTextField1.setBackground(new java.awt.Color(224, 224, 224));
@@ -98,7 +98,7 @@ public class SearchGUI extends javax.swing.JFrame {
         getContentPane().add(jPanel3);
         jPanel3.setBounds(80, 130, 1000, 690);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\LucijaPC\\Desktop\\databaseConnectivity\\Alinity_App\\Database_Project_Group1\\src\\images\\background1.jpg")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("images\\background1.jpg"))); // NOI18N
         jLabel2.setMaximumSize(new java.awt.Dimension(1200, 866));
         jLabel2.setMinimumSize(new java.awt.Dimension(1300, 866));
         jLabel2.setName(""); // NOI18N

@@ -63,7 +63,7 @@ public class MainGUI extends javax.swing.JFrame {
         jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(200, 205, 210), 1, true));
 
         jLabel2.setBackground(new Color(240,240,240,200));
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\LucijaPC\\Desktop\\databaseConnectivity\\Alinity_App\\Database_Project_Group1\\src\\images\\s2.png")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("images\\s2.png"))); // NOI18N
         jLabel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null));
 
         jTextField1.setBackground(new java.awt.Color(240, 240, 240));
@@ -119,7 +119,7 @@ public class MainGUI extends javax.swing.JFrame {
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(30, 600, 330, 230);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\LucijaPC\\Desktop\\databaseConnectivity\\Alinity_App\\Database_Project_Group1\\src\\images\\background1.jpg")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("images\\background1.jpg")));; // NOI18N
         getContentPane().add(jLabel1);
         jLabel1.setBounds(0, 0, 1170, 880);
 
