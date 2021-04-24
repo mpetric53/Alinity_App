@@ -1,0 +1,6 @@
+Sat Apr 24 19:09:34 CEST 2021-> SQLState: 08003
+Sat Apr 24 19:09:34 CEST 2021-> Error code: 0
+Sat Apr 24 19:09:34 CEST 2021-> Original SQLStatement: SELECT * FROM User WHERE User.username = ?
+Sat Apr 24 19:09:34 CEST 2021-> Message: No operations allowed after connection closed.
+Sat Apr 24 19:09:34 CEST 2021-> Cause: com.mysql.cj.exceptions.ConnectionIsClosedException: No operations allowed after connection closed.
+Sat Apr 24 19:09:34 CEST 2021 Error preparing statement: 

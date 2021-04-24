@@ -1,8 +1,10 @@
 
 import javax.swing.*;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 
 /**
  *
@@ -14,7 +16,9 @@ public class LogInGUI extends javax.swing.JFrame {
      * Creates new form SignInGUI
      */
     public LogInGUI() {
+
         initComponents();
+        this.setVisible(true);
     }
 
     /**
@@ -30,7 +34,7 @@ public class LogInGUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        JPasswordField pass = new JPasswordField(20);
+        pass = new JPasswordField(500);
         pass.setEchoChar('*');
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -84,6 +88,8 @@ public class LogInGUI extends javax.swing.JFrame {
             }
         });
 
+
+
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("images\\username.png"))); // NOI18N
         jLabel4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(192, 192, 192), 1, true));
 
@@ -94,11 +100,11 @@ public class LogInGUI extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(1, 1, 1));
         jButton1.setText("Log In");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+//        jButton1.addActionListener(new java.awt.event.ActionListener() {
+//            public void actionPerformed(java.awt.event.ActionEvent evt) {
+//                jButton1ActionPerformed(evt);
+//            }
+//        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -168,6 +174,11 @@ public class LogInGUI extends javax.swing.JFrame {
         pack();
     }
 
+    private void jButton1ActionPerformed(ActionEvent evt) {
+
+    }
+
+
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
@@ -177,11 +188,11 @@ public class LogInGUI extends javax.swing.JFrame {
     }
 
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        this.setVisible(false);
-        SearchGUI search = new SearchGUI();
-        search.setVisible(true);
-    }
+//    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+//        this.setVisible(false);
+//        SearchGUI search = new SearchGUI();
+//        search.setVisible(true);
+//    }
 
     /**
      * @param args the command line arguments
@@ -217,7 +228,7 @@ public class LogInGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField pass;
+    private javax.swing.JPasswordField pass;
 
     public JButton getjButton1() {
         return jButton1;
@@ -235,12 +246,14 @@ public class LogInGUI extends javax.swing.JFrame {
         this.jTextField1 = jTextField1;
     }
 
-    public JTextField getPass() {
+    public JPasswordField getPass() {
         return pass;
     }
 
-    public void setPass(JTextField pass) {
-        this.pass = pass;
-    }
+
+
+   //public void setPass(JTextField pass) {
+//        this.pass = pass;
+//    }
 // End of variables declaration//GEN-END:variables
 }

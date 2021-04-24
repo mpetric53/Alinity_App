@@ -1,3 +1,5 @@
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -7,6 +9,7 @@ public class AlinityMain {
 
     public static Alinity alinityDB = null;
 
+
     public static void main(String[] args) {
         try {
             /**
@@ -14,19 +17,19 @@ public class AlinityMain {
              * Based on this, the database connection either will or
              * will not be established.
              */
-            Scanner scan = new Scanner(System.in);
-            System.out.print("Enter name of DBMS you wish to use (i.e. 'mysql'): ");
-            String dbms = scan.nextLine();
-            System.out.print("Enter server name (i.e. 'localHost'): ");
-            String serverName = scan.nextLine();
-            System.out.print("Enter port number: ");
-            String portNumber = scan.nextLine();
-            System.out.print("Enter the name of the DB you wish to connect to: ");
-            String dbName = scan.nextLine();
-            System.out.print("Enter your username: ");
-            String username = scan.nextLine();
-            System.out.print("Enter your password: ");
-            String password = scan.nextLine();
+//            Scanner scan = new Scanner(System.in);
+//            System.out.print("Enter name of DBMS you wish to use (i.e. 'mysql'): ");
+//            String dbms = scan.nextLine();
+//            System.out.print("Enter server name (i.e. 'localHost'): ");
+//            String serverName = scan.nextLine();
+//            System.out.print("Enter port number: ");
+//            String portNumber = scan.nextLine();
+//            System.out.print("Enter the name of the DB you wish to connect to: ");
+//            String dbName = scan.nextLine();
+//            System.out.print("Enter your username: ");
+//            String username = scan.nextLine();
+//            System.out.print("Enter your password: ");
+//            String password = scan.nextLine();
 
             /**
              * The object should have the following set in its "creation" (all are Strings):
@@ -34,7 +37,7 @@ public class AlinityMain {
              * the database you wish to connect to), username, and password.
              *
              */
-            alinityDB = new Alinity(dbms, serverName, portNumber, dbName, username, password);
+            alinityDB = new Alinity("mysql", "localHost", "3306", "alinity", "root", "Server5.haha");
             alinityDB.connect();
 
             /**
@@ -43,18 +46,21 @@ public class AlinityMain {
              * ask again up to a total of three times.
              * to be placed within login gui code
              */
-            User user = new User();
-            System.out.println("Enter your username and password: ");
-            String userId = scan.nextLine();
-            String passwordId = scan.nextLine();
-
-            while (!user.login(userId, passwordId)) {
-                userId = scan.nextLine();
-                passwordId = scan.nextLine();
-            }
+            //User user = new User();
+//            System.out.println("Enter your username and password: ");
+//            String userId = scan.nextLine();
+//            String passwordId = scan.nextLine();
+//
+//            while (!user.login(userId, passwordId)) {
+//                userId = scan.nextLine();
+//                passwordId = scan.nextLine();
+//            }
             /**
              * to be placed within signup GUI code
              */
+         //   LogInGUI login = new LogInGUI();
+            AlinityController ac = new AlinityController();
+
 //            System.out.println("First time here? Sign up to use Alinity to its fullest!");
 //            System.out.println("Enter a username, email, birthday (in YYYY-MM-DD format), and password: ");
 //            String signUpUsername = scan.nextLine();
@@ -65,21 +71,18 @@ public class AlinityMain {
 //            User user2 = new User();
 //            user2.signUp(signUpUsername, signUpPassword, dateBday, signUpEmail);
 
-            Album album = new Album();
-            Artist artist = new Artist();
-            artist.selectArtist(user, "Metallica");
-            ArrayList<ArrayList<String>> test = album.selectArtistAlbum(user, artist);
-            album.handleSelectAlbumByArtist(test);
+//            Album album = new Album();
+//            Artist artist = new Artist();
+//            artist.selectArtist(user, "Metallica");
+//            ArrayList<ArrayList<String>> test = album.selectArtistAlbum(user, artist);
+//            album.handleSelectAlbumByArtist(test);
 
         } catch (AlinityException ae) {
             System.out.println("Test error!");
         } finally {
             if (alinityDB != null) {
-                try{
-                    alinityDB.close();
-                } catch (AlinityException dle){
-                    System.out.println("Unable to complete operation. Please contact the administrator.");
-                }
+
+                //alinityDB.close();
             }
         }
     }

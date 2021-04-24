@@ -1,56 +1,122 @@
+import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.Date;
 
 public class AlinityController {
    private LogInGUI login = new LogInGUI();
-   private ViewGUI view = new ViewGUI();
    private SignUpGUI signup = new SignUpGUI();
+   private SearchGUI search = new SearchGUI();
+   private User user;
+   private String username;
+   private String password;
 
-    public AlinityController(LogInGUI login, ViewGUI view, SignUpGUI signup){
-        this.login = login;
-        this.view = view;
-        this.signup = signup;
+   private String signName;
+   private String signPassword;
+   private Date signBirthday;
+   private String signEmail;
+
+
+
+
+    public AlinityController() {
         start();
     }
 
+    public AlinityController(LogInGUI login){
+        this.login = login;
+        start();
+    }
+
+    public void logging() throws AlinityException {
+        username = login.getjTextField1().getText();
+        password = login.getPass().getText();
+        user = new User();
+        user.login(username, password);
+
+    }
+
+    public void signingUp() throws AlinityException{
+        System.out.println("a");
+        signName = signup.getjTextField1().getText();
+        signEmail = signup.getjTextField2().getText();
+        signBirthday = Date.valueOf(signup.getjTextField3().getText());
+        signPassword = signup.getjTextField4().getText();
+        user = new User();
+        user.signUp(signName,signPassword,signBirthday,signEmail);
+        System.out.println(signName + signEmail+ signBirthday+signPassword);
+
+    }
 
     public void start(){
 
         //Action Listener for the button LogInGUI class
         this.login.getjButton1().addActionListener((ActionEvent e) -> {
-            System.out.println("--- LOGIN BUTTON ---");
+            try {
+                //Action Listener for the button SignUpGUI class
+                this.signup.getjButton1().addActionListener((ActionEvent ae) -> {
+
+                    try {
+                        System.out.println("b");
+                        signingUp();
+                        if(user.login(signName, signPassword) == true){
+                            signup.setVisible(false);
+                            search.setVisible(true);
+
+                        }else System.out.println("User not authenicated");
+
+
+                    } catch (AlinityException alinityException) {
+                        alinityException.printStackTrace();
+                    }
+
+                });
+
+                logging();
+                if(user.authenticate(username, password) == true){
+                    login.setVisible(false);
+                    search.setVisible(true);
+                }else System.out.println("User not authenicated");
+
+
+            } catch (AlinityException alinityException) {
+                alinityException.printStackTrace();
+            }
         });
 
 
-        //Action Listener for the button SignUpGUI class
-        this.signup.getjButton1().addActionListener((ActionEvent e) -> {
-            System.out.println("--- SIGNUP BUTTON ---");
+
+
+
+
+        login.addWindowListener(new WindowAdapter(){
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+
+                try {
+                    AlinityMain.alinityDB.close();
+                } catch (AlinityException alinityException) {
+                    alinityException.printStackTrace();
+                }
+            }
+        });
+
+        signup.addWindowListener(new WindowAdapter(){
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+
+                try {
+                    AlinityMain.alinityDB.close();
+                } catch (AlinityException alinityException) {
+                    alinityException.printStackTrace();
+                }
+            }
         });
 
 
-        //Action Listener for the button ViewGUI class
-        this.view.getjButton1().addActionListener((ActionEvent e) -> {
-            System.out.println("--- VIEW BUTTON 1 ---");
-        });
-        this.view.getjButton2().addActionListener((ActionEvent e) -> {
-            System.out.println("--- VIEW BUTTON 2 ---");
-        });
-        this.view.getjButton3().addActionListener((ActionEvent e) -> {
-            System.out.println("--- VIEW BUTTON 3 ---");
-        });
-        this.view.getjButton4().addActionListener((ActionEvent e) -> {
-            System.out.println("--- VIEW BUTTON 4 ---");
-        });
-        this.view.getjButton5().addActionListener((ActionEvent e) -> {
-            System.out.println("--- VIEW BUTTON 5 ---");
-        });
-        this.view.getjButton6().addActionListener((ActionEvent e) -> {
-            System.out.println("--- VIEW BUTTON 6 ---");
-        });
-        this.view.getjButton7().addActionListener((ActionEvent e) -> {
-            System.out.println("--- VIEW BUTTON 7 ---");
-        });
-        this.view.getjButton8().addActionListener((ActionEvent e) -> {
-            System.out.println("--- VIEW BUTTON 8 ---");
-        });
+
+
+
     }
 }

@@ -1,5 +1,6 @@
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import javax.swing.*;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -17,6 +18,7 @@ public class User {
     private String role;
     private int counter = 0;
     private final int MAX_ATTEMPTS = 3;
+
 
     public User(int userId, String username, String password, Date birthday, String email, String role){
         this.userId = userId;
@@ -274,7 +276,9 @@ public class User {
                 System.out.println("Too many incorrect attempts, terminating system...");
                 System.exit(0);
             }
-            System.out.println("Incorrect credentials, try again. You have: " + (MAX_ATTEMPTS - counter) + " more tries");
+            JFrame jf = new JFrame();
+            String name = JOptionPane.showInputDialog(jf, "Incorrect credentials, try again. You have: " + (MAX_ATTEMPTS - counter) + " more tries" , null);
+           // System.out.println("Incorrect credentials, try again. You have: " + (MAX_ATTEMPTS - counter) + " more tries");
             return false;
         } else {
             authenticate(username, password);
