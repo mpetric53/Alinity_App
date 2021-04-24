@@ -1,5 +1,6 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AlinityMain {
@@ -65,11 +66,10 @@ public class AlinityMain {
 //            user2.signUp(signUpUsername, signUpPassword, dateBday, signUpEmail);
 
             Album album = new Album();
-            album.selectAlbum(user, "Rebel Yell");
-            int artistId = album.getArtistId();
             Artist artist = new Artist();
-            artist.selectArtist(user, artistId);
-
+            artist.selectArtist(user, "Metallica");
+            ArrayList<ArrayList<String>> test = album.selectArtistAlbum(user, artist);
+            album.handleSelectAlbumByArtist(test);
 
         } catch (AlinityException ae) {
             System.out.println("Test error!");

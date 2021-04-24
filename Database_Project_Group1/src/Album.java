@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -9,6 +10,10 @@ public class Album {
     private Date releaseDate;
     private int artistId;
     private int genreId;
+
+    public Album(String albumName) {
+        this.albumName = albumName;
+    }
 
     public int getAlbumId() {
         return albumId;
@@ -58,7 +63,8 @@ public class Album {
         this.genreId = genreId;
     }
 
-    public Album(String albumName, String albumInfo, Date releaseDate, int artistId, int genreId) {
+    public Album(int albumId, String albumName, String albumInfo, Date releaseDate, int artistId, int genreId) {
+        this.albumId = albumId;
         this.albumName = albumName;
         this.albumInfo = albumInfo;
         this.releaseDate = releaseDate;
@@ -83,26 +89,22 @@ public class Album {
      *
      * @throws AlinityException
      */
-    public boolean selectAlbum(User user, String albumName) throws AlinityException {
+    public ArrayList<ArrayList<String>> selectAlbum(User user, String albumName) throws AlinityException {
         try {
             if(user.getRole().equals("General") || user.getRole().equals("Admin")){
                 ArrayList<String> info = new ArrayList<>();
                 info.add(albumName);
-                ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM Album WHERE albumName = ?" , info);
-                System.out.print("\nColumn headers: " + result.get(0));
-                ArrayList<String> albumData = result.get(1);
-                setAlbumId(Integer.parseInt(albumData.get(0)));
-                setAlbumName(albumData.get(1));
-                setAlbumInfo(albumData.get(2));
-                setReleaseDate(Date.valueOf(albumData.get(3)));
-                setArtistId(Integer.parseInt(albumData.get(4)));
-                setGenreId(Integer.parseInt(albumData.get(5)));
-                if(getAlbumName() == null || getAlbumName().equals("")) {
-                    System.out.println("Not what you what you were looking for, continuing...");
-                    return false;
-                }
-                printAlbum();
-            } else System.out.println("You do not have access to this function. Please contact an administrator.");;return false;
+                return AlinityMain.alinityDB.getData("SELECT * FROM Album WHERE albumName = ?" , info);
+//                System.out.print("\nColumn headers: " + result.get(0));
+//                ArrayList<String> albumData = result.get(1);
+//                setAlbumId(Integer.parseInt(albumData.get(0)));
+//                setAlbumName(albumData.get(1));
+//                setAlbumInfo(albumData.get(2));
+//                setReleaseDate(Date.valueOf(albumData.get(3)));
+//                setArtistId(Integer.parseInt(albumData.get(4)));
+//                setGenreId(Integer.parseInt(albumData.get(5)));
+//                printAlbum();
+            } else System.out.println("You do not have access to this function. Please contact an administrator."); return null;
         } catch (IndexOutOfBoundsException ioobe) {
             throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Album WHERE albumName = ?");
         } catch (NullPointerException npe) {
@@ -118,30 +120,76 @@ public class Album {
      * @return
      * @throws AlinityException
      */
-    public boolean selectAlbum(User user, int albumId) throws AlinityException {
+    public ArrayList<ArrayList<String>> selectAlbum(User user, int albumId) throws AlinityException {
         try {
             if(user.getRole().equals("General") || user.getRole().equals("Admin")){
                 ArrayList<String> info = new ArrayList<>();
                 info.add(String.valueOf(albumId));
-                ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM Album WHERE albumId = ?" , info);
-                System.out.print("\nColumn headers: " + result.get(0));
-                ArrayList<String> albumData = result.get(1);
-                setAlbumId(Integer.parseInt(albumData.get(0)));
-                setAlbumName(albumData.get(1));
-                setAlbumInfo(albumData.get(2));
-                setReleaseDate(Date.valueOf(albumData.get(3)));
-                setArtistId(Integer.parseInt(albumData.get(4)));
-                setGenreId(Integer.parseInt(albumData.get(5)));
-                if(getAlbumName() == null || getAlbumName().equals("")) {
-                    System.out.println("Not what you what you were looking for, continuing...");
-                    return false;
-                }
-                printAlbum();
-            } else System.out.println("You do not have access to this function. Please contact an administrator.");;return false;
+                return AlinityMain.alinityDB.getData("SELECT * FROM Album WHERE albumId = ?" , info);
+//                System.out.print("\nColumn headers: " + result.get(0));
+//                ArrayList<String> albumData = result.get(1);
+//                setAlbumId(Integer.parseInt(albumData.get(0)));
+//                setAlbumName(albumData.get(1));
+//                setAlbumInfo(albumData.get(2));
+//                setReleaseDate(Date.valueOf(albumData.get(3)));
+//                setArtistId(Integer.parseInt(albumData.get(4)));
+//                setGenreId(Integer.parseInt(albumData.get(5)));
+//                printAlbum();
+            } else System.out.println("You do not have access to this function. Please contact an administrator."); return null;
         } catch (IndexOutOfBoundsException ioobe) {
             throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Album WHERE albumName = ?");
         } catch (NullPointerException npe) {
             throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Album WHERE albumName = ?");
+        }
+    }
+
+    /**
+     * selecting all albums under the specified artist name
+     *
+     * @param user
+     * @param artist
+     * @return
+     * @throws AlinityException
+     */
+    public ArrayList<ArrayList<String >> selectArtistAlbum(User user, Artist artist) throws AlinityException {
+        try {
+            if(user.getRole().equals("General") || user.getRole().equals("Admin")){
+                ArrayList<String> info = new ArrayList<>();
+                info.add(String.valueOf(artist.getArtistId()));
+                return AlinityMain.alinityDB.getData("SELECT Album.albumName FROM Album WHERE Album.artistId = ?" , info);
+//                System.out.print("\nColumn headers: " + result.get(0));
+//                ArrayList<String> albumData = result.get(1);
+//                setAlbumName(albumData.get(0));
+//                printAlbum();
+//                return new Album(getAlbumName());
+            } else System.out.println("You do not have access to this function. Please contact an administrator."); return null;
+        } catch (IndexOutOfBoundsException ioobe) {
+            throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Album WHERE albumName = ?");
+        } catch (NullPointerException npe) {
+            throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Album WHERE albumName = ?");
+        }
+    }
+
+    public void handleSelectAlbum(ArrayList<ArrayList<String>> result) {
+        for(int i = 1; i < result.size(); i++){
+            //System.out.print("\nColumn headers: " + result.get(0));
+            ArrayList<String> albumData = result.get(i);
+            setAlbumId(Integer.parseInt(albumData.get(0)));
+            setAlbumName(albumData.get(1));
+            setAlbumInfo(albumData.get(2));
+            setReleaseDate(Date.valueOf(albumData.get(3)));
+            setArtistId(Integer.parseInt(albumData.get(4)));
+            setGenreId(Integer.parseInt(albumData.get(5)));
+            printAlbum();
+        }
+    }
+
+    public void handleSelectAlbumByArtist(ArrayList<ArrayList<String>> result) {
+        for(int i = 1; i < result.size(); i++) {
+            //System.out.print("\nColumn headers: " + result.get(0));
+            ArrayList<String> albumData = result.get(i);
+            setAlbumName(albumData.get(0));
+            printAlbum();
         }
     }
 

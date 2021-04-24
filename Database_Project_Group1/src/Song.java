@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.sql.Date;
 import java.util.ArrayList;
 
@@ -82,22 +83,23 @@ public class Song {
      *
      * @throws AlinityException
      */
-    public boolean selectSong(User user, String songName) throws AlinityException {
+    public ArrayList<ArrayList<String>> selectSong(User user, String songName) throws AlinityException {
         try {
-            if(user.getRole().equals("General") || user.getRole().equals("Admin")) {
+            if (user.getRole().equals("General") || user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(songName);
-                ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM Song WHERE songName = ?", info);
-                System.out.print("\nColumn headers: " + result.get(0));
-                ArrayList<String> songData = result.get(1);
-                setSongId(Integer.parseInt(songData.get(0)));
-                setSongName(songData.get(1));
-                setSongDuration(Integer.parseInt(songData.get(2)));
-                setAlbumId(Integer.parseInt(songData.get(3)));
-                setArtistId(Integer.parseInt(songData.get(4)));
-                setGenreId(Integer.parseInt(songData.get(5)));
-                printSong();
-            } else System.out.println("You do not have access to this function. Please contact an administrator."); return false;
+                return AlinityMain.alinityDB.getData("SELECT * FROM Song WHERE songName = ?", info);
+//                System.out.print("\nColumn headers: " + result.get(0));
+//                ArrayList<String> songData = result.get(1);
+//                setSongId(Integer.parseInt(songData.get(0)));
+//                setSongName(songData.get(1));
+//                setSongDuration(Integer.parseInt(songData.get(2)));
+//                setAlbumId(Integer.parseInt(songData.get(3)));
+//                setArtistId(Integer.parseInt(songData.get(4)));
+//                setGenreId(Integer.parseInt(songData.get(5)));
+//                printSong();
+            } else System.out.println("You do not have access to this function. Please contact an administrator.");
+            return null;
         } catch (IndexOutOfBoundsException ioobe) {
             throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Song WHERE songId = ?");
         } catch (NullPointerException npe) {
@@ -105,26 +107,69 @@ public class Song {
         }
     }
 
-    public boolean selectSong(User user, int songId) throws AlinityException {
+    public ArrayList<ArrayList<String>> selectSong(User user, int songId) throws AlinityException {
         try {
-            if(user.getRole().equals("General") || user.getRole().equals("Admin")) {
+            if (user.getRole().equals("General") || user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(String.valueOf(songId));
-                ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM Song WHERE songId = ?", info);
-                System.out.print("\nColumn headers: " + result.get(0));
-                ArrayList<String> songData = result.get(1);
-                setSongId(Integer.parseInt(songData.get(0)));
-                setSongName(songData.get(1));
-                setSongDuration(Integer.parseInt(songData.get(2)));
-                setAlbumId(Integer.parseInt(songData.get(3)));
-                setArtistId(Integer.parseInt(songData.get(4)));
-                setGenreId(Integer.parseInt(songData.get(5)));
-                printSong();
-            } else System.out.println("You do not have access to this function. Please contact an administrator."); return false;
+                return AlinityMain.alinityDB.getData("SELECT * FROM Song WHERE songId = ?", info);
+//                System.out.print("\nColumn headers: " + result.get(0));
+//                ArrayList<String> songData = result.get(1);
+//                setSongId(Integer.parseInt(songData.get(0)));
+//                setSongName(songData.get(1));
+//                setSongDuration(Integer.parseInt(songData.get(2)));
+//                setAlbumId(Integer.parseInt(songData.get(3)));
+//                setArtistId(Integer.parseInt(songData.get(4)));
+//                setGenreId(Integer.parseInt(songData.get(5)));
+//                printSong();
+            } else System.out.println("You do not have access to this function. Please contact an administrator.");
+            return null;
         } catch (IndexOutOfBoundsException ioobe) {
             throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Song WHERE songId = ?");
         } catch (NullPointerException npe) {
             throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Song WHERE songId = ?");
+        }
+    }
+
+    public ArrayList<ArrayList<String>> selectArtistSong(User user, Artist artist) throws AlinityException {
+        try {
+            if (user.getRole().equals("General") || user.getRole().equals("Admin")) {
+                ArrayList<String> info = new ArrayList<>();
+                info.add(String.valueOf(artist.getArtistId()));
+                return AlinityMain.alinityDB.getData("SELECT Song.songName FROM Song WHERE Song.artistId = ?", info);
+//                System.out.print("\nColumn headers: " + result.get(0));;
+//                ArrayList<String> songData = result.get(1);
+//                setSongName(songData.get(0));
+//                printSong();
+            } else System.out.println("You do not have access to this function. Please contact an administrator.");
+            return null;
+        } catch (IndexOutOfBoundsException ioobe) {
+            throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Song WHERE songId = ?");
+        } catch (NullPointerException npe) {
+            throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Song WHERE songId = ?");
+        }
+    }
+
+    public void selectSongHandler(ArrayList<ArrayList<String>> result) {
+        for (int i = 1; i < result.size(); i++) {
+            //System.out.print("\nColumn headers: " + result.get(0));
+            ArrayList<String> songData = result.get(i);
+            setSongId(Integer.parseInt(songData.get(0)));
+            setSongName(songData.get(1));
+            setSongDuration(Integer.parseInt(songData.get(2)));
+            setAlbumId(Integer.parseInt(songData.get(3)));
+            setArtistId(Integer.parseInt(songData.get(4)));
+            setGenreId(Integer.parseInt(songData.get(5)));
+            printSong();
+        }
+    }
+
+    public void selectArtistSongHanlder(ArrayList<ArrayList<String>> result) {
+        for (int i = 1; i < result.size(); i++) {
+            //System.out.print("\nColumn headers: " + result.get(0));;
+            ArrayList<String> songData = result.get(i);
+            setSongName(songData.get(0));
+            printSong();
         }
     }
 
@@ -142,7 +187,7 @@ public class Song {
      */
     public boolean updateSong(User user, String songName, String songDuration, Album album, Artist artist, Genre genre) throws AlinityException {
         try {
-            if(user.getRole().equals("Admin")) {
+            if (user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(songName);
                 info.add(String.valueOf(songDuration));
@@ -151,7 +196,9 @@ public class Song {
                 info.add(String.valueOf(genre.getGenreId()));
                 String putStmt = "UPDATE Song SET songName = ? , songDuration = ?, albumId = ?, artistId = ?, genreId = ? WHERE songId = ?";
                 return AlinityMain.alinityDB.setData(putStmt, info);
-            } else System.out.println("You do not have the correct permissions to use this function. Please contact an administrator."); return false;
+            } else
+                System.out.println("You do not have the correct permissions to use this function. Please contact an administrator.");
+            return false;
         } catch (NullPointerException npe) {
             throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the updateAll(ArrayList<String>) method.", "UPDATE Song SET songName = ? , songDuration = ?, albumId = ?, artistId = ?, genreId = ? WHERE songId = ?");
         } catch (IndexOutOfBoundsException ioobe) {
@@ -171,7 +218,7 @@ public class Song {
      */
     public boolean insertSong(User user, String songName, String songDuration, Album album, Artist artist, Genre genre) throws AlinityException {
         try {
-            if(user.getRole().equals("Admin")) {
+            if (user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(songName);
                 info.add(String.valueOf(songDuration));
@@ -180,11 +227,13 @@ public class Song {
                 info.add(String.valueOf(genre.getGenreId()));
                 String insertStmt = "INSERT INTO Song (songName, songDuration, albumId, artistId, genreId) VALUES (?, ?, ?, ?, ?)";
                 return AlinityMain.alinityDB.setData(insertStmt, info);
-            } else System.out.println("You do not have the correct permissions to use this function. Please contact an administrator."); return false;
+            } else
+                System.out.println("You do not have the correct permissions to use this function. Please contact an administrator.");
+            return false;
         } catch (NullPointerException npe) {
-            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the insertSong(ArrayList<String>) method.","INSERT INTO Song (songName, songDuration, albumId, artistId, genreId) VALUES (?, ?, ?, ?, ?)");
+            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the insertSong(ArrayList<String>) method.", "INSERT INTO Song (songName, songDuration, albumId, artistId, genreId) VALUES (?, ?, ?, ?, ?)");
         } catch (IndexOutOfBoundsException ioobe) {
-            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the insertSong(ArrayList<String>) method.","INSERT INTO Song (songName, songDuration, albumId, artistId, genreId) VALUES (?, ?, ?, ?, ?)");
+            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the insertSong(ArrayList<String>) method.", "INSERT INTO Song (songName, songDuration, albumId, artistId, genreId) VALUES (?, ?, ?, ?, ?)");
         }
     }
 
@@ -201,12 +250,14 @@ public class Song {
      */
     public boolean deleteSong(User user) throws AlinityException {
         try {
-            if(user.getRole().equals("Admin")) {
+            if (user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(String.valueOf(this.getSongId()));
                 String deleteStmt = "DELETE FROM Song WHERE songId = ?";
                 return AlinityMain.alinityDB.setData(deleteStmt, info);
-            } else System.out.println("You do not have the correct permissions to use this function. Please contact an administrator."); return false;
+            } else
+                System.out.println("You do not have the correct permissions to use this function. Please contact an administrator.");
+            return false;
         } catch (NullPointerException npe) {
             throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the deleteSong() method.", "DELETE FROM Song WHERE songId = ?");
         } catch (IndexOutOfBoundsException ioobe) {

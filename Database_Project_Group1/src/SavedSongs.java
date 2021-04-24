@@ -48,17 +48,17 @@ public class SavedSongs {
      *
      * @throws AlinityException
      */
-    public void selectAll(User user) throws AlinityException {
+    public ArrayList<ArrayList<String>> selectSavedSongs(User user) throws AlinityException {
         try {
             ArrayList<String> info = new ArrayList<>();
             info.add(String.valueOf(user.getUserId()));
-            ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT Song.songName FROM User\n" +
+            return AlinityMain.alinityDB.getData("SELECT Song.songName FROM User\n" +
                     "NATURAL JOIN Saved_Songs NATURAL JOIN Song\n" +
                     "WHERE User.userId = ?" , info);
-            System.out.print("\nColumn headers: " + result.get(0));
-            ArrayList<String> savedSongData = result.get(1);
-            setSongName(savedSongData.get(0));
-            printSaved_Songs();
+//            System.out.print("\nColumn headers: " + result.get(0));
+//            ArrayList<String> savedSongData = result.get(1);
+//            setSongName(savedSongData.get(0));
+//            printSaved_Songs();
         } catch (IndexOutOfBoundsException ioobe) {
             throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT Song.songName FROM User\\n\" +\n" +
                     "                    \"NATURAL JOIN Saved_Songs NATURAL JOIN Song\\n\" +\n" +
@@ -67,6 +67,14 @@ public class SavedSongs {
             throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT Song.songName FROM User\\n\" +\n" +
                     "                    \"NATURAL JOIN Saved_Songs NATURAL JOIN Song\\n\" +\n" +
                     "                    \"WHERE User.userId = ?");
+        }
+    }
+
+    public void selectSavedSongsHandler(ArrayList<ArrayList<String>> result) {
+        for(int i = 1; i < result.size(); i++) {
+            ArrayList<String> savedSongData = result.get(i);
+            setSongName(savedSongData.get(0));
+            printSaved_Songs();
         }
     }
 
