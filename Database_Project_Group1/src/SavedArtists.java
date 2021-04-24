@@ -48,17 +48,17 @@ public class SavedArtists {
      *
      * @throws AlinityException
      */
-    public void selectAll(User user) throws AlinityException {
+    public ArrayList<ArrayList<String>> selectSavedArtists(User user) throws AlinityException {
         try {
             ArrayList<String> info = new ArrayList<>();
             info.add(String.valueOf(user.getUserId()));
-            ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT Artist.artistName FROM User\n" +
+            return AlinityMain.alinityDB.getData("SELECT Artist.artistName FROM User\n" +
                     "NATURAL JOIN Saved_Artist NATURAL JOIN Artist\n" +
-                    "WHERE User.userId = ?" , info);
-            System.out.print("\nColumn headers: " + result.get(0));
-            ArrayList<String> savedArtistData = result.get(1);
-            setArtistName(savedArtistData.get(0));
-            printSaved_Artists();
+                    "WHERE User.userId = ?", info);
+//            System.out.print("\nColumn headers: " + result.get(0));
+//            ArrayList<String> savedArtistData = result.get(1);
+//            setArtistName(savedArtistData.get(0));
+//            printSaved_Artists();
         } catch (IndexOutOfBoundsException ioobe) {
             throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT Artist.artistName FROM User\\n\" +\n" +
                     "                    \"NATURAL JOIN Saved_Artist NATURAL JOIN Artist\\n\" +\n" +
@@ -67,6 +67,14 @@ public class SavedArtists {
             throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT Artist.artistName FROM User\\n\" +\n" +
                     "                    \"NATURAL JOIN Saved_Artist NATURAL JOIN Artist\\n\" +\n" +
                     "                    \"WHERE User.userId = ?");
+        }
+    }
+
+    public void selectSavedArtistsHandler(ArrayList<ArrayList<String>> result) {
+        for (int i = 1; i < result.size(); i++) {
+            ArrayList<String> savedArtistData = result.get(i);
+            setArtistName(savedArtistData.get(0));
+            printSaved_Artists();
         }
     }
 
@@ -113,9 +121,9 @@ public class SavedArtists {
             String insertStmt = "INSERT INTO Saved_Artist (userId, artistId) VALUES (?, ?)";
             return AlinityMain.alinityDB.setData(insertStmt, info);
         } catch (NullPointerException npe) {
-            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the insertAll(ArrayList<String>) method.","INSERT INTO Saved_Artist (userId, artistId) VALUES (?, ?)");
+            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the insertAll(ArrayList<String>) method.", "INSERT INTO Saved_Artist (userId, artistId) VALUES (?, ?)");
         } catch (IndexOutOfBoundsException ioobe) {
-            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the insertAll(ArrayList<String>) method.","INSERT INTO Saved_Artist (userId, artistId) VALUES (?, ?)");
+            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the insertAll(ArrayList<String>) method.", "INSERT INTO Saved_Artist (userId, artistId) VALUES (?, ?)");
         }
     }
 

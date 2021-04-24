@@ -52,19 +52,20 @@ public class Platform {
      *
      * @throws AlinityException
      */
-    public boolean selectPlatform(User user, String platformName) throws AlinityException {
+    public ArrayList<ArrayList<String>> selectPlatform(User user, String platformName) throws AlinityException {
         try {
-            if(user.getRole().equals("General") || user.getRole().equals("Admin")) {
+            if (user.getRole().equals("General") || user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(platformName);
-                ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM Platform WHERE platformName = ?", info);
-                System.out.print("\nColumn headers: " + result.get(0));
-                ArrayList<String> platformData = result.get(1);
-                setPlatformId(Integer.parseInt(platformData.get(0)));
-                setPlatformName(platformData.get(1));
-                setPlatformInfo(platformData.get(2));
-                printPlatform();
-            } else System.out.println("You do not have access to this function. Please contact an administrator."); return false;
+                return AlinityMain.alinityDB.getData("SELECT * FROM Platform WHERE platformName = ?", info);
+//                System.out.print("\nColumn headers: " + result.get(0));
+//                ArrayList<String> platformData = result.get(1);
+//                setPlatformId(Integer.parseInt(platformData.get(0)));
+//                setPlatformName(platformData.get(1));
+//                setPlatformInfo(platformData.get(2));
+//                printPlatform();
+            } else System.out.println("You do not have access to this function. Please contact an administrator.");
+            return null;
         } catch (IndexOutOfBoundsException ioobe) {
             throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectPlatform(ArrayList<String>) method.", "SELECT * FROM Platform WHERE platformId = ?");
         } catch (NullPointerException npe) {
@@ -72,19 +73,20 @@ public class Platform {
         }
     }
 
-    public boolean selectPlatform(User user, int platformId) throws AlinityException {
+    public ArrayList<ArrayList<String>> selectPlatform(User user, int platformId) throws AlinityException {
         try {
-            if(user.getRole().equals("General") || user.getRole().equals("Admin")) {
+            if (user.getRole().equals("General") || user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(String.valueOf(platformId));
-                ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM Platform WHERE platformId = ?", info);
-                System.out.print("\nColumn headers: " + result.get(0));
-                ArrayList<String> platformData = result.get(1);
-                setPlatformId(Integer.parseInt(platformData.get(0)));
-                setPlatformName(platformData.get(1));
-                setPlatformInfo(platformData.get(2));
-                printPlatform();
-            } else System.out.println("You do not have access to this function. Please contact an administrator."); return false;
+                return AlinityMain.alinityDB.getData("SELECT * FROM Platform WHERE platformId = ?", info);
+//                System.out.print("\nColumn headers: " + result.get(0));
+//                ArrayList<String> platformData = result.get(1);
+//                setPlatformId(Integer.parseInt(platformData.get(0)));
+//                setPlatformName(platformData.get(1));
+//                setPlatformInfo(platformData.get(2));
+//                printPlatform();
+            } else System.out.println("You do not have access to this function. Please contact an administrator.");
+            return null;
         } catch (IndexOutOfBoundsException ioobe) {
             throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectPlatform(ArrayList<String>) method.", "SELECT * FROM Platform WHERE platformId = ?");
         } catch (NullPointerException npe) {
@@ -92,6 +94,16 @@ public class Platform {
         }
     }
 
+
+    public void selectGenreHandler(ArrayList<ArrayList<String>> result) {
+        for (int i = 1; i < result.size(); i++) {
+            ArrayList<String> platformData = result.get(i);
+            setPlatformId(Integer.parseInt(platformData.get(0)));
+            setPlatformName(platformData.get(1));
+            setPlatformInfo(platformData.get(2));
+            printPlatform();
+        }
+    }
 
     /**
      * updatePlatform method of the Platform class.
@@ -105,13 +117,15 @@ public class Platform {
      */
     public boolean updatePlatform(User user, String platformName, String platformInfo) throws AlinityException {
         try {
-            if(user.getRole().equals("Admin")) {
+            if (user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(platformName);
                 info.add(platformInfo);
                 String putStmt = "UPDATE Platform SET platformName = ? , platformInfo = ? WHERE platformId = ?";
                 return AlinityMain.alinityDB.setData(putStmt, info);
-            } else System.out.println("You do not have the correct permissions to use this function. Please contact an administrator."); return false;
+            } else
+                System.out.println("You do not have the correct permissions to use this function. Please contact an administrator.");
+            return false;
         } catch (NullPointerException npe) {
             throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the updatePlatform(ArrayList<String>) method.", "UPDATE Platform SET platformName = ? , platformInfo = ? WHERE platformId = ?");
         } catch (IndexOutOfBoundsException ioobe) {
@@ -132,17 +146,19 @@ public class Platform {
      */
     public boolean insertPlatform(User user, String platformName, String platformInfo) throws AlinityException {
         try {
-            if(user.getRole().equals("Admin")) {
+            if (user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(platformName);
                 info.add(platformInfo);
                 String insertStmt = "INSERT INTO Platform (platformName, platformInfo) VALUES (?, ?)";
                 return AlinityMain.alinityDB.setData(insertStmt, info);
-            } else System.out.println("You do not have the correct permissions to use this function. Please contact an administrator."); return false;
+            } else
+                System.out.println("You do not have the correct permissions to use this function. Please contact an administrator.");
+            return false;
         } catch (NullPointerException npe) {
-            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the insertPlatform(ArrayList<String>) method.","INSERT INTO Platform (platformName, platformInfo) VALUES (?, ?)");
+            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the insertPlatform(ArrayList<String>) method.", "INSERT INTO Platform (platformName, platformInfo) VALUES (?, ?)");
         } catch (IndexOutOfBoundsException ioobe) {
-            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the insertPlatform(ArrayList<String>) method.","INSERT INTO Platform (platformName, platformInfo) VALUES (?, ?)");
+            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the insertPlatform(ArrayList<String>) method.", "INSERT INTO Platform (platformName, platformInfo) VALUES (?, ?)");
         }
     }
 
@@ -158,12 +174,14 @@ public class Platform {
      */
     public boolean deletePlatform(User user) throws AlinityException {
         try {
-            if(user.getRole().equals("Admin")) {
+            if (user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(String.valueOf(this.getPlatformId()));
                 String deleteStmt = "DELETE FROM Platform WHERE platformId = ?";
                 return AlinityMain.alinityDB.setData(deleteStmt, info);
-            } else System.out.println("You do not have the correct permissions to use this function. Please contact an administrator."); return false;
+            } else
+                System.out.println("You do not have the correct permissions to use this function. Please contact an administrator.");
+            return false;
         } catch (NullPointerException npe) {
             throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the deletePlatform() method.", "DELETE FROM Platform WHERE platformId = ?");
         } catch (IndexOutOfBoundsException ioobe) {

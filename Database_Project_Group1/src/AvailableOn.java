@@ -53,20 +53,21 @@ public class AvailableOn {
      *
      * @throws AlinityException
      */
-    public void selectAvailableOn(User user, Platform platform) throws AlinityException {
+    public ArrayList<ArrayList<String>> selectAvailableOn(User user, Platform platform) throws AlinityException {
         try {
-            if(user.getRole().equals("General") || user.getRole().equals("Admin")) {
+            if (user.getRole().equals("General") || user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(String.valueOf(platform.getPlatformId()));
-                ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT Artist.artistName, Platform.platformName\n" +
+                return AlinityMain.alinityDB.getData("SELECT Artist.artistName, Platform.platformName\n" +
                         "FROM Platform NATURAL JOIN Available_On NATURAL JOIN\n" +
-                        "Artist WHERE Platform.platformId = ?" , info);
-                System.out.print("\nColumn headers: " + result.get(0));
-                ArrayList<String> availabilityData = result.get(1);
-                setArtistName(availabilityData.get(0));
-                setPlatformName(availabilityData.get(1));
-                printAward();
+                        "Artist WHERE Platform.platformId = ?", info);
+//                System.out.print("\nColumn headers: " + result.get(0));
+//                ArrayList<String> availabilityData = result.get(1);
+//                setArtistName(availabilityData.get(0));
+//                setPlatformName(availabilityData.get(1));
+//                printAward();
             } else System.out.println("You do not have access to this function. Please contact an administrator.");
+            return null;
         } catch (IndexOutOfBoundsException ioobe) {
             throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT Artist.artistName, Platform.platformName\\n\" +\n" +
                     "                        \"FROM Platform NATURAL JOIN Available_On NATURAL JOIN\\n\" +\n" +
@@ -76,6 +77,14 @@ public class AvailableOn {
                     "                        \"FROM Platform NATURAL JOIN Available_On NATURAL JOIN\\n\" +\n" +
                     "                        \"Artist WHERE Platform.platformId = ?");
         }
+    }
+
+    public void selectAvailableOnHandler(ArrayList<ArrayList<String>> result) {
+        System.out.print("\nColumn headers: " + result.get(0));
+        ArrayList<String> availabilityData = result.get(1);
+        setArtistName(availabilityData.get(0));
+        setPlatformName(availabilityData.get(1));
+        printAward();
     }
 
     /**
@@ -90,13 +99,14 @@ public class AvailableOn {
      */
     public boolean updateAvailableOn(User user, Artist artist, Platform platform) throws AlinityException {
         try {
-            if(user.getRole().equals("Admin")) {
+            if (user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(String.valueOf(platform.getPlatformId()));
                 info.add(String.valueOf(artist.getArtistId()));
                 String putStmt = "UPDATE Available_On SET platformId = ? WHERE artistId = ?";
                 return AlinityMain.alinityDB.setData(putStmt, info);
-            } else System.out.println("You do not have access to this function. Please contact an administrator."); return false;
+            } else System.out.println("You do not have access to this function. Please contact an administrator.");
+            return false;
         } catch (NullPointerException npe) {
             throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the updateAll(ArrayList<String>) method.", "UPDATE Available_On SET platformId = ? WHERE artistId = ?");
         } catch (IndexOutOfBoundsException ioobe) {
@@ -116,17 +126,18 @@ public class AvailableOn {
      */
     public boolean insertAvailableOn(User user, Artist artist, Platform platform) throws AlinityException {
         try {
-            if(user.getRole().equals("Admin")) {
+            if (user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(String.valueOf(artist.getArtistId()));
                 info.add(String.valueOf(platform.getPlatformId()));
                 String insertStmt = "INSERT INTO Available_On (artistId, platformId) VALUES (?, ?)";
                 return AlinityMain.alinityDB.setData(insertStmt, info);
-            } else System.out.println("You do not have access to this function. Please contact an administrator."); return false;
+            } else System.out.println("You do not have access to this function. Please contact an administrator.");
+            return false;
         } catch (NullPointerException npe) {
-            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the insertAll(ArrayList<String>) method.","INSERT INTO Available_On (artistId, platformId) VALUES (?, ?)");
+            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the insertAll(ArrayList<String>) method.", "INSERT INTO Available_On (artistId, platformId) VALUES (?, ?)");
         } catch (IndexOutOfBoundsException ioobe) {
-            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the insertAll(ArrayList<String>) method.","INSERT INTO Available_On (artistId, platformId) VALUES (?, ?)");
+            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the insertAll(ArrayList<String>) method.", "INSERT INTO Available_On (artistId, platformId) VALUES (?, ?)");
         }
     }
 
@@ -143,12 +154,13 @@ public class AvailableOn {
      */
     public boolean deleteAvailableOn(User user, Artist artist) throws AlinityException {
         try {
-            if(user.getRole().equals("Admin")) {
+            if (user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(String.valueOf(artist.getArtistId()));
                 String deleteStmt = "DELETE FROM Available_On WHERE artistId = ?";
                 return AlinityMain.alinityDB.setData(deleteStmt, info);
-            } else System.out.println("You do not have access to this function. Please contact an administrator."); return false;
+            } else System.out.println("You do not have access to this function. Please contact an administrator.");
+            return false;
         } catch (NullPointerException npe) {
             throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the deleteAll() method.", "DELETE FROM Available_On WHERE artistId = ?");
         } catch (IndexOutOfBoundsException ioobe) {
