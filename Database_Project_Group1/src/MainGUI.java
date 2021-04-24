@@ -1,9 +1,3 @@
-
-import java.awt.Color;
-import javax.swing.BoxLayout;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -11,16 +5,18 @@ import javax.swing.JScrollPane;
  */
 
 
+import java.awt.Color;
+
 /**
  *
  * @author LucijaPC
  */
-public class SearchGUI extends javax.swing.JFrame {
+public class MainGUI extends javax.swing.JFrame {
 
     /**
-     * Creates new form NewJFrame
+     * Creates new form Artist
      */
-    public SearchGUI() {
+    public MainGUI() {
         initComponents();
     }
 
@@ -33,30 +29,41 @@ public class SearchGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jPanel3 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
         jLabel2 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1168, 861));
-        setMinimumSize(new java.awt.Dimension(1168, 861));
+        setMinimumSize(new java.awt.Dimension(1170, 880));
         getContentPane().setLayout(null);
+
+        jPanel1.setBackground(new Color(200,205,210,200));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 326, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 397, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(30, 40, 326, 397);
 
         jPanel2.setBackground(new Color(200,205,210,200));
         jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(200, 205, 210), 1, true));
 
-        jLabel1.setBackground(new Color(240,240,240,200));
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\LucijaPC\\Desktop\\databaseConnectivity\\Alinity_App\\Database_Project_Group1\\src\\images\\s2.png")); // NOI18N
-        jLabel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null));
-
-        jTextField1.setBackground(new java.awt.Color(224, 224, 224));
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(100, 100, 100));
-        jTextField1.setText("Search");
-        jTextField1.setBorder(null);
+        jLabel2.setBackground(new Color(240,240,240,200));
+        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\LucijaPC\\Desktop\\databaseConnectivity\\Alinity_App\\Database_Project_Group1\\src\\images\\s2.png")); // NOI18N
+        jLabel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -64,47 +71,46 @@ public class SearchGUI extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jLabel2)
+                .addContainerGap(154, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap(13, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1))
+                .addComponent(jLabel2)
                 .addContainerGap())
         );
 
         getContentPane().add(jPanel2);
         jPanel2.setBounds(950, 10, 190, 50);
 
-        jPanel3.setBackground(new Color(240,240,240,200));
+        jPanel3.setBackground(new Color(200,205,210,200));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel3);
-        jPanel3.setBounds(80, 130, 1000, 690);
+        jPanel3.setBounds(420, 330, 710, 500);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\LucijaPC\\Desktop\\databaseConnectivity\\Alinity_App\\Database_Project_Group1\\src\\images\\background1.jpg")); // NOI18N
-        jLabel2.setMaximumSize(new java.awt.Dimension(1200, 866));
-        jLabel2.setMinimumSize(new java.awt.Dimension(1300, 866));
-        jLabel2.setName(""); // NOI18N
-        jLabel2.setPreferredSize(new java.awt.Dimension(1200, 866));
-        getContentPane().add(jLabel2);
-        jLabel2.setBounds(0, 0, 1170, 860);
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(30, 600, 330, 230);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("images\\background1.jpg"))); // NOI18N
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(0, 0, 1170, 880);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -126,13 +132,13 @@ public class SearchGUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SearchGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SearchGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SearchGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SearchGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -140,15 +146,7 @@ public class SearchGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-               SearchGUI jf = new SearchGUI();
-             //  JScrollPane pane=new JScrollPane(new SearchGUI(),JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-               //JScrollBar sb = new JScrollBar();
-               //jf.add(sb);
-               AlbumGUI a = new AlbumGUI();
-               BoxLayout box = new BoxLayout(jf, BoxLayout.Y_AXIS);
-               
-               jf.add(a);
-               jf.setVisible(true);
+                new MainGUI().setVisible(true);
             }
         });
     }
@@ -156,9 +154,11 @@ public class SearchGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }
