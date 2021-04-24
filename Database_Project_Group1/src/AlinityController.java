@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class AlinityController {
    private LogInGUI login = new LogInGUI();
@@ -14,6 +15,7 @@ public class AlinityController {
    private String signPassword;
    private Date signBirthday;
    private String signEmail;
+   private String query;
 
 
 
@@ -47,6 +49,19 @@ public class AlinityController {
 
     }
 
+    public void search() throws AlinityException {
+        Album album = new Album();
+        Song song = new Song();
+        Artist artist = new Artist();
+        query = search.getjTextField1().getText();
+        ArrayList<ArrayList<String>> searchAlbum = album.selectAlbum(user, query);
+        album.handleSelectAlbum(searchAlbum);
+        ArrayList<ArrayList<String>> searchSong = song.selectSong(user, query);
+        song.selectSongHandler(searchSong);
+        ArrayList<ArrayList<String>> searchArtist = artist.selectArtist(user, query);
+        artist.selectArtistHandler(searchArtist);
+    }
+
     public void start(){
 
         //Action Listener for the button LogInGUI class
@@ -58,7 +73,7 @@ public class AlinityController {
                 if(user.authenticate(username, password) == true){
                     login.setVisible(false);
                     search.setVisible(true);
-                }else System.out.println("User not authenicated");
+                }else System.out.println("User not authenticated");
 
 
             } catch (AlinityException alinityException) {
@@ -112,7 +127,6 @@ public class AlinityController {
                 }
             }
         });
-
 
 
 

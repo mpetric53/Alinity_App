@@ -1,4 +1,5 @@
 
+import javax.swing.*;
 import java.awt.Color;
 
 /*
@@ -13,11 +14,24 @@ import java.awt.Color;
  */
 public class AlbumGUI extends javax.swing.JPanel {
 
+    public JLabel getjLabel1() {
+        return jLabel1;
+    }
+
+    public JLabel getjLabel2() {
+        return jLabel2;
+    }
+
+    public JLabel getjLabel3() {
+        return jLabel3;
+    }
+
     /**
      * Creates new form AlbumGUI
      */
     public AlbumGUI() {
         initComponents();
+        this.setVisible(true);
     }
 
     /**

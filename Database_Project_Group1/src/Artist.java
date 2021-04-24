@@ -7,6 +7,15 @@ public class Artist {
     private String artistName;
     private String artistInfo;
     private int recordLabelId;
+    private String imgPath;
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
+    }
 
     public Artist(int artistId) {
         this.artistId = artistId;
@@ -120,8 +129,12 @@ public class Artist {
             setArtistId(Integer.parseInt(artistData.get(0)));
             setArtistName(artistData.get(1));
             setArtistInfo(artistData.get(2));
-            setRecordLabelId(Integer.parseInt(artistData.get(3)));
+            setImgPath(artistData.get(3));
+            setRecordLabelId(Integer.parseInt(artistData.get(4)));
             printArtist();
+            ArtistGUI gui = new ArtistGUI();
+            gui.getjLabel2().setText(getArtistName());
+            gui.getjLabel1().setIcon(new javax.swing.ImageIcon(getClass().getResource(getImgPath())));
         }
     }
 

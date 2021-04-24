@@ -10,6 +10,15 @@ public class Album {
     private Date releaseDate;
     private int artistId;
     private int genreId;
+    private String imgPath;
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
+    }
 
     public Album(String albumName) {
         this.albumName = albumName;
@@ -178,9 +187,14 @@ public class Album {
             setAlbumName(albumData.get(1));
             setAlbumInfo(albumData.get(2));
             setReleaseDate(Date.valueOf(albumData.get(3)));
-            setArtistId(Integer.parseInt(albumData.get(4)));
-            setGenreId(Integer.parseInt(albumData.get(5)));
+            setImgPath(albumData.get(4));
+            setArtistId(Integer.parseInt(albumData.get(5)));
+            setGenreId(Integer.parseInt(albumData.get(6)));
             printAlbum();
+            AlbumGUI gui = new AlbumGUI();
+            gui.getjLabel2().setText(getAlbumName());
+            gui.getjLabel1().setIcon(new javax.swing.ImageIcon(getClass().getResource(getImgPath())));
+
         }
     }
 

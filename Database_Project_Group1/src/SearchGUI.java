@@ -1,8 +1,6 @@
 
 import java.awt.Color;
-import javax.swing.BoxLayout;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -151,6 +149,10 @@ public class SearchGUI extends javax.swing.JFrame {
                jf.setVisible(true);
             }
         });
+    }
+
+    public JTextField getjTextField1() {
+        return jTextField1;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

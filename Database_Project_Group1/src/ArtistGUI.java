@@ -1,4 +1,5 @@
 
+import javax.swing.*;
 import java.awt.Color;
 
 /*
@@ -12,6 +13,22 @@ import java.awt.Color;
  * @author LucijaPC
  */
 public class ArtistGUI extends javax.swing.JPanel {
+
+    public JLabel getjLabel1() {
+        return jLabel1;
+    }
+
+    public JLabel getjLabel2() {
+        return jLabel2;
+    }
+
+    public JLabel getjLabel3() {
+        return jLabel3;
+    }
+
+    public JPanel getjPanel1() {
+        return jPanel1;
+    }
 
     /**
      * Creates new form ArtistGUI

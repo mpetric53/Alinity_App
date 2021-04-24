@@ -3,12 +3,13 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 public class Song {
-    public int songId;
-    public String songName;
-    public int songDuration;
-    public int artistId;
-    public int albumId;
-    public int genreId;
+    private int songId;
+    private String songName;
+    private int songDuration;
+    private int artistId;
+    private int albumId;
+    private int genreId;
+    private SongGUI gui = new SongGUI();
 
     public int getSongId() {
         return songId;
@@ -161,6 +162,7 @@ public class Song {
             setArtistId(Integer.parseInt(songData.get(4)));
             setGenreId(Integer.parseInt(songData.get(5)));
             printSong();
+            gui.getjLabel2().setText(getSongName());
         }
     }
 
