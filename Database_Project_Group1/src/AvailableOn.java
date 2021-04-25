@@ -1,3 +1,5 @@
+import javax.swing.*;
+import java.awt.image.Kernel;
 import java.util.ArrayList;
 
 public class AvailableOn {
@@ -6,6 +8,7 @@ public class AvailableOn {
     public int platformId;
     private String platformName;
     private String artistName;
+    private JFrame frame = new JFrame();
 
     public String getPlatformName() {
         return platformName;
@@ -53,14 +56,14 @@ public class AvailableOn {
      *
      * @throws AlinityException
      */
-    public ArrayList<ArrayList<String>> selectAvailableOn(User user, Platform platform) throws AlinityException {
+    public ArrayList<ArrayList<String>> selectAvailableOn(User user, int artistId) throws AlinityException {
         try {
             if (user.getRole().equals("General") || user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
-                info.add(String.valueOf(platform.getPlatformId()));
-                return AlinityMain.alinityDB.getData("SELECT Artist.artistName, Platform.platformName\n" +
+                info.add(String.valueOf(artistId));
+                return AlinityMain.alinityDB.getData("SELECT Platform.platformName\n" +
                         "FROM Platform NATURAL JOIN Available_On NATURAL JOIN\n" +
-                        "Artist WHERE Platform.platformId = ?", info);
+                        "Artist WHERE Artist.artistId = ?", info);
 //                System.out.print("\nColumn headers: " + result.get(0));
 //                ArrayList<String> availabilityData = result.get(1);
 //                setArtistName(availabilityData.get(0));
@@ -79,13 +82,21 @@ public class AvailableOn {
         }
     }
 
-    public void selectAvailableOnHandler(ArrayList<ArrayList<String>> result) {
-        System.out.print("\nColumn headers: " + result.get(0));
-        ArrayList<String> availabilityData = result.get(1);
-        setArtistName(availabilityData.get(0));
-        setPlatformName(availabilityData.get(1));
-        printAward();
-    }
+//    public void selectAvailableOnHandler(ArrayList<ArrayList<String>> result) {
+//        JPanel rootPanel = new JPanel();
+//        for(int i = 1; i < result.size(); i++ ){
+//            ArrayList<String> availabilityData = result.get(i);
+//            setArtistName(availabilityData.get(0));
+//            setPlatformName(availabilityData.get(1));
+//            printPlatform();
+//            JPanel panel = new JPanel();
+//            panel.add(new JLabel(getPlatformName()));
+//            rootPanel.add(panel);
+//        }
+//        frame.add(rootPanel);
+//        frame.setMinimumSize(new java.awt.Dimension(300, 300));
+//        frame.setVisible(true);
+//    }
 
     /**
      * updateAvailableOn method of the AvailableOn class.
@@ -173,7 +184,7 @@ public class AvailableOn {
      * Print values for the current platform and
      * artist names
      */
-    public void printAward() {
+    public void printPlatform() {
         System.out.println("\nArtist Name: " + this.artistName);
         System.out.println("Platform Name: " + this.platformName);
     }

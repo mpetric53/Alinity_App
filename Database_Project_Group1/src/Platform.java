@@ -95,7 +95,7 @@ public class Platform {
     }
 
 
-    public void selectGenreHandler(ArrayList<ArrayList<String>> result) {
+    public void selectPlatformHandler(ArrayList<ArrayList<String>> result) {
         for (int i = 1; i < result.size(); i++) {
             ArrayList<String> platformData = result.get(i);
             setPlatformId(Integer.parseInt(platformData.get(0)));

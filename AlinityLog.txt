@@ -19,3 +19,23 @@ Sun Apr 25 09:19:12 CEST 2021-> Error code: 0
 Sun Apr 25 09:19:12 CEST 2021-> Original SQLStatement: null
 Sun Apr 25 09:19:12 CEST 2021-> Message: No suitable driver found for jdbc:mysql://localHost:3306/alinity
 Sun Apr 25 09:19:12 CEST 2021 -> Error in processing the connection (SQLException) to the database at connect() method.
+Sun Apr 25 10:03:28 CEST 2021-> SQLState: 28000
+Sun Apr 25 10:03:28 CEST 2021-> Error code: 1045
+Sun Apr 25 10:03:28 CEST 2021-> Original SQLStatement: null
+Sun Apr 25 10:03:28 CEST 2021-> Message: Access denied for user 'root'@'localhost' (using password: YES)
+Sun Apr 25 10:03:28 CEST 2021 -> Error in processing the connection (SQLException) to the database at connect() method.
+Sun Apr 25 10:03:59 CEST 2021-> SQLState: 28000
+Sun Apr 25 10:03:59 CEST 2021-> Error code: 1045
+Sun Apr 25 10:03:59 CEST 2021-> Original SQLStatement: null
+Sun Apr 25 10:03:59 CEST 2021-> Message: Access denied for user 'root'@'localhost' (using password: YES)
+Sun Apr 25 10:03:59 CEST 2021 -> Error in processing the connection (SQLException) to the database at connect() method.
+Sun Apr 25 10:12:29 CEST 2021-> SQLState: 23000
+Sun Apr 25 10:12:29 CEST 2021-> Error code: 1062
+Sun Apr 25 10:12:29 CEST 2021-> Original SQLStatement: INSERT INTO Saved_Album (userId, albumId) VALUES (?, ?)
+Sun Apr 25 10:12:29 CEST 2021-> Message: Duplicate entry '1-3' for key 'saved_album.PRIMARY'
+Sun Apr 25 10:12:29 CEST 2021 -> Error in processing data manipulation (SQLException) to the database at setData(String, ArrayList<String>) method.
+Sun Apr 25 10:27:31 CEST 2021-> SQLState: 23000
+Sun Apr 25 10:27:31 CEST 2021-> Error code: 1062
+Sun Apr 25 10:27:31 CEST 2021-> Original SQLStatement: INSERT INTO Saved_Artist (userId, artistId) VALUES (?, ?)
+Sun Apr 25 10:27:31 CEST 2021-> Message: Duplicate entry '1-1' for key 'saved_artist.PRIMARY'
+Sun Apr 25 10:27:31 CEST 2021 -> Error in processing data manipulation (SQLException) to the database at setData(String, ArrayList<String>) method.

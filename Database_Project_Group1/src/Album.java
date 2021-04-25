@@ -240,27 +240,6 @@ public class Album {
                     gui.getjLabel1().setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
                 }
             });
-
-
-            gui.getjLabel2().addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-
-                    int reply = JOptionPane.showConfirmDialog(null, "Available on:", "Available on", JOptionPane.YES_NO_OPTION);
-                    if (reply == JOptionPane.YES_OPTION) {
-                        SavedAlbums savedAlbums = new SavedAlbums();
-                        try {
-                            savedAlbums.insertAll(user, album);
-                        } catch (AlinityException alinityException) {
-                            alinityException.printStackTrace();
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Nothing to save!");
-                    }
-                }
-            });
-            //searchGUI.add(gui);
-            //gui.getjLabel1().setIcon(new javax.swing.ImageIcon(getClass().getResource(getImgPath())));
         }
 
 
