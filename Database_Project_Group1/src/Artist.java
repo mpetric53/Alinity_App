@@ -122,9 +122,9 @@ public class Artist {
         }
     }
 
-    public void selectArtistHandler(ArrayList<ArrayList<String>> result) {
+    public void selectArtistHandler(ArrayList<ArrayList<String>> result, SearchGUI searchGUI) {
         for (int i = 1; i < result.size(); i++) {
-            System.out.print("\nColumn headers: " + result.get(i));
+            //System.out.print("\nColumn headers: " + result.get(i));
             ArrayList<String> artistData = result.get(1);
             setArtistId(Integer.parseInt(artistData.get(0)));
             setArtistName(artistData.get(1));
@@ -133,9 +133,23 @@ public class Artist {
             setRecordLabelId(Integer.parseInt(artistData.get(4)));
             printArtist();
             ArtistGUI gui = new ArtistGUI();
+            if(AlinityController.counter > 0){
+                System.out.println("test981hrw");
+                searchGUI.getAlbumList().removeAll();
+                searchGUI.repaint();
+                AlinityController.counter = 0;
+            }
             gui.getjLabel2().setText(getArtistName());
             gui.getjLabel1().setIcon(new javax.swing.ImageIcon(getClass().getResource(getImgPath())));
+            searchGUI.getAlbumList().add(searchGUI.getjPanel2().add(gui));
+            //searchGUI.add(gui);
+            //gui.getjLabel1().setIcon(new javax.swing.ImageIcon(getClass().getResource(getImgPath())));
         }
+        //frame.setVisible(true);
+
+        searchGUI.invalidate();
+        searchGUI.validate();
+        searchGUI.repaint();
     }
 
     /**

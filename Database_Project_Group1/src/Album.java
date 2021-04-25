@@ -72,11 +72,13 @@ public class Album {
         this.genreId = genreId;
     }
 
-    public Album(int albumId, String albumName, String albumInfo, Date releaseDate, int artistId, int genreId) {
+
+    public Album(int albumId, String albumName, String albumInfo, Date releaseDate, String imgPath, int artistId, int genreId) {
         this.albumId = albumId;
         this.albumName = albumName;
         this.albumInfo = albumInfo;
         this.releaseDate = releaseDate;
+        this.imgPath = imgPath;
         this.artistId = artistId;
         this.genreId = genreId;
     }
@@ -179,7 +181,7 @@ public class Album {
         }
     }
 
-    public void handleSelectAlbum(ArrayList<ArrayList<String>> result) {
+    public void handleSelectAlbum(ArrayList<ArrayList<String>> result, SearchGUI searchGUI) {
         for(int i = 1; i < result.size(); i++){
             //System.out.print("\nColumn headers: " + result.get(0));
             ArrayList<String> albumData = result.get(i);
@@ -192,10 +194,30 @@ public class Album {
             setGenreId(Integer.parseInt(albumData.get(6)));
             printAlbum();
             AlbumGUI gui = new AlbumGUI();
+            if(AlinityController.counter > 0){
+                System.out.println("test981hrw");
+                searchGUI.getAlbumList().removeAll();
+                searchGUI.repaint();
+                AlinityController.counter = 0;
+            }
+            //panel.setSize(500, 500);
             gui.getjLabel2().setText(getAlbumName());
             gui.getjLabel1().setIcon(new javax.swing.ImageIcon(getClass().getResource(getImgPath())));
-
+            searchGUI.getAlbumList().add(searchGUI.getjPanel2().add(gui));
+            //searchGUI.add(gui);
+            //gui.getjLabel1().setIcon(new javax.swing.ImageIcon(getClass().getResource(getImgPath())));
         }
+        //frame.setVisible(true);
+
+        searchGUI.invalidate();
+        searchGUI.validate();
+        searchGUI.repaint();
+
+//        searchGUI.invalidate();
+//        searchGUI.validate();
+//        searchGUI.repaint();
+
+
     }
 
     public void handleSelectAlbumByArtist(ArrayList<ArrayList<String>> result) {

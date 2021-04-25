@@ -151,7 +151,7 @@ public class Song {
         }
     }
 
-    public void selectSongHandler(ArrayList<ArrayList<String>> result) {
+    public void selectSongHandler(ArrayList<ArrayList<String>> result, SearchGUI searchGUI) {
         for (int i = 1; i < result.size(); i++) {
             //System.out.print("\nColumn headers: " + result.get(0));
             ArrayList<String> songData = result.get(i);
@@ -162,8 +162,25 @@ public class Song {
             setArtistId(Integer.parseInt(songData.get(4)));
             setGenreId(Integer.parseInt(songData.get(5)));
             printSong();
+            SongGUI gui = new SongGUI();
+            if(AlinityController.counter > 0){
+                System.out.println("test981hrw");
+                searchGUI.getAlbumList().removeAll();
+                searchGUI.repaint();
+                AlinityController.counter = 0;
+            }
             gui.getjLabel2().setText(getSongName());
+            //gui.getjLabel1().setIcon(new javax.swing.ImageIcon(getClass().getResource(getImgPath())));
+            searchGUI.getAlbumList().add(searchGUI.getjPanel2().add(gui));
+            //searchGUI.add(gui);
+            //gui.getjLabel1().setIcon(new javax.swing.ImageIcon(getClass().getResource(getImgPath())));
         }
+        //frame.setVisible(true);
+
+        searchGUI.invalidate();
+        searchGUI.validate();
+        searchGUI.repaint();
+
     }
 
     public void selectArtistSongHanlder(ArrayList<ArrayList<String>> result) {

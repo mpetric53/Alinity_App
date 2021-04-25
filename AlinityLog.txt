@@ -9,3 +9,8 @@ Sat Apr 24 20:14:11 CEST 2021-> Error code: 1045
 Sat Apr 24 20:14:11 CEST 2021-> Original SQLStatement: null
 Sat Apr 24 20:14:11 CEST 2021-> Message: Access denied for user 'root'@'localhost' (using password: YES)
 Sat Apr 24 20:14:11 CEST 2021 -> Error in processing the connection (SQLException) to the database at connect() method.
+Sun Apr 25 00:04:02 CEST 2021-> SQLState: 28000
+Sun Apr 25 00:04:02 CEST 2021-> Error code: 1045
+Sun Apr 25 00:04:02 CEST 2021-> Original SQLStatement: null
+Sun Apr 25 00:04:02 CEST 2021-> Message: Access denied for user 'root'@'localhost' (using password: YES)
+Sun Apr 25 00:04:02 CEST 2021 -> Error in processing the connection (SQLException) to the database at connect() method.

@@ -17,7 +17,7 @@ public class AlinityController {
    private String signEmail;
    private String query;
 
-
+   public static int counter = 0;
 
 
     public AlinityController() {
@@ -55,11 +55,11 @@ public class AlinityController {
         Artist artist = new Artist();
         query = search.getjTextField1().getText();
         ArrayList<ArrayList<String>> searchAlbum = album.selectAlbum(user, query);
-        album.handleSelectAlbum(searchAlbum);
+        album.handleSelectAlbum(searchAlbum, search);
         ArrayList<ArrayList<String>> searchSong = song.selectSong(user, query);
-        song.selectSongHandler(searchSong);
+        song.selectSongHandler(searchSong, search);
         ArrayList<ArrayList<String>> searchArtist = artist.selectArtist(user, query);
-        artist.selectArtistHandler(searchArtist);
+        artist.selectArtistHandler(searchArtist, search);
     }
 
     public void start(){
@@ -70,7 +70,7 @@ public class AlinityController {
                 //Action Listener for the button SignUpGUI class
 
                 logging();
-                if(user.authenticate(username, password) == true){
+                if(user.authenticate(username, password)){
                     login.setVisible(false);
                     search.setVisible(true);
                 }else System.out.println("User not authenticated");
@@ -85,7 +85,7 @@ public class AlinityController {
 
             try {
                 signingUp();
-                if(user.login(signName, signPassword) == true){
+                if(user.login(signName, signPassword)){
                     signup.setVisible(false);
                     search.setVisible(true);
 
@@ -104,7 +104,7 @@ public class AlinityController {
             }
         });
 
-        login.addWindowListener(new WindowAdapter(){
+        this.login.addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e);
 
@@ -116,7 +116,7 @@ public class AlinityController {
             }
         });
 
-        signup.addWindowListener(new WindowAdapter(){
+        this.signup.addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e);
 
@@ -125,6 +125,16 @@ public class AlinityController {
                 } catch (AlinityException alinityException) {
                     alinityException.printStackTrace();
                 }
+            }
+        });
+
+        this.search.getjTextField1().addActionListener((ActionEvent e) -> {
+            try {
+                search();
+                counter++;
+                //System.out.println("Uso sam");
+            } catch (AlinityException alinityException) {
+                alinityException.printStackTrace();
             }
         });
 

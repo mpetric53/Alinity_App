@@ -37,7 +37,7 @@ public class AlinityMain {
              * the database you wish to connect to), username, and password.
              *
              */
-            alinityDB = new Alinity("mysql", "localHost", "3306", "alinity", "root", "root");
+            alinityDB = new Alinity("mysql", "localHost", "3306", "alinity", "root", "Marlenagang4519995711121999robot123-");
             alinityDB.connect();
 
             /**
