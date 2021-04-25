@@ -1,6 +1,12 @@
-
 import javax.swing.*;
 import java.awt.Color;
+
+/**
+ * @author Lucija Filipovic
+ * @author Mislav Rukonic
+ * @author Sven Slivar
+ * @author Matej Petric
+ */
 
 /*
  * To change this license header, choose License Headers in Project Properties.

@@ -2,6 +2,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
 
+/**
+ * @author Lucija Filipovic
+ * @author Mislav Rukonic
+ * @author Sven Slivar
+ * @author Matej Petric
+ */
+
 public class Alinity {
     private String dbms;
     private String serverName;

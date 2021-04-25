@@ -1,6 +1,11 @@
-import javax.swing.*;
-import java.awt.image.Kernel;
 import java.util.ArrayList;
+
+/**
+ * @author Lucija Filipovic
+ * @author Mislav Rukonic
+ * @author Sven Slivar
+ * @author Matej Petric
+ */
 
 public class AvailableOn {
 
@@ -8,7 +13,6 @@ public class AvailableOn {
     public int platformId;
     private String platformName;
     private String artistName;
-    private JFrame frame = new JFrame();
 
     public String getPlatformName() {
         return platformName;
@@ -49,7 +53,7 @@ public class AvailableOn {
     /**
      * selectAvailableOn method of the AvailableOn class.
      * This method will use the getData(String, ArrayList<String>) method of the Alinity
-     * class. The SQL statement will select platform names and artist names where the platform ID value input will be bound
+     * class. The SQL statement will select platform names where the artist ID value input will be bound
      * from the ArrayList, and save the result.
      * Sets names via platform id.
      * If the attempt of the executing the statement fails, log the error to the file.
@@ -64,39 +68,19 @@ public class AvailableOn {
                 return AlinityMain.alinityDB.getData("SELECT Platform.platformName\n" +
                         "FROM Platform NATURAL JOIN Available_On NATURAL JOIN\n" +
                         "Artist WHERE Artist.artistId = ?", info);
-//                System.out.print("\nColumn headers: " + result.get(0));
-//                ArrayList<String> availabilityData = result.get(1);
-//                setArtistName(availabilityData.get(0));
-//                setPlatformName(availabilityData.get(1));
-//                printAward();
             } else System.out.println("You do not have access to this function. Please contact an administrator.");
             return null;
         } catch (IndexOutOfBoundsException ioobe) {
-            throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT Artist.artistName, Platform.platformName\\n\" +\n" +
+            throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT Platform.platformName\\n\" +\n" +
                     "                        \"FROM Platform NATURAL JOIN Available_On NATURAL JOIN\\n\" +\n" +
-                    "                        \"Artist WHERE Platform.platformId = ?");
+                    "                        \"Artist WHERE Artist.artistId = ?");
         } catch (NullPointerException npe) {
-            throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT Artist.artistName, Platform.platformName\\n\" +\n" +
+            throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT Platform.platformName\\n\" +\n" +
                     "                        \"FROM Platform NATURAL JOIN Available_On NATURAL JOIN\\n\" +\n" +
-                    "                        \"Artist WHERE Platform.platformId = ?");
+                    "                        \"Artist WHERE Artist.artistId = ?");
         }
     }
 
-//    public void selectAvailableOnHandler(ArrayList<ArrayList<String>> result) {
-//        JPanel rootPanel = new JPanel();
-//        for(int i = 1; i < result.size(); i++ ){
-//            ArrayList<String> availabilityData = result.get(i);
-//            setArtistName(availabilityData.get(0));
-//            setPlatformName(availabilityData.get(1));
-//            printPlatform();
-//            JPanel panel = new JPanel();
-//            panel.add(new JLabel(getPlatformName()));
-//            rootPanel.add(panel);
-//        }
-//        frame.add(rootPanel);
-//        frame.setMinimumSize(new java.awt.Dimension(300, 300));
-//        frame.setVisible(true);
-//    }
 
     /**
      * updateAvailableOn method of the AvailableOn class.

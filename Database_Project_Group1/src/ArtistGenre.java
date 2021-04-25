@@ -1,5 +1,12 @@
 import java.util.ArrayList;
 
+/**
+ * @author Lucija Filipovic
+ * @author Mislav Rukonic
+ * @author Sven Slivar
+ * @author Matej Petric
+ */
+
 public class ArtistGenre {
 
     private int artistId;
@@ -7,36 +14,12 @@ public class ArtistGenre {
     private String artistName;
     private String genreName;
 
-    public int getArtistId() {
-        return artistId;
-    }
-
-    public void setArtistId(int artistId) {
-        this.artistId = artistId;
-    }
-
-    public int getGenreId() {
-        return genreId;
-    }
-
-    public void setGenreId(int genreId) {
-        this.genreId = genreId;
-    }
-
     public ArtistGenre() {
 
     }
 
-    public String getArtistName() {
-        return artistName;
-    }
-
     public void setArtistName(String artistName) {
         this.artistName = artistName;
-    }
-
-    public String getGenreName() {
-        return genreName;
     }
 
     public void setGenreName(String genreName) {
@@ -66,24 +49,26 @@ public class ArtistGenre {
                 return AlinityMain.alinityDB.getData("SELECT Artist.artistName, Genre.genreName FROM Genre\n" +
                         "NATURAL JOIN Artist_Genre NATURAL JOIN Artist\n" +
                         "WHERE Genre.genreId = ?", info);
-//                System.out.print("\nColumn headers: " + result.get(0));
-//                ArrayList<String> artistData = result.get(1);
-//                setArtistName(artistData.get(0));
-//                setGenreName(artistData.get(1));
-//                printArtist_Genre();
             } else System.out.println("You do not have access to this function. Please contact an administrator.");
             return null;
         } catch (IndexOutOfBoundsException ioobe) {
             throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT Artist.artistName, Genre.genreName FROM Genre\\n\" +\n" +
                     "                        \"NATURAL JOIN Artist_Genre NATURAL JOIN Artist\\n\" +\n" +
-                    "                        \"WHERE Genre.genreName = ?");
+                    "                        \"WHERE Genre.genreId = ?");
         } catch (NullPointerException npe) {
             throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT Artist.artistName, Genre.genreName FROM Genre\\n\" +\n" +
                     "                        \"NATURAL JOIN Artist_Genre NATURAL JOIN Artist\\n\" +\n" +
-                    "                        \"WHERE Genre.genreName = ?");
+                    "                        \"WHERE Genre.genreId = ?");
         }
     }
 
+
+    /**
+     * selectArtistGenreHandler of the ArtistGenre class
+     * for future implementation
+     *
+     * @param result
+     */
     public void selectArtistGenreHandler(ArrayList<ArrayList<String>> result) {
         for (int i = 1; i < result.size(); i++) {
             //System.out.print("\nColumn headers: " + result.get(0));

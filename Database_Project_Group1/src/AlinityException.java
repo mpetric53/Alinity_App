@@ -5,6 +5,13 @@ import java.io.PrintWriter;
 import java.util.Date;
 import java.sql.SQLException;
 
+/**
+ * @author Lucija Filipovic
+ * @author Mislav Rukonic
+ * @author Sven Slivar
+ * @author Matej Petric
+ */
+
 public class AlinityException extends Exception{
     private static final String logFile = "log.txt";
     private PrintWriter pw;

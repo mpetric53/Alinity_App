@@ -4,6 +4,13 @@ import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.util.ArrayList;
 
+/**
+ * @author Lucija Filipovic
+ * @author Mislav Rukonic
+ * @author Sven Slivar
+ * @author Matej Petric
+ */
+
 public class Artist {
 
     private int artistId;
@@ -40,16 +47,8 @@ public class Artist {
         this.artistName = artistName;
     }
 
-    public String getArtistInfo() {
-        return artistInfo;
-    }
-
     public void setArtistInfo(String artistInfo) {
         this.artistInfo = artistInfo;
-    }
-
-    public int getRecordLabelId() {
-        return recordLabelId;
     }
 
     public void setRecordLabelId(int recordLabelId) {
@@ -102,32 +101,46 @@ public class Artist {
         }
     }
 
+    /**
+     * selectArtist method of the Artist class.
+     * This method will use the getData(String, ArrayList<String>) method of the Alinity
+     * class. The SQL statement will select Albums where the if of the artist input will be bound
+     * from the ArrayList, and save the result.
+     * Sets ID, name, info, recordLabelId based on result data.
+     * This method will specifically work only when selecting ALL the information for said Artist
+     * id.
+     * Both admins and general users will have access to selecting artists from search.
+     * If the attempt of the executing the statement fails, log the error to the file.
+     *
+     * @throws AlinityException
+     */
+
     public ArrayList<ArrayList<String>> selectArtist(User user, int artistId) throws AlinityException {
         try {
             if (user.getRole().equals("General") || user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(String.valueOf(artistId));
                 return AlinityMain.alinityDB.getData("SELECT * FROM Artist WHERE artistId = ?", info);
-//                System.out.print("\nColumn headers: " + result.get(0));
-//                ArrayList<String> artistData = result.get(1);
-//                setArtistId(Integer.parseInt(artistData.get(0)));
-//                setArtistName(artistData.get(1));
-//                setArtistInfo(artistData.get(2));
-//                setRecordLabelId(Integer.parseInt(artistData.get(3)));
-//                printArtist();
             } else
                 System.out.println("You do not have the correct permissions to use this function. Please contact an administrator.");
             return null;
         } catch (IndexOutOfBoundsException ioobe) {
-            throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Artist WHERE artistName = ?");
+            throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Artist WHERE artistId = ?");
         } catch (NullPointerException npe) {
-            throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Artist WHERE artistName = ?");
+            throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Artist WHERE artistId = ?");
         }
     }
 
+    /**
+     * selectArtistHandler method of the Album class.
+     * Will process and display data when triggered in the presentation layer.
+     * @param result
+     * @param searchGUI
+     * @param user
+     * @param artist
+     */
     public void selectArtistHandler(ArrayList<ArrayList<String>> result, SearchGUI searchGUI, User user, Artist artist) {
         for (int i = 1; i < result.size(); i++) {
-            //System.out.print("\nColumn headers: " + result.get(i));
             ArrayList<String> artistData = result.get(1);
             setArtistId(Integer.parseInt(artistData.get(0)));
             setArtistName(artistData.get(1));
@@ -137,7 +150,6 @@ public class Artist {
             printArtist();
             ArtistGUI gui = new ArtistGUI();
             if(AlinityController.counter > 0){
-                System.out.println("test981hrw");
                 searchGUI.getAlbumList().removeAll();
                 searchGUI.repaint();
                 AlinityController.counter = 0;
@@ -171,8 +183,6 @@ public class Artist {
                 }
             });
         }
-
-
         searchGUI.invalidate();
         searchGUI.validate();
         searchGUI.repaint();
@@ -284,5 +294,4 @@ public class Artist {
         System.out.println("Info: " + this.artistInfo);
         System.out.println("Record Label: " + this.recordLabelId);
     }
-
 }
