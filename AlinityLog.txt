@@ -14,3 +14,8 @@ Sun Apr 25 00:04:02 CEST 2021-> Error code: 1045
 Sun Apr 25 00:04:02 CEST 2021-> Original SQLStatement: null
 Sun Apr 25 00:04:02 CEST 2021-> Message: Access denied for user 'root'@'localhost' (using password: YES)
 Sun Apr 25 00:04:02 CEST 2021 -> Error in processing the connection (SQLException) to the database at connect() method.
+Sun Apr 25 09:19:12 CEST 2021-> SQLState: 08001
+Sun Apr 25 09:19:12 CEST 2021-> Error code: 0
+Sun Apr 25 09:19:12 CEST 2021-> Original SQLStatement: null
+Sun Apr 25 09:19:12 CEST 2021-> Message: No suitable driver found for jdbc:mysql://localHost:3306/alinity
+Sun Apr 25 09:19:12 CEST 2021 -> Error in processing the connection (SQLException) to the database at connect() method.

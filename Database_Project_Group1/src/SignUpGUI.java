@@ -78,7 +78,7 @@ public class SignUpGUI extends javax.swing.JFrame {
         jTextField3.setBackground(new java.awt.Color(224, 224, 224));
         jTextField3.setForeground(new java.awt.Color(100, 100, 100));
         jTextField3.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        jTextField3.setText("Birthday ex. 1999/09/09");
+        jTextField3.setText("Birthday ex. 1999-09-09");
         jTextField3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(192, 192, 192), 1, true));
 
         jTextField4.setBackground(new java.awt.Color(224, 224, 224));
