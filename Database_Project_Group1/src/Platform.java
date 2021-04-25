@@ -1,5 +1,11 @@
 import java.util.*;
 
+/**
+ * @author Lucija Filipovic
+ * @author Mislav Rukonic
+ * @author Sven Slivar
+ * @author Matej Petric
+ */
 public class Platform {
 
     private int platformId;
@@ -24,16 +30,8 @@ public class Platform {
         this.platformId = platformId;
     }
 
-    public String getPlatformName() {
-        return platformName;
-    }
-
     public void setPlatformName(String platformName) {
         this.platformName = platformName;
-    }
-
-    public String getPlatformInfo() {
-        return platformInfo;
     }
 
     public void setPlatformInfo(String platformInfo) {
@@ -58,12 +56,6 @@ public class Platform {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(platformName);
                 return AlinityMain.alinityDB.getData("SELECT * FROM Platform WHERE platformName = ?", info);
-//                System.out.print("\nColumn headers: " + result.get(0));
-//                ArrayList<String> platformData = result.get(1);
-//                setPlatformId(Integer.parseInt(platformData.get(0)));
-//                setPlatformName(platformData.get(1));
-//                setPlatformInfo(platformData.get(2));
-//                printPlatform();
             } else System.out.println("You do not have access to this function. Please contact an administrator.");
             return null;
         } catch (IndexOutOfBoundsException ioobe) {
@@ -79,12 +71,6 @@ public class Platform {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(String.valueOf(platformId));
                 return AlinityMain.alinityDB.getData("SELECT * FROM Platform WHERE platformId = ?", info);
-//                System.out.print("\nColumn headers: " + result.get(0));
-//                ArrayList<String> platformData = result.get(1);
-//                setPlatformId(Integer.parseInt(platformData.get(0)));
-//                setPlatformName(platformData.get(1));
-//                setPlatformInfo(platformData.get(2));
-//                printPlatform();
             } else System.out.println("You do not have access to this function. Please contact an administrator.");
             return null;
         } catch (IndexOutOfBoundsException ioobe) {

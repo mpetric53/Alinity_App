@@ -1,40 +1,80 @@
 import java.awt.Color;
 import javax.swing.*;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 /**
- *
- * @author LucijaPC
+ * @author Lucija Filipovic
+ * @author Mislav Rukonic
+ * @author Sven Slivar
+ * @author Matej Petric
  */
+
 public class SearchGUI extends javax.swing.JFrame {
 
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JTextField jTextField1;
+    private JPanel albumList;
+
     /**
-     * Creates new form NewJFrame
+     * Creates new constructor
      */
     public SearchGUI() {
         initComponents();
-        //SearchGUI sg = new SearchGUI();
+
 
     }
 
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(SearchGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(SearchGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(SearchGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(SearchGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+
+            }
+        });
+    }
 
     public JLabel getjLabel1() {
 
         return jLabel1;
     }
 
-
-
     public JPanel getjPanel2() {
         return jPanel2;
     }
-
 
     public JTextField getjTextField1() {
         return jTextField1;
@@ -42,10 +82,6 @@ public class SearchGUI extends javax.swing.JFrame {
 
     public JPanel getAlbumList() {
         return albumList;
-    }
-
-    public JPanel getjPanel3() {
-        return jPanel3;
     }
 
     /**
@@ -72,15 +108,14 @@ public class SearchGUI extends javax.swing.JFrame {
         albumList.setLayout(box);
 
 
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1168, 861));
         setMinimumSize(new java.awt.Dimension(1168, 861));
 
-        jPanel2.setBackground(new Color(200,205,210,200));
+        jPanel2.setBackground(new Color(200, 205, 210, 200));
         jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(200, 205, 210), 1, true));
 
-        jLabel1.setBackground(new Color(240,240,240,200));
+        jLabel1.setBackground(new Color(240, 240, 240, 200));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("images\\s2.png"))); // NOI18N
         jLabel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null));
 
@@ -112,10 +147,10 @@ public class SearchGUI extends javax.swing.JFrame {
                                         .addComponent(jTextField1))
                                 .addContainerGap()
                                 .addComponent(albumList)
-                               )
+                        )
         );
 
-        jPanel3.setBackground(new Color(240,240,240,200));
+        jPanel3.setBackground(new Color(240, 240, 240, 200));
         getContentPane().add(jPanel3);
         jPanel3.setBounds(220, 130, 720, 690);
 
@@ -178,67 +213,6 @@ public class SearchGUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SearchGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SearchGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SearchGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SearchGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-//               SearchGUI jf = new SearchGUI();
-//             //  JScrollPane pane=new JScrollPane(new SearchGUI(),JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-//               //JScrollBar sb = new JScrollBar();
-//               //jf.add(sb);
-//               AlbumGUI a = new AlbumGUI();
-//               BoxLayout box = new BoxLayout(jf, BoxLayout.Y_AXIS);
-//
-//               jf.add(a);
-//               jf.setVisible(true);
-
-
-            }
-        });
-    }
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JTextField jTextField1;
-    private JPanel albumList;
-    private JPanel songList;
-    private JPanel artistList;
 
     public JButton getjButton1() {
         return jButton1;
