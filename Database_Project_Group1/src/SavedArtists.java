@@ -60,6 +60,13 @@ public class SavedArtists {
         }
     }
 
+    /**
+     * selectSavedSongsHandler of the SavedArtists class
+     * Handles information retrieved from database
+     * to show the user their saved artists.
+     * @param result
+     * @param savedArtists
+     */
     public void selectSavedArtistsHandler(ArrayList<ArrayList<String>> result, SavedArtists savedArtists) {
         JPanel rootPanel = new JPanel();
         for (int i = 1; i < result.size(); i++) {

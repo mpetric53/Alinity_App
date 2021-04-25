@@ -3,6 +3,10 @@ CREATE DATABASE alinity;
 USE alinity;
 
 
+SELECT Platform.platformName
+                        FROM Platform NATURAL JOIN Available_On NATURAL JOIN
+                        Artist WHERE Artist.artistId = 1;
+
 -- creating the user table
 DROP TABLE IF EXISTS User;
 CREATE TABLE User
@@ -53,6 +57,7 @@ CREATE TABLE Artist
   artistId INT AUTO_INCREMENT,
   artistName VARCHAR(50) NOT NULL,
   artistInfo VARCHAR(400) NOT NULL,
+  imagePath VARCHAR(50) NOT NULL,
   recordLabelId INT NOT NULL,
   PRIMARY KEY (artistId),
   CONSTRAINT FOREIGN KEY (recordLabelId) REFERENCES Record_Label(recordLabelId)
@@ -66,6 +71,7 @@ CREATE TABLE Album
   albumName VARCHAR(50) NOT NULL,
   albumInfo VARCHAR(400) NOT NULL,
   releaseDate DATE NOT NULL,
+  imagePath VARCHAR(50) NOT NULL,
   artistId INT NOT NULL,
   genreId INT NOT NULL,
   PRIMARY KEY (albumId),
@@ -182,7 +188,7 @@ INSERT INTO Record_Label(recordLabelName, dateCreated, labelInfo) VALUES
 ('Sarajevo Disk', '1997-05-05', 'Sarajevo Disk is a record label founded and based in Sarajevo, Bosnia and Herzegovina in 1978 by Hanka Paldum, Muradif Brkić and Braco Đirlo. It became inactive in 2000 and began releasing music again in September 2012'),
 ('EMI', '1931-03-31', 'EMI Group Limited was a British transnational conglomerate founded in March 1931 in London. At the time of its break-up in 2012, it was the fourth largest business group and record label conglomerate in the music industry, and was one of the "Big Four" record companies.'),
 ('Sony Music Entertainment', '1929-06-23', 'Sony Music Entertainment is an American global music company. Owned by the Japanese conglomerate Sony Group Corporation, it is part of the Sony Music Group, which is owned by Sony Corporation of America.'),
-('Universal Music Group', '1934-09-09', 'Universal Music Group B.V. is a global music corporation that is majority owned by the French media conglomerate Vivendi, with Chinese tech company Tencent owning a minority stake.');
+('Universal Music Group', '1934-09-09', 'Universal Music Group B.V. is a global music corporation that is majority owned by the French media conglomerate Vivendi, with Chinese tech company Tencent owning a minority stake.'),('Legacy Recordings', '1970-07-23', 'Legacy Recordings is an American record label that is a division of Sony Music. Formed in 1970 after Sony`s acquisition of CBS Records, Legacy originally handled the archives of Sony Music-owned labels Columbia Records and Epic Records.');
 
 
 
@@ -195,56 +201,66 @@ INSERT INTO Platform(platformName, platformInfo) VALUES ('Spotify', 'Spotify is 
 
 
 -- Inserting artists
-INSERT INTO Artist (artistName, artistInfo, recordLabelId) VALUES
-('Eminem', 'Marshall Bruce Mathers III, known professionally as Eminem, is an American rapper, songwriter, and record producer. Eminem is among the best-selling music artists of all time, with estimated worldwide sales of more than 220 million records.', 1),
-('Metallica', 'Metallica is an American heavy metal band. The band was formed in 1981 in Los Angeles by vocalist/guitarist James Hetfield and drummer Lars Ulrich, and has been based in San Francisco for most of its career.', 2),
-('Snoop Dogg', 'Calvin Cordozar Broadus Jr., known professionally as Snoop Dogg, is an American rapper and media personality. His fame dates to 1992 when he featured on Dr. Dres debut solo single, "Deep Cover", and then on Dres debut solo album, The Chronic', 1),
-('Green Day', 'Green Day is an American rock band formed in the East Bay of California in 1987 by lead vocalist and guitarist Billie Joe Armstrong and bassist and backing vocalist Mike Dirnt', 3),
-('Lady Gaga', 'Stefani Joanne Angelina Germanotta, known professionally as Lady Gaga, is an American singer, songwriter, and actress. She is known for her image reinventions and musical versatility. Gaga began performing as a teenager, singing at open mic nights and acting in school plays', 3),
-('Ed Sheeran', 'Edward Christopher Sheeran MBE is an English singer, songwriter, musician, record producer, actor, and businessman. After first recording music in 2004, he began gaining attention through YouTube. In early 2011, Sheeran independently released the extended play, No. 5 Collaborations Project.', 3),
-('Mile Kitić', 'Milojko "Mile" Kitić is a Bosnian-born Serbian singer. He rose to prominence as a member of the popular eighties folk collective Južni Vetar with fellow folk singers Sinan Sakić, Dragana Mirković, Kemal Malovčić and Šemsa Suljaković', 7),
-('Katy Perry', 'Katheryn Elizabeth Hudson, known professionally as Katy Perry, is an American singer, songwriter, and television judge. After singing in church during her childhood, she pursued a career in gospel music as a teenager', 3),
-('Arctic Monkeys', 'Arctic Monkeys are an English rock band formed in Sheffield in 2002. The group consists of Alex Turner, Jamie Cook, Nick O`Malley, and Matt Helders. Former band member Andy Nicholson left the band in 2006 shortly after their debut album was released.', 3),
-('Black Sabbath', 'Black Sabbath were an English rock band formed in Birmingham in 1968 by guitarist Tony Iommi, drummer Bill Ward, bassist Geezer Butler and vocalist Ozzy Osbourne. They are often cited as pioneers of heavy metal music.', 3),
-('Billy Idol', 'William Michael Albert Broad, known professionally as Billy Idol, is an English musician, singer, songwriter, and actor who holds dual British and American citizenship.', 8),
-('Hardwell',  'Robbert van de Corput, known professionally as Hardwell, is a Dutch DJ, record producer, and remixer from Breda, North Brabant. Hardwell was voted the world`s number one DJ on DJ Mag in 2013 and again in 2014. He was ranked at number twelve in the top 100 DJs 2019 poll by DJ Mag.', 9),
-('Avicii', 'Tim Bergling, known by his stage name Avicii, was a Swedish DJ, remixer, record producer, musician, and songwriter. At the age of 16, Bergling began posting his remixes on electronic music forums, which led to his first record deal. He rose to prominence in 2011 with his single "Levels".', 8),
-('Elton John', 'Sir Elton Hercules John CH CBE is an English singer, songwriter, pianist, and composer. Collaborating with lyricist Bernie Taupin since 1967 on more than 30 albums, John has sold over 300 million records, making him one of the best-selling music artists of all time.', 10),
-('Michael Jackson', 'Michael Joseph Jackson was an American singer, songwriter, and dancer. Dubbed the "King of Pop", he is regarded as one of the most significant cultural figures of the 20th century.', 9);
+INSERT INTO Artist (artistName, artistInfo, imagePath, recordLabelId) VALUES
+('Eminem', 'Marshall Bruce Mathers III, known professionally as Eminem, is an American rapper, songwriter, and record producer. Eminem is among the best-selling music artists of all time, with estimated worldwide sales of more than 220 million records.', 'images\\eminem.jpg',1),
+('Metallica', 'Metallica is an American heavy metal band. The band was formed in 1981 in Los Angeles by vocalist/guitarist James Hetfield and drummer Lars Ulrich, and has been based in San Francisco for most of its career.', 'images\\metallica.jpg', 2),
+('Snoop Dogg', 'Calvin Cordozar Broadus Jr., known professionally as Snoop Dogg, is an American rapper and media personality. His fame dates to 1992 when he featured on Dr. Dres debut solo single, "Deep Cover", and then on Dres debut solo album, The Chronic', 'images\\snoopDogg.jpg', 1),
+('Green Day', 'Green Day is an American rock band formed in the East Bay of California in 1987 by lead vocalist and guitarist Billie Joe Armstrong and bassist and backing vocalist Mike Dirnt', 'images\\greenDay.jpg', 3),
+('Lady Gaga', 'Stefani Joanne Angelina Germanotta, known professionally as Lady Gaga, is an American singer, songwriter, and actress. She is known for her image reinventions and musical versatility. Gaga began performing as a teenager, singing at open mic nights and acting in school plays', 'images\\ladyGaga.jpg', 3),
+('Ed Sheeran', 'Edward Christopher Sheeran MBE is an English singer, songwriter, musician, record producer, actor, and businessman. After first recording music in 2004, he began gaining attention through YouTube. In early 2011, Sheeran independently released the extended play, No. 5 Collaborations Project.', 'images\\edSheeran.jpg', 3),
+('Mile Kitić', 'Milojko "Mile" Kitić is a Bosnian-born Serbian singer. He rose to prominence as a member of the popular eighties folk collective Južni Vetar with fellow folk singers Sinan Sakić, Dragana Mirković, Kemal Malovčić and Šemsa Suljaković', 'images\\mileKitic.jpg', 7),
+('Katy Perry', 'Katheryn Elizabeth Hudson, known professionally as Katy Perry, is an American singer, songwriter, and television judge. After singing in church during her childhood, she pursued a career in gospel music as a teenager', 'images\\katyPerry.jpg', 3),
+('Arctic Monkeys', 'Arctic Monkeys are an English rock band formed in Sheffield in 2002. The group consists of Alex Turner, Jamie Cook, Nick O`Malley, and Matt Helders. Former band member Andy Nicholson left the band in 2006 shortly after their debut album was released.', 'images\\arcticMonkeys.jpg', 3),
+('Black Sabbath', 'Black Sabbath were an English rock band formed in Birmingham in 1968 by guitarist Tony Iommi, drummer Bill Ward, bassist Geezer Butler and vocalist Ozzy Osbourne. They are often cited as pioneers of heavy metal music.', 'images\\blackSabbath.jpg', 3),
+('Billy Idol', 'William Michael Albert Broad, known professionally as Billy Idol, is an English musician, singer, songwriter, and actor who holds dual British and American citizenship.', 'images\\billyIdol.jpg', 8),
+('Hardwell',  'Robbert van de Corput, known professionally as Hardwell, is a Dutch DJ, record producer, and remixer from Breda, North Brabant. Hardwell was voted the world`s number one DJ on DJ Mag in 2013 and again in 2014. He was ranked at number twelve in the top 100 DJs 2019 poll by DJ Mag.', 'images\\hardwell.jpg', 9),
+('Avicii', 'Tim Bergling, known by his stage name Avicii, was a Swedish DJ, remixer, record producer, musician, and songwriter. At the age of 16, Bergling began posting his remixes on electronic music forums, which led to his first record deal. He rose to prominence in 2011 with his single "Levels".', 'images\\avicii.png', 8),
+('Elton John', 'Sir Elton Hercules John CH CBE is an English singer, songwriter, pianist, and composer. Collaborating with lyricist Bernie Taupin since 1967 on more than 30 albums, John has sold over 300 million records, making him one of the best-selling music artists of all time.', 'images\\eltonJohn.jpg',10),
+('Michael Jackson', 'Michael Joseph Jackson was an American singer, songwriter, and dancer. Dubbed the "King of Pop", he is regarded as one of the most significant cultural figures of the 20th century.', 'images\\michaelJackson.jpg', 9),
+('Tracy Chapman', 'Tracy Chapman is an American singer-songwriter. She made her major-stage debut as an opening act for women`s music pioneer Linda Tillery at Boston`s Strand Theater', 'images\\tracyChapman.jpg', 2),
+('Jimi Hendrix', 'Jimi Hendrix was an American rock guitarist, singer, and composer who fused American traditions of blues, jazz, rock, and soul with techniques of British avant-garde rock to redefine the electric guitar in his own image', 'images\\jimiHendrix.jpg', 11),
+('John Lennon', 'was an English singer, songwriter, musician and peace activist who achieved worldwide fame as the founder, co-lead vocalist, and rhythm guitarist of the Beatles.', 'images\\johnLennon.jpg', 5);
+
 
 
 -- inserting albums
-INSERT INTO Album (albumName, albumInfo, releaseDate, artistId, genreId) VALUES
- ('Doggystyle', 'Doggystyle is the debut studio album by American rapper Snoop Doggy Dogg. It was released on November 23, 1993, by Death Row Records and Interscope Records. The album was recorded and produced following Snoops appearances on Dr. Dres debut solo album The Chronic, to which Snoop contributed significantly', '1993-11-23', 3, 1),
- ('Tha Doggfather', 'Tha Doggfather is the second studio album by American rapper Snoop Dogg. It was released on November 12, 1996, by Death Row Records and Interscope Records. After the success of his debut album Doggystyle, Snoop was charged with murder and in 1995, spent time preparing for the case that went to trial', '1996-11-12', 3, 1),
- ('Relapse', 'Relapse is the sixth studio album by American rapper Eminem. The album was released on May 19, 2009, under Aftermath Entertainment, Shady Records, and Interscope Records.', '2009-05-15', 1, 1),
- ('Kamikaze', 'Kamikaze is the tenth studio album by American rapper Eminem, released on August 31, 2018 through Shady Records, Aftermath Entertainment, and Interscope Records, and without prior announcement. The album features guest appearances from Joyner Lucas, Royce da 5`9 Jessie Reyez, and uncredited vocals by Justin Vernon', '2018-08-31', 1, 1),
- ('Master of Puppets', 'Master of Puppets is the third studio album by American heavy metal band Metallica, released on March 3, 1986, by Elektra Records', '1986-03-03', 2, 2),
- ('...And Justice For All', '...And Justice for All is the fourth studio album by American heavy metal band Metallica, released on September 7, 1988 by Elektra Records. It was the first album following the death of bassist Cliff Burton in 1986, and the first to feature new bassist Jason Newsted.', '1988-08-25', 2, 2),
- ('Nimrod', 'Nimrod is the fifth studio album by American rock band Green Day, released on October 14, 1997, by Reprise Records. The band began work on the album in the wake of the cancellation of a European tour after the release of their previous album, Insomniac.', '1997-10-14', 4, 4),
- ('American Idiot', 'American Idiot is the seventh studio album by American rock band Green Day, released on September 21, 2004, by Reprise Records. The album was produced by Rob Cavallo in collaboration with Green Day, an arrangement the group have been using since they signed with a major label.', '2004-09-21', 4, 4),
- ('The Fame', 'The Fame is the debut studio album by American singer Lady Gaga. It was released on August 19, 2008, by Interscope Records. After joining Kon Live Distribution and Cherrytree Records in 2008, Gaga began working on the album with different producers, primarily RedOne, Martin Kierszenbaum, and Rob Fusari.', '2008-08-19', 5, 3),
-('Born This Way', 'Born This Way is the second studio album by American singer Lady Gaga, released by Interscope Records on May 23, 2011. It was co-written and co-produced by Gaga with several producers, including RedOne and Fernando Garibay, with whom she had previously worked', '2011-05-23', 5, 3),
- ('Divide', '÷ is the third studio album by English singer-songwriter Ed Sheeran. It was released on 3 March 2017 through Asylum Records and Atlantic Records. "Castle on the Hill" and "Shape of You" were released as the album`s lead singles on 6 January 2017', '2017-03-03', 6, 3),
- ('No. 6 Collaborations Project', 'No.6 Collaborations Project is the fourth studio album by English singer-songwriter Ed Sheeran. It was released on 12 July 2019 by Asylum Records and Atlantic Records', '2019-07-12', 6, 3),
- ('Sampanja', 'Šampanjac is an album of Bosnian Serb singer Mile Kitić. It was released in 2005 under the label Grand Production', '2005-12-26', 7, 3),
- ('Kockar', 'Studio album by Mile Kitic', '2000-01-10', 7, 3),
-('Prism', 'Prism is the fourth studio album by American singer Katy Perry. It was released by Capitol Records on October 18, 2013. While the album was initially planned to be "darker" than her previous material, Prism ultimately became a prominently dance-inspired record', '2013-10-18', 8, 3),
-('Teenage Dream', 'Teenage Dream is the third studio album by American singer Katy Perry. It was released on August 24, 2010, through Capitol Records. Musically, the record contains songs in the genres of pop and rock, with influences of disco, electronic, funk, house, gothic rock, Hi-NRG, and hip hop laced throughout the album.', '2010-08-24', 8, 3),
-('AM', 'AM is the fifth studio album by English indie rock band Arctic Monkeys. It was produced by James Ford and co-produced by Ross Orton at Sage & Sound Recording in Los Angeles and Rancho De La Luna in Joshua Tree, California, and released in September 2013 through Domino.', '2013-09-09', 9, 25),
-('Favourite Worst Nightmare', 'Favourite Worst Nightmare is the second studio album by English rock band Arctic Monkeys, released on 23 April 2007 by Domino Recording Company. Recorded in east London`s Miloco Studios with producers James Ford and Mike Crossey, the album was preceded by the release of "Brianstorm" on 16 April 2007', '2007-04-18', 9, 25),
-('Paranoid', 'Paranoid is the second studio album by the English rock band Black Sabbath, released in September 1970 through Vertigo Records. It contains several of the band`s signature songs, including "Iron Man", "War Pigs" and the title track, which was the band`s only Top 20 hit, reaching number 4 in the UK charts.', '1970-09-18', 10, 2),
-('Sabbath Bloody Sabbath', 'Sabbath Bloody Sabbath is the fifth studio album by English rock band Black Sabbath, released in December 1973. It was produced by the band and recorded at Morgan Studios in London in September 1973', '1973-12-01', 10, 2),
-('Rebel Yell', 'Rebel Yell is the second studio album by English rock singer Billy Idol, released on 10 November 1983 by Chrysalis Records. After the release of his 1982 eponymous debut album, Idol continued his collaboration with producer Keith Forsey and multi-instrumentalist Steve Stevens', '1983-11-10', 11, 5),
-('Cyberpunk', 'Cyberpunk is the fifth studio album by English rock musician Billy Idol, released on 29 June 1993 by Chrysalis Records. A concept album, it was inspired by his personal interest in technology and his first attempts to use computers in the creation of his music', '1993-06-05', 11, 5),
-('United We Are', 'United We Are is the debut studio album by Dutch DJ and record producer Robbert van de Corput, more commonly known as Hardwell. It was released on 23 January 2015 by Cloud 9 Music, Revealed Recordings, Sony Music and Ultra Music', '2015-01-23', 12, 14),
-('I Am Hardwell', 'This is Hardwell`s best album', '2013-03-01', 12, 14),
-('True', 'True is the debut studio album by Swedish electronic music producer Avicii, released on 13 September 2013 by PRMD Music and Island Records. Avicii said that sonically, the album would move away from his earlier house music sound on previous records by incorporating elements of other genres such as country music', '2013-09-13', 13, 14),
-('Stories', 'Stories is the second studio album by Swedish electronic music producer Avicii, released on 2 October 2015 by PRMD Music and Island Records', '2015-10-02', 13, 14),
-('Goodbye Yellow Brick Road', 'Goodbye Yellow Brick Road is the seventh studio album by English singer-songwriter Elton John, first released in 1973 as a double LP. The album has sold more than 30 million copies worldwide and is widely regarded as John`s magnum opus', '1973-10-05', 14, 5),
-('Elton John', 'Elton John is the second studio album by English singer-songwriter Elton John, released on 10 April 1970 by DJM Records. It was released by Uni Records as John`s debut album in the United States; many people there assumed it was his first album, as Empty Sky was not released in that country until 1975', '1970-04-10', 14, 5),
-('Thriller', 'Thriller is the sixth studio album by American singer Michael Jackson, released on November 30, 1982, by Epic Records. Reunited with Off the Wall producer Quincy Jones, Jackson was inspired to create an album where "every song was a killer"', '1982-12-01', 15, 3),
-('Off the Wall', 'Off the Wall is the fifth solo studio album by American singer Michael Jackson, released on August 10, 1979, by Epic Records', '1979-08-10', 15, 3);
+INSERT INTO Album (albumName, albumInfo, releaseDate, imagePath, artistId, genreId) VALUES
+ ('Doggystyle', 'Doggystyle is the debut studio album by American rapper Snoop Doggy Dogg. It was released on November 23, 1993, by Death Row Records and Interscope Records. The album was recorded and produced following Snoops appearances on Dr. Dres debut solo album The Chronic, to which Snoop contributed significantly', '1993-11-23', 'images\\doggyStyle.jpg', 3, 1),
+ ('Tha Doggfather', 'Tha Doggfather is the second studio album by American rapper Snoop Dogg. It was released on November 12, 1996, by Death Row Records and Interscope Records. After the success of his debut album Doggystyle, Snoop was charged with murder and in 1995, spent time preparing for the case that went to trial', '1996-11-12', 'images\\theDoggfather.jpg', 3, 1),
+ ('Relapse', 'Relapse is the sixth studio album by American rapper Eminem. The album was released on May 19, 2009, under Aftermath Entertainment, Shady Records, and Interscope Records.', '2009-05-15', 'images\\relapse.jpg', 1, 1),
+ ('Kamikaze', 'Kamikaze is the tenth studio album by American rapper Eminem, released on August 31, 2018 through Shady Records, Aftermath Entertainment, and Interscope Records, and without prior announcement. The album features guest appearances from Joyner Lucas, Royce da 5`9 Jessie Reyez, and uncredited vocals by Justin Vernon', '2018-08-31', 'images\\kamikaze.jpg', 1, 1),
+ ('Master of Puppets', 'Master of Puppets is the third studio album by American heavy metal band Metallica, released on March 3, 1986, by Elektra Records', '1986-03-03', 'images\\masterOfPuppets.jpg', 2, 2),
+ ('...And Justice For All', '...And Justice for All is the fourth studio album by American heavy metal band Metallica, released on September 7, 1988 by Elektra Records. It was the first album following the death of bassist Cliff Burton in 1986, and the first to feature new bassist Jason Newsted.', '1988-08-25', 'images\\andJusticeForAll.jpg', 2, 2),
+ ('Nimrod', 'Nimrod is the fifth studio album by American rock band Green Day, released on October 14, 1997, by Reprise Records. The band began work on the album in the wake of the cancellation of a European tour after the release of their previous album, Insomniac.', '1997-10-14', 'images\\nimrod.jpg', 4, 4),
+ ('American Idiot', 'American Idiot is the seventh studio album by American rock band Green Day, released on September 21, 2004, by Reprise Records. The album was produced by Rob Cavallo in collaboration with Green Day, an arrangement the group have been using since they signed with a major label.', '2004-09-21', 'images\\americanIdiot.jpg', 4, 4),
+ ('The Fame', 'The Fame is the debut studio album by American singer Lady Gaga. It was released on August 19, 2008, by Interscope Records. After joining Kon Live Distribution and Cherrytree Records in 2008, Gaga began working on the album with different producers, primarily RedOne, Martin Kierszenbaum, and Rob Fusari.', '2008-08-19', 'images\\theFame.jpg', 5, 3),
+('Born This Way', 'Born This Way is the second studio album by American singer Lady Gaga, released by Interscope Records on May 23, 2011. It was co-written and co-produced by Gaga with several producers, including RedOne and Fernando Garibay, with whom she had previously worked', '2011-05-23', 'images\\bornThisWay.jpg', 5, 3),
+ ('Divide', '÷ is the third studio album by English singer-songwriter Ed Sheeran. It was released on 3 March 2017 through Asylum Records and Atlantic Records. "Castle on the Hill" and "Shape of You" were released as the album`s lead singles on 6 January 2017', '2017-03-03', 'images\\divide.jpg', 6, 3),
+ ('No. 6 Collaborations Project', 'No.6 Collaborations Project is the fourth studio album by English singer-songwriter Ed Sheeran. It was released on 12 July 2019 by Asylum Records and Atlantic Records', '2019-07-12', 'images\\collaborationProject.jpg', 6, 3),
+ ('Sampanja', 'Šampanjac is an album of Bosnian Serb singer Mile Kitić. It was released in 2005 under the label Grand Production', '2005-12-26', 'images\\sampanjac.jpg', 7, 3),
+ ('Kockar', 'Studio album by Mile Kitic', '2000-01-10', 'images\\kockar.jpg', 7, 3),
+('Prism', 'Prism is the fourth studio album by American singer Katy Perry. It was released by Capitol Records on October 18, 2013. While the album was initially planned to be "darker" than her previous material, Prism ultimately became a prominently dance-inspired record', '2013-10-18', 'images\\prism.jpg', 8, 3),
+('Teenage Dream', 'Teenage Dream is the third studio album by American singer Katy Perry. It was released on August 24, 2010, through Capitol Records. Musically, the record contains songs in the genres of pop and rock, with influences of disco, electronic, funk, house, gothic rock, Hi-NRG, and hip hop laced throughout the album.', '2010-08-24', 'images\\teenageDream.jpg', 8, 3),
+('AM', 'AM is the fifth studio album by English indie rock band Arctic Monkeys. It was produced by James Ford and co-produced by Ross Orton at Sage & Sound Recording in Los Angeles and Rancho De La Luna in Joshua Tree, California, and released in September 2013 through Domino.', '2013-09-09', 'images\\am.jpg', 9, 25),
+('Favourite Worst Nightmare', 'Favourite Worst Nightmare is the second studio album by English rock band Arctic Monkeys, released on 23 April 2007 by Domino Recording Company. Recorded in east London`s Miloco Studios with producers James Ford and Mike Crossey, the album was preceded by the release of "Brianstorm" on 16 April 2007', '2007-04-18', 'images\\favoriteWorstNightmare.jpg', 9, 25),
+('Paranoid', 'Paranoid is the second studio album by the English rock band Black Sabbath, released in September 1970 through Vertigo Records. It contains several of the band`s signature songs, including "Iron Man", "War Pigs" and the title track, which was the band`s only Top 20 hit, reaching number 4 in the UK charts.', '1970-09-18', 'images\\paranoid.jpg', 10, 2),
+('Sabbath Bloody Sabbath', 'Sabbath Bloody Sabbath is the fifth studio album by English rock band Black Sabbath, released in December 1973. It was produced by the band and recorded at Morgan Studios in London in September 1973', '1973-12-01', 'images\\sabathBloodySabath.jpg', 10, 2),
+('Rebel Yell', 'Rebel Yell is the second studio album by English rock singer Billy Idol, released on 10 November 1983 by Chrysalis Records. After the release of his 1982 eponymous debut album, Idol continued his collaboration with producer Keith Forsey and multi-instrumentalist Steve Stevens', '1983-11-10', 'images\\rebelYell.jpg', 11, 5),
+('Cyberpunk', 'Cyberpunk is the fifth studio album by English rock musician Billy Idol, released on 29 June 1993 by Chrysalis Records. A concept album, it was inspired by his personal interest in technology and his first attempts to use computers in the creation of his music', '1993-06-05', 'images\\cyberpunk.jpg', 11, 5),
+('United We Are', 'United We Are is the debut studio album by Dutch DJ and record producer Robbert van de Corput, more commonly known as Hardwell. It was released on 23 January 2015 by Cloud 9 Music, Revealed Recordings, Sony Music and Ultra Music', '2015-01-23', 'images\\unitedWeAre.jpg', 12, 14),
+('I Am Hardwell', 'This is Hardwell`s best album', '2013-03-01', 'images\\iAmHardwell.jpg', 12, 14),
+('True', 'True is the debut studio album by Swedish electronic music producer Avicii, released on 13 September 2013 by PRMD Music and Island Records. Avicii said that sonically, the album would move away from his earlier house music sound on previous records by incorporating elements of other genres such as country music', '2013-09-13', 'images\\true.jpg', 13, 14),
+('Stories', 'Stories is the second studio album by Swedish electronic music producer Avicii, released on 2 October 2015 by PRMD Music and Island Records', '2015-10-02', 'images\\stories.jpg', 13, 14),
+('Goodbye Yellow Brick Road', 'Goodbye Yellow Brick Road is the seventh studio album by English singer-songwriter Elton John, first released in 1973 as a double LP. The album has sold more than 30 million copies worldwide and is widely regarded as John`s magnum opus', '1973-10-05', 'images\\yellowBrickRoad.jpg', 14, 5),
+('Elton John!', 'Elton John is the second studio album by English singer-songwriter Elton John, released on 10 April 1970 by DJM Records. It was released by Uni Records as John`s debut album in the United States; many people there assumed it was his first album, as Empty Sky was not released in that country until 1975', '1970-04-10', 'images\\eltonJohnAlbum.jpg', 14, 5),
+('Thriller', 'Thriller is the sixth studio album by American singer Michael Jackson, released on November 30, 1982, by Epic Records. Reunited with Off the Wall producer Quincy Jones, Jackson was inspired to create an album where "every song was a killer"', '1982-12-01', 'images\\thriller.jpg', 15, 3),
+('Off the Wall', 'Off the Wall is the fifth solo studio album by American singer Michael Jackson, released on August 10, 1979, by Epic Records', '1979-08-10', 'images\\offTheWall.jpg', 15, 3),
+('Crossroads', 'Crossroads is the second studio album by American singer-songwriter Tracy Chapman. Chapman was also a producer on this album, the first time she had taken on such a role. The song "Freedom Now" is dedicated to Nelson Mandela.', '1989-03-23', 'images\\crossroads.jpg', 16, 15),
+('New beginning', 'It is the fourth album by singer-songwriter Tracy Chapman. According to Nielsen Soundscan, it is her biggest-selling recording since 1991, with 3.8 million copies sold, and according to the RIAA, it has shipped five million copies in the United States.', '1995-11-14', 'images\\newBeginning.jpg', 16, 15),
+('Woodstock', 'Woodstock is a live album by Jimi Hendrix released posthumously on August 20, 1994. It presents some of Hendrix`s performance at Woodstock Festival. The album was replaced by a more-complete version titled Live at Woodstock, albeit with some of the performers mixed out.', '1969-08-13', 'images\\woodstock.jpg', 17, 5),
+('Band of Gypsys', 'It is a live album by Jimi Hendrix and the first without his original group, the Jimi Hendrix Experience. It was recorded at the Fillmore East in New York City with Billy Cox on bass and Buddy Miles on drums, frequently referred to as the Band of Gypsys.', '1970-01-01', 'images\\bandOfGypsys.jpg', 17, 5),
+('Imagine', 'Lennon recorded the album at Ascot Sound Studios, Abbey Road Studios and the Record Plant in New York City, with supporting musicians that included his ex-Beatles bandmate George Harrison, keyboardist Nicky Hopkins, bassist Klaus Voormann and drummers Alan White and Jim Keltner.', '1988-12-04', 'images\\imagine.jpg', 18, 3),
+('Mind games', 'It is the fourth studio album by English musician John Lennon. It was recorded at Record Plant Studios in New York', '1973-09-21', 'images\\mindGames.jpg', 18, 3);
 
 
 
@@ -316,70 +332,98 @@ INSERT INTO Award (awardName, awardInfo, artistId) VALUES ('Best Rap Single', 'T
 ('Grammy Award for Album of the Year','The Grammy Award for Album of the Year is presented by the National Academy of Recording Arts and Sciences of the United States to "honor artistic achievement, technical proficiency and overall excellence in the recording industry, without regard to album sales, chart position, or critical reception.',15);
 ;
 
-INSERT INTO Saved_Artist (userId, artistId) VALUES (2, 3);
-select * from Saved_Artist;
-SELECT * FROM Artist;
+-- Inserting Artist_Genre
+INSERT INTO Artist_Genre(artistId, genreId) VALUES
+(1, 1),
+(2, 2),
+(3, 1),
+(4, 4),
+(5, 3),
+(6, 3),
+(7, 3),
+(8, 3),
+(9, 5),
+(10, 2),
+(11, 5),
+(12, 14),
+(13, 14),
+(14, 3),
+(15, 3);
 
-INSERT INTO Saved_Album (userId, albumId) VALUES (1, 1);
-
-INSERT INTO Artist_Genre(artistId, genreId) VALUES (2, 2);
-INSERT INTO Artist_Genre(artistId, genreId) VALUES (3, 1);
-INSERT INTO Artist_Genre(artistId, genreId) VALUES (1, 1);
-SELECT * FROM Song NATURAL JOIN Artist;
-
-INSERT INTO Saved_Songs (userId, songID) VALUES (1, 1);
-
-INSERT INTO Available_On (artistId, platformId) VALUES (1, 1);
-
-SELECT * FROM Available_On;
-
-SELECT User.userId, Artist.artistName FROM
-Saved_Artist NATURAL JOIN Artist
-NATURAL JOIN User
-WHERE User.userId = '2';
-
-SELECT Artist.artistName, Genre.genreName
-FROM Artist_Genre NATURAL JOIN
-Genre NATURAL JOIN Artist;
-
-SELECT Artist.artistName,  Genre.genreName
-FROM ((Artist INNER JOIN Artist_Genre
-ON Artist.artistId = Artist_Genre.artistId)
-INNER JOIN Genre ON Artist_Genre.genreId = Genre.genreId)
-WHERE Genre.genreId = 2;
-
-SELECT Artist.artistName, Platform.platformName
-FROM ((Artist INNER JOIN Available_On
-ON Artist.artistId = Available_On.artistId)
-INNER JOIN Platform ON Available_On.platformId = Platform.platformId)
-WHERE Platform.platformId = 1;
-
-SELECT Album.albumName
-FROM ((Album INNER JOIN Saved_Album
-ON Album.albumId = Saved_Album.albumId)
-INNER JOIN User ON Saved_Album.userId = User.userId)
-WHERE User.userId = 1;
-
-SELECT Album.albumName FROM User
-NATURAL JOIN Saved_Album Natural JOIN Album
-WHERE User.userId = 1;
-
-SELECT Artist.artistName FROM User
-NATURAL JOIN Saved_Artist NATURAL JOIN Artist
-WHERE User.userId = 2;
-
-SELECT Song.songName FROM User
-NATURAL JOIN Saved_Songs NATURAL JOIN Song
-WHERE User.userId = 1;
-
-SELECT * FROM Album WHERE albumName = 'Gin and Juice';
-
-SELECT Artist.artistName FROM Genre
-NATURAL JOIN Artist_Genre NATURAL JOIN Artist
-WHERE Genre.genreId = 1;
-
-SELECT Artist.artistName, Platform.platformName
-FROM Platform NATURAL JOIN Available_On NATURAL JOIN
-Artist WHERE Platform.platformId = 1;
-
-SELECT * FROM Award WHERE awardName = 'Best Rap Single';
+-- Inserting Available_On
+INSERT INTO Available_On (artistId, platformId) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(2, 1),
+(2, 2),
+(2, 3),
+(2, 4),
+(2, 5),
+(3, 1),
+(3, 2),
+(3, 3),
+(3, 4),
+(3, 5),
+(4, 1),
+(4, 2),
+(4, 3),
+(4, 4),
+(4, 5),
+(5, 1),
+(5, 2),
+(5, 3),
+(5, 4),
+(5, 5),
+(6, 1),
+(6, 2),
+(6, 3),
+(6, 4),
+(6, 5),
+(7, 1),
+(7, 2),
+(7, 3),
+(7, 4),
+(7, 5),
+(8, 1),
+(8, 2),
+(8, 3),
+(8, 4),
+(8, 5),
+(9, 1),
+(9, 2),
+(9, 3),
+(9, 4),
+(9, 5),
+(10, 1),
+(10, 2),
+(10, 3),
+(10, 4),
+(10, 5),
+(11, 1),
+(11, 2),
+(11, 3),
+(11, 4),
+(11, 5),
+(12, 1),
+(12, 2),
+(12, 3),
+(12, 4),
+(12, 5),
+(13, 1),
+(13, 2),
+(13, 3),
+(13, 4),
+(13, 5),
+(14, 1),
+(14, 2),
+(14, 3),
+(14, 4),
+(14, 5),
+(15, 1),
+(15, 2),
+(15, 3),
+(15, 4),
+(15, 5);

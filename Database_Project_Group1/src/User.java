@@ -24,7 +24,6 @@ public class User {
     private Date birthday;
     private String email;
     private String role;
-    private int counter = 0;
 
 
     public User(int userId, String username, String password, Date birthday, String email, String role) {
@@ -273,13 +272,11 @@ public class User {
      */
     public boolean login(String username, String password) throws AlinityException {
         if (!authenticate(username, password)) {
-            counter++;
-            if (counter >= MAX_ATTEMPTS) {
+            if (AlinityController.counterForLogin >= MAX_ATTEMPTS) {
                 System.out.println("Too many incorrect attempts, terminating system...");
                 System.exit(0);
             }
-            JFrame jf = new JFrame();
-            String name = JOptionPane.showInputDialog(jf, "Incorrect credentials, try again. You have: " + (MAX_ATTEMPTS - counter) + " more tries", null);
+            JOptionPane.showMessageDialog(null, "Incorrect credentials, try again. You have " + (MAX_ATTEMPTS - AlinityController.counterForLogin) + " more tries.", "Incorrect credentials", JOptionPane.ERROR_MESSAGE);
             return false;
         } else {
             authenticate(username, password);

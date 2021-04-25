@@ -49,10 +49,6 @@ public class SavedSongs {
             return AlinityMain.alinityDB.getData("SELECT Song.songName FROM User\n" +
                     "NATURAL JOIN Saved_Songs NATURAL JOIN Song\n" +
                     "WHERE User.userId = ?", info);
-//            System.out.print("\nColumn headers: " + result.get(0));
-//            ArrayList<String> savedSongData = result.get(1);
-//            setSongName(savedSongData.get(0));
-//            printSaved_Songs();
         } catch (IndexOutOfBoundsException ioobe) {
             throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT Song.songName FROM User\\n\" +\n" +
                     "                    \"NATURAL JOIN Saved_Songs NATURAL JOIN Song\\n\" +\n" +
@@ -64,6 +60,14 @@ public class SavedSongs {
         }
     }
 
+    /**
+     * selectSavedSongsHandler of the SavedSongs class
+     * Handles information retrieved from database
+     * to show the user their saved songs.
+     *
+     * @param result
+     * @param savedSongs
+     */
     public void selectSavedSongsHandler(ArrayList<ArrayList<String>> result, SavedSongs savedSongs) {
         JPanel panelRoot = new JPanel();
         for (int i = 1; i < result.size(); i++) {
@@ -78,7 +82,6 @@ public class SavedSongs {
         frame.setMinimumSize(new java.awt.Dimension(300, 300));
         frame.setVisible(true);
     }
-
 
     /**
      * insertAll method of the SavedSongs class.

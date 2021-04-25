@@ -68,7 +68,7 @@ public class Song {
     /**
      * selectSong method of the Song class.
      * This method will use the getData(String, ArrayList<String>) method of the Alinity
-     * class. The SQL statement will select Songs where the ID value input will be bound
+     * class. The SQL statement will select Songs where the name value input will be bound
      * from the ArrayList, and save the result.
      * Sets ID, name, duration, albumId, artistId, genreId based on result data.
      * This method will specifically work only when selecting ALL the information for said song
@@ -86,12 +86,24 @@ public class Song {
             } else System.out.println("You do not have access to this function. Please contact an administrator.");
             return null;
         } catch (IndexOutOfBoundsException ioobe) {
-            throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Song WHERE songId = ?");
+            throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Song WHERE songName = ?");
         } catch (NullPointerException npe) {
-            throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Song WHERE songId = ?");
+            throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Song WHERE songName = ?");
         }
     }
 
+    /**
+     * selectSong method of the Song class.
+     * This method will use the getData(String, ArrayList<String>) method of the Alinity
+     * class. The SQL statement will select Songs where the ID value input will be bound
+     * from the ArrayList, and save the result.
+     * Sets ID, name, duration, albumId, artistId, genreId based on result data.
+     * This method will specifically work only when selecting ALL the information for said song
+     * id.
+     * If the attempt of the executing the statement fails, log the error to the file.
+     *
+     * @throws AlinityException
+     */
     public ArrayList<ArrayList<String>> selectSong(User user, int songId) throws AlinityException {
         try {
             if (user.getRole().equals("General") || user.getRole().equals("Admin")) {
@@ -107,21 +119,16 @@ public class Song {
         }
     }
 
-    public ArrayList<ArrayList<String>> selectArtistSong(User user, Artist artist) throws AlinityException {
-        try {
-            if (user.getRole().equals("General") || user.getRole().equals("Admin")) {
-                ArrayList<String> info = new ArrayList<>();
-                info.add(String.valueOf(artist.getArtistId()));
-                return AlinityMain.alinityDB.getData("SELECT Song.songName FROM Song WHERE Song.artistId = ?", info);
-            } else System.out.println("You do not have access to this function. Please contact an administrator.");
-            return null;
-        } catch (IndexOutOfBoundsException ioobe) {
-            throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Song WHERE songId = ?");
-        } catch (NullPointerException npe) {
-            throw new AlinityException(npe, "-> Error in obtaining data (NullPointerException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT * FROM Song WHERE songId = ?");
-        }
-    }
-
+    /**
+     * selectSongHandler of the Song class.
+     * Will handle and display the songs searched
+     * by the user.
+     *
+     * @param result
+     * @param searchGUI
+     * @param user
+     * @param song
+     */
     public void selectSongHandler(ArrayList<ArrayList<String>> result, SearchGUI searchGUI, User user, Song song) {
         for (int i = 1; i < result.size(); i++) {
             ArrayList<String> songData = result.get(i);
@@ -150,7 +157,7 @@ public class Song {
                         try {
                             savedSongs.insertAll(user, song);
                         } catch (AlinityException alinityException) {
-                            alinityException.printStackTrace();
+                            JOptionPane.showMessageDialog(null, "You've already saved this! Try a different song", "Duplicate Entry", JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "Nothing to save!");
@@ -159,20 +166,9 @@ public class Song {
             });
 
         }
-
-
         searchGUI.invalidate();
         searchGUI.validate();
         searchGUI.repaint();
-
-    }
-
-    public void selectArtistSongHanlder(ArrayList<ArrayList<String>> result) {
-        for (int i = 1; i < result.size(); i++) {
-            ArrayList<String> songData = result.get(i);
-            setSongName(songData.get(0));
-            printSong();
-        }
     }
 
     /**

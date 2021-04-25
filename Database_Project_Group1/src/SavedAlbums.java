@@ -58,6 +58,13 @@ public class SavedAlbums {
         }
     }
 
+    /**
+     *  selectSavedSongsHandler of the SavedAlbums class
+     * Handles information retrieved from database
+     * show the user their saved albums.
+     * @param result
+     * @param savedAlbums
+     */
     public void selectSavedAlbumsHandler(ArrayList<ArrayList<String>> result, SavedAlbums savedAlbums) {
         JPanel rootPanel = new JPanel();
         for (int i = 1; i < result.size(); i++) {

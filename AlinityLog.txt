@@ -44,3 +44,28 @@ Sun Apr 25 10:57:24 CEST 2021-> Error code: 1062
 Sun Apr 25 10:57:24 CEST 2021-> Original SQLStatement: INSERT INTO Saved_Artist (userId, artistId) VALUES (?, ?)
 Sun Apr 25 10:57:24 CEST 2021-> Message: Duplicate entry '2-6' for key 'PRIMARY'
 Sun Apr 25 10:57:24 CEST 2021 -> Error in processing data manipulation (SQLException) to the database at setData(String, ArrayList<String>) method.
+Sun Apr 25 11:05:48 CEST 2021-> SQLState: 23000
+Sun Apr 25 11:05:48 CEST 2021-> Error code: 1062
+Sun Apr 25 11:05:48 CEST 2021-> Original SQLStatement: INSERT INTO Saved_Artist (userId, artistId) VALUES (?, ?)
+Sun Apr 25 11:05:48 CEST 2021-> Message: Duplicate entry '1-18' for key 'saved_artist.PRIMARY'
+Sun Apr 25 11:05:48 CEST 2021 -> Error in processing data manipulation (SQLException) to the database at setData(String, ArrayList<String>) method.
+Sun Apr 25 11:11:48 CEST 2021-> SQLState: 23000
+Sun Apr 25 11:11:48 CEST 2021-> Error code: 1062
+Sun Apr 25 11:11:48 CEST 2021-> Original SQLStatement: INSERT INTO Saved_Artist (userId, artistId) VALUES (?, ?)
+Sun Apr 25 11:11:48 CEST 2021-> Message: Duplicate entry '1-1' for key 'saved_artist.PRIMARY'
+Sun Apr 25 11:11:48 CEST 2021 -> Error in processing data manipulation (SQLException) to the database at setData(String, ArrayList<String>) method.
+Sun Apr 25 11:13:08 CEST 2021-> SQLState: 23000
+Sun Apr 25 11:13:08 CEST 2021-> Error code: 1062
+Sun Apr 25 11:13:08 CEST 2021-> Original SQLStatement: INSERT INTO Saved_Album (userId, albumId) VALUES (?, ?)
+Sun Apr 25 11:13:08 CEST 2021-> Message: Duplicate entry '1-3' for key 'saved_album.PRIMARY'
+Sun Apr 25 11:13:08 CEST 2021 -> Error in processing data manipulation (SQLException) to the database at setData(String, ArrayList<String>) method.
+Sun Apr 25 11:13:20 CEST 2021-> SQLState: 23000
+Sun Apr 25 11:13:20 CEST 2021-> Error code: 1062
+Sun Apr 25 11:13:20 CEST 2021-> Original SQLStatement: INSERT INTO Saved_Artist (userId, artistId) VALUES (?, ?)
+Sun Apr 25 11:13:20 CEST 2021-> Message: Duplicate entry '1-2' for key 'saved_artist.PRIMARY'
+Sun Apr 25 11:13:20 CEST 2021 -> Error in processing data manipulation (SQLException) to the database at setData(String, ArrayList<String>) method.
+Sun Apr 25 11:13:25 CEST 2021-> SQLState: 23000
+Sun Apr 25 11:13:25 CEST 2021-> Error code: 1062
+Sun Apr 25 11:13:25 CEST 2021-> Original SQLStatement: INSERT INTO Saved_Songs (userId, songId) VALUES (?, ?)
+Sun Apr 25 11:13:25 CEST 2021-> Message: Duplicate entry '1-14' for key 'saved_songs.PRIMARY'
+Sun Apr 25 11:13:25 CEST 2021 -> Error in processing data manipulation (SQLException) to the database at setData(String, ArrayList<String>) method.

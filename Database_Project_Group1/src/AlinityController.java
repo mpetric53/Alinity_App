@@ -35,6 +35,7 @@ public class AlinityController {
    private String query;
 
    public static int counter = 0;
+   public static int counterForLogin = 0;
 
 
     public AlinityController() throws AlinityException {
@@ -138,6 +139,7 @@ public class AlinityController {
         this.login.getjButton1().addActionListener((ActionEvent e) -> {
             try {
                 logging();
+                counterForLogin++;
                 if(user.authenticate(username, password)){
                     login.setVisible(false);
                     search.setVisible(true);

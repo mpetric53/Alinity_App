@@ -167,7 +167,7 @@ public class Artist {
                         try {
                             savedArtists.insertAll(user, artist);
                         } catch (AlinityException alinityException) {
-                            alinityException.printStackTrace();
+                            JOptionPane.showMessageDialog(null, "You've already saved this! Try a different artist", "Duplicate Entry", JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "Nothing to save!");

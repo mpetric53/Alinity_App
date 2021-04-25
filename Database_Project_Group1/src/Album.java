@@ -173,7 +173,7 @@ public class Album {
                         try {
                             savedAlbums.insertAll(user, album);
                         } catch (AlinityException alinityException) {
-                            alinityException.printStackTrace();
+                            JOptionPane.showMessageDialog(null, "You've already saved this! Try a different album", "Duplicate Entry", JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "Nothing to save!");
