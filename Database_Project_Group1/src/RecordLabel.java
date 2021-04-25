@@ -1,6 +1,12 @@
 import java.sql.Date;
 import java.util.*;
-import java.sql.*;
+
+/**
+ * @author Lucija Filipovic
+ * @author Mislav Rukonic
+ * @author Sven Slivar
+ * @author Matej Petric
+ */
 public class RecordLabel {
 
     private int recordLabelId;
@@ -26,29 +32,18 @@ public class RecordLabel {
         this.recordLabelId = recordLabelId;
     }
 
-    public String getRecordLabelName() {
-        return recordLabelName;
-    }
-
     public void setRecordLabelName(String recordLabelName) {
         this.recordLabelName = recordLabelName;
-    }
-
-    public Date getRecordDateCreated() {
-        return recordDateCreated;
     }
 
     public void setRecordDateCreated(Date recordDateCreated) {
         this.recordDateCreated = recordDateCreated;
     }
 
-    public String getLabelInfo() {
-        return labelInfo;
-    }
-
     public void setLabelInfo(String labelInfo) {
         this.labelInfo = labelInfo;
     }
+
     /**
      * selectRecordLabel method of the RecordLabel class.
      * This method will use the getData(String, ArrayList<String>) method of the Alinity
@@ -59,18 +54,12 @@ public class RecordLabel {
      */
     public ArrayList<ArrayList<String>> selectRecordLabel(User user, String recordLabelName) throws AlinityException {
         try {
-            if(user.getRole().equals("General") || user.getRole().equals("Admin")){
+            if (user.getRole().equals("General") || user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(recordLabelName);
-                return AlinityMain.alinityDB.getData("SELECT * FROM Record_Label WHERE recordLabelName = ?" , info);
-//                System.out.print("\nColumn headers: " + result.get(0));
-//                ArrayList<String> albumData = result.get(1);
-//                setRecordLabelId(Integer.parseInt(albumData.get(0)));
-//                setRecordLabelName(albumData.get(1));
-//                setRecordDateCreated(Date.valueOf(albumData.get(2)));
-//                setLabelInfo(albumData.get(3));
-//                printRecordLabel();
-            } else System.out.println("You do not have access to this function. Please contact an administrator."); return null;
+                return AlinityMain.alinityDB.getData("SELECT * FROM Record_Label WHERE recordLabelName = ?", info);
+            } else System.out.println("You do not have access to this function. Please contact an administrator.");
+            return null;
         } catch (IndexOutOfBoundsException ioobe) {
             throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectRecordLabel(ArrayList<String>) method.", "SELECT * FROM Record_Label WHERE recordLabelName = ?");
         } catch (NullPointerException npe) {
@@ -80,18 +69,12 @@ public class RecordLabel {
 
     public ArrayList<ArrayList<String>> selectRecordLabel(User user, int recordLabelId) throws AlinityException {
         try {
-            if(user.getRole().equals("General") || user.getRole().equals("Admin")){
+            if (user.getRole().equals("General") || user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(String.valueOf(recordLabelId));
-                return AlinityMain.alinityDB.getData("SELECT * FROM Record_Label WHERE recordLabelId = ?" , info);
-//                System.out.print("\nColumn headers: " + result.get(0));
-//                ArrayList<String> albumData = result.get(1);
-//                setRecordLabelId(Integer.parseInt(albumData.get(0)));
-//                setRecordLabelName(albumData.get(1));
-//                setRecordDateCreated(Date.valueOf(albumData.get(2)));
-//                setLabelInfo(albumData.get(3));
-//                printRecordLabel();
-            } else System.out.println("You do not have access to this function. Please contact an administrator."); return null;
+                return AlinityMain.alinityDB.getData("SELECT * FROM Record_Label WHERE recordLabelId = ?", info);
+            } else System.out.println("You do not have access to this function. Please contact an administrator.");
+            return null;
         } catch (IndexOutOfBoundsException ioobe) {
             throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectRecordLabel(ArrayList<String>) method.", "SELECT * FROM Record_Label WHERE recordLabelName = ?");
         } catch (NullPointerException npe) {
@@ -100,8 +83,7 @@ public class RecordLabel {
     }
 
     public void selectRecordLabelHandler(ArrayList<ArrayList<String>> result) {
-        for(int i = 1; i < result.size(); i++) {
-            //System.out.print("\nColumn headers: " + result.get(0));
+        for (int i = 1; i < result.size(); i++) {
             ArrayList<String> albumData = result.get(i);
             setRecordLabelId(Integer.parseInt(albumData.get(0)));
             setRecordLabelName(albumData.get(1));
@@ -123,7 +105,7 @@ public class RecordLabel {
      */
     public boolean updateRecordLabel(User user, String recordLabelName, Date dateCreated, String labelInfo) throws AlinityException {
         try {
-            if(user.getRole().equals("Admin")) {
+            if (user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(recordLabelName);
                 info.add(String.valueOf(dateCreated));
@@ -131,7 +113,9 @@ public class RecordLabel {
                 info.add(String.valueOf(this.getRecordLabelId()));
                 String putStmt = "UPDATE Album SET recordLabelName = ? , dateCreated = ?, labelInfo = ? WHERE recordLabelId = ?";
                 return AlinityMain.alinityDB.setData(putStmt, info);
-            } else System.out.println("You do not have the correct permissions to use this function. Please contact an administrator."); return false;
+            } else
+                System.out.println("You do not have the correct permissions to use this function. Please contact an administrator.");
+            return false;
         } catch (NullPointerException npe) {
             throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the updateRecordLabel(ArrayList<String>) method.", "UPDATE Album SET recordLabelName = ? , dateCreated = ?, labelInfo = ? WHERE recordLabelId = ?");
         } catch (IndexOutOfBoundsException ioobe) {
@@ -150,18 +134,20 @@ public class RecordLabel {
      */
     public boolean insertRecordLabel(User user, String recordLabelName, Date recordDateCreated, String labelInfo) throws AlinityException {
         try {
-            if(user.getRole().equals("Admin")) {
+            if (user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(recordLabelName);
                 info.add(String.valueOf(recordDateCreated));
                 info.add(String.valueOf(labelInfo));
                 String insertStmt = "INSERT INTO Record_Label (recordLabelName, dateCreated, labelInfo) VALUES (?, ?, ?)";
                 return AlinityMain.alinityDB.setData(insertStmt, info);
-            } else System.out.println("You do not have the correct permissions to use this function. Please contact an administrator."); return false;
+            } else
+                System.out.println("You do not have the correct permissions to use this function. Please contact an administrator.");
+            return false;
         } catch (NullPointerException npe) {
-            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the insertRecordLabel(ArrayList<String>) method.","INSERT INTO Record_Label (recordLabelName, dateCreated, labelInfo) VALUES (?, ?, ?)");
+            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the insertRecordLabel(ArrayList<String>) method.", "INSERT INTO Record_Label (recordLabelName, dateCreated, labelInfo) VALUES (?, ?, ?)");
         } catch (IndexOutOfBoundsException ioobe) {
-            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the insertRecordLabel(ArrayList<String>) method.","INSERT INTO Record_Label (recordLabelName, dateCreated, labelInfo) VALUES (?, ?, ?)");
+            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the insertRecordLabel(ArrayList<String>) method.", "INSERT INTO Record_Label (recordLabelName, dateCreated, labelInfo) VALUES (?, ?, ?)");
         }
     }
 
@@ -176,12 +162,14 @@ public class RecordLabel {
      */
     public boolean deleteAlbum(User user) throws AlinityException {
         try {
-            if(user.getRole().equals("Admin")) {
+            if (user.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(String.valueOf(this.getRecordLabelId()));
                 String deleteStmt = "DELETE FROM Record_Label WHERE albumId = ?";
                 return AlinityMain.alinityDB.setData(deleteStmt, info);
-            } else System.out.println("You do not have the correct permissions to use this function. Please contact an administrator."); return false;
+            } else
+                System.out.println("You do not have the correct permissions to use this function. Please contact an administrator.");
+            return false;
         } catch (NullPointerException npe) {
             throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the deleteAlbum() method.", "DELETE FROM Record_Label WHERE albumId = ?");
         } catch (IndexOutOfBoundsException ioobe) {

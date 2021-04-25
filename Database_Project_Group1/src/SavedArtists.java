@@ -2,35 +2,17 @@ import javax.swing.*;
 import java.awt.image.Kernel;
 import java.util.ArrayList;
 
+/**
+ * @author Lucija Filipovic
+ * @author Mislav Rukonic
+ * @author Sven Slivar
+ * @author Matej Petric
+ */
 public class SavedArtists {
     private int userId;
     private int artistId;
     private String artistName;
     private JFrame frame = new JFrame();
-
-    public String getArtistName() {
-        return artistName;
-    }
-
-    public void setArtistName(String artistName) {
-        this.artistName = artistName;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getArtistId() {
-        return artistId;
-    }
-
-    public void setArtistId(int artistId) {
-        this.artistId = artistId;
-    }
 
     public SavedArtists(int userId, int artistId) {
         this.userId = userId;
@@ -40,6 +22,15 @@ public class SavedArtists {
     public SavedArtists() {
 
     }
+
+    public String getArtistName() {
+        return artistName;
+    }
+
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
+    }
+
 
     /**
      * selectAll method of the SavedArtists class.
@@ -58,10 +49,6 @@ public class SavedArtists {
             return AlinityMain.alinityDB.getData("SELECT Artist.artistName FROM User\n" +
                     "NATURAL JOIN Saved_Artist NATURAL JOIN Artist\n" +
                     "WHERE User.userId = ?", info);
-//            System.out.print("\nColumn headers: " + result.get(0));
-//            ArrayList<String> savedArtistData = result.get(1);
-//            setArtistName(savedArtistData.get(0));
-//            printSaved_Artists();
         } catch (IndexOutOfBoundsException ioobe) {
             throw new AlinityException(ioobe, "-> Error in obtaining data (IndexOutOfBoundsException) from the database. Please check your syntax in the selectAll(ArrayList<String>) method.", "SELECT Artist.artistName FROM User\\n\" +\n" +
                     "                    \"NATURAL JOIN Saved_Artist NATURAL JOIN Artist\\n\" +\n" +
@@ -88,30 +75,6 @@ public class SavedArtists {
         frame.setVisible(true);
     }
 
-//    /**
-//     * updateAll method of the SavedArtists class.
-//     * A SQL statement as a String is created using the current artistId
-//     * and userId where the userId is based on the values which will be bound
-//     * from the input ArrayList of Strings.
-//     * Executes using the setDada method.
-//     * If the attempt of the executing the statement fails, log the error to the file.
-//     *
-//     * @throws AlinityException
-//     */
-//    public boolean updateAll(User user, Artist artist, int artistId) throws AlinityException {
-//        try {
-//            ArrayList<String> info = new ArrayList<>();
-//            artist.setArtistId(artistId);
-//            info.add(String.valueOf(artist.getArtistId()));
-//            info.add(String.valueOf(user.getUserId()));
-//            String putStmt = "UPDATE Saved_Artist SET artistId = ? WHERE awardId = ?";
-//            return AlinityMain.alinityDB.setData(putStmt, info);
-//        } catch (NullPointerException npe) {
-//            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the updateAll(ArrayList<String>) method.", "UPDATE Saved_Artist SET userId = ?, artistId = ? WHERE awardId = ?");
-//        } catch (IndexOutOfBoundsException ioobe) {
-//            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the updateAll(ArrayList<String>) method.", "UPDATE Saved_Artist SET userId = ?, artistId = ? WHERE awardId = ?");
-//        }
-//    }
 
     /**
      * insertAll method of the SavedArtists class.

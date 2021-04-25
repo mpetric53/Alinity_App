@@ -8,8 +8,16 @@ import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * @author Lucija Filipovic
+ * @author Mislav Rukonic
+ * @author Sven Slivar
+ * @author Matej Petric
+ */
+
 public class User {
 
+    private final int MAX_ATTEMPTS = 3;
     private int userId;
     private String username;
     private String password;
@@ -17,10 +25,9 @@ public class User {
     private String email;
     private String role;
     private int counter = 0;
-    private final int MAX_ATTEMPTS = 3;
 
 
-    public User(int userId, String username, String password, Date birthday, String email, String role){
+    public User(int userId, String username, String password, Date birthday, String email, String role) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -31,26 +38,6 @@ public class User {
 
     public User() {
 
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getRole() {
@@ -65,20 +52,40 @@ public class User {
         return userId;
     }
 
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     public String getUsername() {
         return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Date getBirthday() {
         return birthday;
     }
 
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     /**
@@ -94,12 +101,12 @@ public class User {
      * @return
      * @throws AlinityException
      */
-    public boolean authenticate(String username, String password) throws AlinityException{
-        try{
+    public boolean authenticate(String username, String password) throws AlinityException {
+        try {
             ArrayList<String> credentials = new ArrayList<>();
             credentials.add(username);
-            ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM User WHERE User.username = ?" , credentials);
-            if(result.size() <= 1) {
+            ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM User WHERE User.username = ?", credentials);
+            if (result.size() <= 1) {
                 System.out.println("Invalid credentials.");
                 return false;
             }
@@ -174,15 +181,13 @@ public class User {
      * @param array
      * @return
      */
-    private String toHex(byte[] array)
-    {
+    private String toHex(byte[] array) {
         BigInteger bi = new BigInteger(1, array);
         String hex = bi.toString(16);
         int paddingLength = (array.length * 2) - hex.length();
-        if(paddingLength > 0)
-        {
-            return String.format("%0"  +paddingLength + "d", 0) + hex;
-        }else{
+        if (paddingLength > 0) {
+            return String.format("%0" + paddingLength + "d", 0) + hex;
+        } else {
             return hex;
         }
     }
@@ -231,8 +236,7 @@ public class User {
         byte[] testHash = skf.generateSecret(spec).getEncoded();
 
         int diff = hash.length ^ testHash.length;
-        for(int i = 0; i < hash.length && i < testHash.length; i++)
-        {
+        for (int i = 0; i < hash.length && i < testHash.length; i++) {
             diff |= hash[i] ^ testHash[i];
         }
         return diff == 0;
@@ -245,12 +249,10 @@ public class User {
      * @param hex
      * @return
      */
-    private byte[] fromHex(String hex)
-    {
+    private byte[] fromHex(String hex) {
         byte[] bytes = new byte[hex.length() / 2];
-        for(int i = 0; i<bytes.length ;i++)
-        {
-            bytes[i] = (byte)Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
+        for (int i = 0; i < bytes.length; i++) {
+            bytes[i] = (byte) Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
         }
         return bytes;
     }
@@ -270,20 +272,19 @@ public class User {
      * @throws AlinityException
      */
     public boolean login(String username, String password) throws AlinityException {
-        if(!authenticate(username, password)) {
+        if (!authenticate(username, password)) {
             counter++;
-            if(counter >= MAX_ATTEMPTS) {
+            if (counter >= MAX_ATTEMPTS) {
                 System.out.println("Too many incorrect attempts, terminating system...");
                 System.exit(0);
             }
             JFrame jf = new JFrame();
-            String name = JOptionPane.showInputDialog(jf, "Incorrect credentials, try again. You have: " + (MAX_ATTEMPTS - counter) + " more tries" , null);
-           // System.out.println("Incorrect credentials, try again. You have: " + (MAX_ATTEMPTS - counter) + " more tries");
+            String name = JOptionPane.showInputDialog(jf, "Incorrect credentials, try again. You have: " + (MAX_ATTEMPTS - counter) + " more tries", null);
             return false;
         } else {
             authenticate(username, password);
             this.setPassword(password);
-            if(this.getRole().equals("Admin")) {
+            if (this.getRole().equals("Admin")) {
                 printInfo();
             }
             return true;
@@ -315,7 +316,7 @@ public class User {
      */
     public void selectUser(int userId) throws AlinityException {
         try {
-            if(this.getRole().equals("Admin")) {
+            if (this.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(String.valueOf(userId));
                 ArrayList<ArrayList<String>> result = AlinityMain.alinityDB.getData("SELECT * FROM User WHERE userId = ?", info);
@@ -335,50 +336,6 @@ public class User {
         }
     }
 
-//    /**
-//     * updateUser method of the User class.
-//     * A SQL statement as a String is created using the current username, password, birthday, email
-//     * from the input ArrayList of Strings.
-//     * Executes using the setDada method.
-//     * This method will specifically work only when updating ALL the information for said userId
-//     * If the attempt of the executing the statement fails, log the error to the file.
-//     *
-//     * @throws AlinityException
-//     */
-//    public boolean updateUser(ArrayList<String> stringList) throws AlinityException {
-//        try {
-//            String putStmt = "UPDATE User SET username = ? , password = ?, birthday = ?, email = ? WHERE userId = ?";
-//            return AlinityMain.alinityDB.setData(putStmt, stringList);
-//        } catch (NullPointerException npe) {
-//            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the updateAll(ArrayList<String>) method.", "UPDATE User SET username = ? , password = ?, birthday = ?, email = ? WHERE userId = ?");
-//        } catch (IndexOutOfBoundsException ioobe) {
-//            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the updateAll(ArrayList<String>) method.", "UPDATE User SET username = ? , password = ?, birthday = ?, email = ? WHERE userId = ?");
-//
-//        }
-//    }
-//
-//    /**
-//     * insertAll method of the User class.
-//     * A SQL statement as a String is created, which takes in
-//     * values based on the values to be bound from the ArrayList of Strings.
-//     * Executes using the setData method.
-//     * This method will specifically work only when inserting ALL the information for said User.
-//     * If the attempt of the executing the statement fails, log the error to the file.
-//     *
-//     * @throws AlinityException
-//     */
-//    public boolean insertUser(ArrayList<String> stringList) throws AlinityException {
-//        try {
-//            String insertStmt = "INSERT INTO User (username, password, birthday, email) VALUES (?, ?, ?, ?)";
-//            return AlinityMain.alinityDB.setData(insertStmt, stringList);
-//        } catch (NullPointerException npe) {
-//            throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the insertAll(ArrayList<String>) method.","INSERT INTO User (username, password, birthday, email) VALUES (?, ?, ?, ?)");
-//        } catch (IndexOutOfBoundsException ioobe) {
-//            throw new AlinityException(ioobe, "-> Error in manipulating data (IndexOutOfBoundsException) from the database. Please check your syntax in the insertAll(ArrayList<String>) method.","INSERT INTO User (username, password, birthday, email) VALUES (?, ?, ?, ?)");
-//        }
-//    }
-
-
 
     /**
      * deleteUser method of the User class.
@@ -395,12 +352,13 @@ public class User {
      */
     public boolean deleteUser() throws AlinityException {
         try {
-            if(this.getRole().equals("Admin")) {
+            if (this.getRole().equals("Admin")) {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(String.valueOf(this.getUserId()));
                 String deleteStmt = "DELETE FROM User WHERE userId = ?";
                 return AlinityMain.alinityDB.setData(deleteStmt, info);
-            } else System.out.println("You do not have the right permissions to perform this action!"); return false;
+            } else System.out.println("You do not have the right permissions to perform this action!");
+            return false;
         } catch (NullPointerException npe) {
             throw new AlinityException(npe, "-> Error in manipulating data (NullPointerException) from the database. Please check your syntax in the deleteAll() method.", "DELETE FROM User WHERE userId = ?");
         } catch (IndexOutOfBoundsException ioobe) {

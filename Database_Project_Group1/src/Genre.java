@@ -1,6 +1,10 @@
-import java.sql.Date;
 import java.util.ArrayList;
-
+/**
+ * @author Lucija Filipovic
+ * @author Mislav Rukonic
+ * @author Sven Slivar
+ * @author Matej Petric
+ */
 public class Genre {
 
     public int genreId;

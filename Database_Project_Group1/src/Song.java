@@ -4,6 +4,13 @@ import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.util.ArrayList;
 
+/**
+ * @author Lucija Filipovic
+ * @author Mislav Rukonic
+ * @author Sven Slivar
+ * @author Matej Petric
+ */
+
 public class Song {
     private int songId;
     private String songName;
@@ -12,6 +19,19 @@ public class Song {
     private int albumId;
     private int genreId;
     private SongGUI gui = new SongGUI();
+
+    public Song(int songId, String songName, int songDuration, int artistId, int albumId, int genreId) {
+        this.songId = songId;
+        this.songName = songName;
+        this.songDuration = songDuration;
+        this.artistId = artistId;
+        this.albumId = albumId;
+        this.genreId = genreId;
+    }
+
+    public Song() {
+
+    }
 
     public int getSongId() {
         return songId;
@@ -29,49 +49,20 @@ public class Song {
         this.songName = songName;
     }
 
-    public int getSongDuration() {
-        return songDuration;
-    }
-
     public void setSongDuration(int songDuration) {
         this.songDuration = songDuration;
-    }
-
-    public int getArtistId() {
-        return artistId;
     }
 
     public void setArtistId(int artistId) {
         this.artistId = artistId;
     }
 
-    public int getAlbumId() {
-        return albumId;
-    }
-
     public void setAlbumId(int albumId) {
         this.albumId = albumId;
     }
 
-    public int getGenreId() {
-        return genreId;
-    }
-
     public void setGenreId(int genreId) {
         this.genreId = genreId;
-    }
-
-    public Song(int songId, String songName, int songDuration, int artistId, int albumId, int genreId) {
-        this.songId = songId;
-        this.songName = songName;
-        this.songDuration = songDuration;
-        this.artistId = artistId;
-        this.albumId = albumId;
-        this.genreId = genreId;
-    }
-
-    public Song() {
-
     }
 
     /**
@@ -92,15 +83,6 @@ public class Song {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(songName);
                 return AlinityMain.alinityDB.getData("SELECT * FROM Song WHERE songName = ?", info);
-//                System.out.print("\nColumn headers: " + result.get(0));
-//                ArrayList<String> songData = result.get(1);
-//                setSongId(Integer.parseInt(songData.get(0)));
-//                setSongName(songData.get(1));
-//                setSongDuration(Integer.parseInt(songData.get(2)));
-//                setAlbumId(Integer.parseInt(songData.get(3)));
-//                setArtistId(Integer.parseInt(songData.get(4)));
-//                setGenreId(Integer.parseInt(songData.get(5)));
-//                printSong();
             } else System.out.println("You do not have access to this function. Please contact an administrator.");
             return null;
         } catch (IndexOutOfBoundsException ioobe) {
@@ -116,15 +98,6 @@ public class Song {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(String.valueOf(songId));
                 return AlinityMain.alinityDB.getData("SELECT * FROM Song WHERE songId = ?", info);
-//                System.out.print("\nColumn headers: " + result.get(0));
-//                ArrayList<String> songData = result.get(1);
-//                setSongId(Integer.parseInt(songData.get(0)));
-//                setSongName(songData.get(1));
-//                setSongDuration(Integer.parseInt(songData.get(2)));
-//                setAlbumId(Integer.parseInt(songData.get(3)));
-//                setArtistId(Integer.parseInt(songData.get(4)));
-//                setGenreId(Integer.parseInt(songData.get(5)));
-//                printSong();
             } else System.out.println("You do not have access to this function. Please contact an administrator.");
             return null;
         } catch (IndexOutOfBoundsException ioobe) {
@@ -140,10 +113,6 @@ public class Song {
                 ArrayList<String> info = new ArrayList<>();
                 info.add(String.valueOf(artist.getArtistId()));
                 return AlinityMain.alinityDB.getData("SELECT Song.songName FROM Song WHERE Song.artistId = ?", info);
-//                System.out.print("\nColumn headers: " + result.get(0));;
-//                ArrayList<String> songData = result.get(1);
-//                setSongName(songData.get(0));
-//                printSong();
             } else System.out.println("You do not have access to this function. Please contact an administrator.");
             return null;
         } catch (IndexOutOfBoundsException ioobe) {
@@ -155,7 +124,6 @@ public class Song {
 
     public void selectSongHandler(ArrayList<ArrayList<String>> result, SearchGUI searchGUI, User user, Song song) {
         for (int i = 1; i < result.size(); i++) {
-            //System.out.print("\nColumn headers: " + result.get(0));
             ArrayList<String> songData = result.get(i);
             setSongId(Integer.parseInt(songData.get(0)));
             setSongName(songData.get(1));
@@ -165,14 +133,13 @@ public class Song {
             setGenreId(Integer.parseInt(songData.get(5)));
             printSong();
             SongGUI gui = new SongGUI();
-            if(AlinityController.counter > 0){
+            if (AlinityController.counter > 0) {
                 System.out.println("test981hrw");
                 searchGUI.getAlbumList().removeAll();
                 searchGUI.repaint();
                 AlinityController.counter = 0;
             }
             gui.getjLabel2().setText(getSongName());
-            //gui.getjLabel1().setIcon(new javax.swing.ImageIcon(getClass().getResource(getImgPath())));
             searchGUI.getAlbumList().add(searchGUI.getjPanel2().add(gui));
             gui.addMouseListener(new MouseAdapter() {
                 @Override
@@ -190,10 +157,9 @@ public class Song {
                     }
                 }
             });
-            //searchGUI.add(gui);
-            //gui.getjLabel1().setIcon(new javax.swing.ImageIcon(getClass().getResource(getImgPath())));
+
         }
-        //frame.setVisible(true);
+
 
         searchGUI.invalidate();
         searchGUI.validate();
@@ -203,7 +169,6 @@ public class Song {
 
     public void selectArtistSongHanlder(ArrayList<ArrayList<String>> result) {
         for (int i = 1; i < result.size(); i++) {
-            //System.out.print("\nColumn headers: " + result.get(0));;
             ArrayList<String> songData = result.get(i);
             setSongName(songData.get(0));
             printSong();
