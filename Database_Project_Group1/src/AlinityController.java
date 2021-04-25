@@ -20,11 +20,11 @@ public class AlinityController {
    public static int counter = 0;
 
 
-    public AlinityController() {
+    public AlinityController() throws AlinityException {
         start();
     }
 
-    public AlinityController(LogInGUI login){
+    public AlinityController(LogInGUI login) throws AlinityException {
         this.login = login;
         start();
     }
@@ -34,7 +34,6 @@ public class AlinityController {
         password = login.getPass().getText();
         user = new User();
         user.login(username, password);
-
     }
 
     public void signingUp() throws AlinityException{
@@ -55,12 +54,35 @@ public class AlinityController {
         Artist artist = new Artist();
         query = search.getjTextField1().getText();
         ArrayList<ArrayList<String>> searchAlbum = album.selectAlbum(user, query);
-        album.handleSelectAlbum(searchAlbum, search);
+        album.handleSelectAlbum(searchAlbum, search, user, album);
         ArrayList<ArrayList<String>> searchSong = song.selectSong(user, query);
-        song.selectSongHandler(searchSong, search);
+        song.selectSongHandler(searchSong, search, user, song);
         ArrayList<ArrayList<String>> searchArtist = artist.selectArtist(user, query);
-        artist.selectArtistHandler(searchArtist, search);
+        artist.selectArtistHandler(searchArtist, search, user, artist);
+//        if(searchAlbum. || searchArtist.get(0) = 0 || searchSong.isEmpty()+) {
+//            JOptionPane.showMessageDialog(null, "No results found!",
+//                    null, JOptionPane.ERROR_MESSAGE);
+//        }
     }
+
+    public void showSavedSongs() throws AlinityException {
+        SavedSongs savedSongs = new SavedSongs();
+        ArrayList<ArrayList<String>> searchSavedSongs = savedSongs.selectSavedSongs(user);
+        savedSongs.selectSavedSongsHandler(searchSavedSongs, savedSongs);
+    }
+
+    public void showSavedAlbums() throws AlinityException {
+        SavedAlbums savedAlbums = new SavedAlbums();
+        ArrayList<ArrayList<String>> searchSavedAlbums = savedAlbums.selectSavedAlbums(user);
+        savedAlbums.selectSavedAlbumsHandler(searchSavedAlbums, savedAlbums);
+    }
+
+    public void showSavedArtists() throws AlinityException {
+        SavedArtists savedArtists = new SavedArtists();
+        ArrayList<ArrayList<String>> searchSavedArtists = savedArtists.selectSavedArtists(user);
+        savedArtists.selectSavedArtistsHandler(searchSavedArtists, savedArtists);
+    }
+
 
     public void start(){
 
@@ -137,6 +159,31 @@ public class AlinityController {
                 alinityException.printStackTrace();
             }
         });
+
+        this.search.getjButton2().addActionListener((ActionEvent e) -> {
+            try {
+                showSavedSongs();
+            } catch (AlinityException alinityException) {
+                alinityException.printStackTrace();
+            }
+        });
+
+        this.search.getjButton1().addActionListener((ActionEvent e) -> {
+            try {
+                showSavedAlbums();
+            } catch (AlinityException alinityException) {
+                alinityException.printStackTrace();
+            }
+        });
+
+        this.search.getjButton3().addActionListener((ActionEvent e) -> {
+            try {
+                showSavedArtists();
+            } catch (AlinityException alinityException) {
+                alinityException.printStackTrace();
+            }
+        });
+
 
 
 

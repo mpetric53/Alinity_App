@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class SavedAlbums {
@@ -5,6 +6,7 @@ public class SavedAlbums {
     public int userId;
     public int albumId;
     private String albumName;
+    private JFrame frame = new JFrame();
 
     public int getUserId() {
         return userId;
@@ -71,12 +73,19 @@ public class SavedAlbums {
         }
     }
 
-    public void selectSavedAlbums(ArrayList<ArrayList<String>> result) {
+    public void selectSavedAlbumsHandler(ArrayList<ArrayList<String>> result, SavedAlbums savedAlbums) {
+        JPanel rootPanel = new JPanel();
         for (int i = 1; i < result.size(); i++) {
             ArrayList<String> savedAlbumData = result.get(i);
             setAlbumName(savedAlbumData.get(0));
             printSaved_Albums();
+            JPanel panel = new JPanel();
+            panel.add(new JLabel(savedAlbums.getAlbumName()));
+            rootPanel.add(panel);
         }
+        frame.add(rootPanel);
+        frame.setMinimumSize(new java.awt.Dimension(300, 300));
+        frame.setVisible(true);
     }
 
 //    /**

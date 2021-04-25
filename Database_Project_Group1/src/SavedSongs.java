@@ -1,3 +1,6 @@
+import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class SavedSongs {
@@ -5,6 +8,7 @@ public class SavedSongs {
     private int userId;
     private int songId;
     private String songName;
+    private JFrame frame = new JFrame();
 
 
     public SavedSongs(int userId, int songId) {
@@ -70,12 +74,19 @@ public class SavedSongs {
         }
     }
 
-    public void selectSavedSongsHandler(ArrayList<ArrayList<String>> result) {
+    public void selectSavedSongsHandler(ArrayList<ArrayList<String>> result, SavedSongs savedSongs) {
+        JPanel panelRoot = new JPanel();
         for(int i = 1; i < result.size(); i++) {
             ArrayList<String> savedSongData = result.get(i);
             setSongName(savedSongData.get(0));
             printSaved_Songs();
+            JPanel panel = new JPanel();
+            panel.add(new JLabel(savedSongs.getSongName()));
+            panelRoot.add(panel);
         }
+        frame.add(panelRoot);
+        frame.setMinimumSize(new java.awt.Dimension(300, 300));
+        frame.setVisible(true);
     }
 
 //    /**

@@ -1,12 +1,5 @@
 import java.awt.Color;
-import java.util.Calendar;
-import java.util.Collection;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -70,6 +63,9 @@ public class SearchGUI extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         albumList = new JPanel();
         BoxLayout box = new BoxLayout(albumList, BoxLayout.Y_AXIS);
@@ -120,6 +116,20 @@ public class SearchGUI extends javax.swing.JFrame {
         );
 
         jPanel3.setBackground(new Color(240,240,240,200));
+        getContentPane().add(jPanel3);
+        jPanel3.setBounds(220, 130, 720, 690);
+
+        jButton1.setText("Saved Album");
+        getContentPane().add(jButton1);
+        jButton1.setBounds(310, 60, 120, 23);
+
+        jButton2.setText("Saved Song");
+        getContentPane().add(jButton2);
+        jButton2.setBounds(720, 60, 120, 23);
+
+        jButton3.setText("Saved Artists");
+        getContentPane().add(jButton3);
+        jButton3.setBounds(520, 60, 120, 23);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -222,11 +232,25 @@ public class SearchGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JTextField jTextField1;
     private JPanel albumList;
     private JPanel songList;
     private JPanel artistList;
 
+    public JButton getjButton1() {
+        return jButton1;
+    }
 
-// End of variables declaration//GEN-END:variables
+    public JButton getjButton2() {
+        return jButton2;
+    }
+
+    public JButton getjButton3() {
+        return jButton3;
+    }
+
+    // End of variables declaration//GEN-END:variables
 }

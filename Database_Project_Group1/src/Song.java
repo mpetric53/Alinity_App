@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.util.ArrayList;
 
@@ -151,7 +153,7 @@ public class Song {
         }
     }
 
-    public void selectSongHandler(ArrayList<ArrayList<String>> result, SearchGUI searchGUI) {
+    public void selectSongHandler(ArrayList<ArrayList<String>> result, SearchGUI searchGUI, User user, Song song) {
         for (int i = 1; i < result.size(); i++) {
             //System.out.print("\nColumn headers: " + result.get(0));
             ArrayList<String> songData = result.get(i);
@@ -172,6 +174,22 @@ public class Song {
             gui.getjLabel2().setText(getSongName());
             //gui.getjLabel1().setIcon(new javax.swing.ImageIcon(getClass().getResource(getImgPath())));
             searchGUI.getAlbumList().add(searchGUI.getjPanel2().add(gui));
+            gui.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    int reply = JOptionPane.showConfirmDialog(null, "Would you like to save this Song?", "Saving song", JOptionPane.YES_NO_OPTION);
+                    if (reply == JOptionPane.YES_OPTION) {
+                        SavedSongs savedSongs = new SavedSongs();
+                        try {
+                            savedSongs.insertAll(user, song);
+                        } catch (AlinityException alinityException) {
+                            alinityException.printStackTrace();
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Nothing to save!");
+                    }
+                }
+            });
             //searchGUI.add(gui);
             //gui.getjLabel1().setIcon(new javax.swing.ImageIcon(getClass().getResource(getImgPath())));
         }

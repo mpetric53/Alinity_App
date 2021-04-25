@@ -1,3 +1,6 @@
+import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.util.ArrayList;
 
@@ -122,7 +125,7 @@ public class Artist {
         }
     }
 
-    public void selectArtistHandler(ArrayList<ArrayList<String>> result, SearchGUI searchGUI) {
+    public void selectArtistHandler(ArrayList<ArrayList<String>> result, SearchGUI searchGUI, User user, Artist artist) {
         for (int i = 1; i < result.size(); i++) {
             //System.out.print("\nColumn headers: " + result.get(i));
             ArrayList<String> artistData = result.get(1);
@@ -142,6 +145,22 @@ public class Artist {
             gui.getjLabel2().setText(getArtistName());
             gui.getjLabel1().setIcon(new javax.swing.ImageIcon(getClass().getResource(getImgPath())));
             searchGUI.getAlbumList().add(searchGUI.getjPanel2().add(gui));
+            gui.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    int reply = JOptionPane.showConfirmDialog(null, "Would you like to save this Artist?", "Saving Artist", JOptionPane.YES_NO_OPTION);
+                    if (reply == JOptionPane.YES_OPTION) {
+                        SavedArtists savedArtists = new SavedArtists();
+                        try {
+                            savedArtists.insertAll(user, artist);
+                        } catch (AlinityException alinityException) {
+                            alinityException.printStackTrace();
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Nothing to save!");
+                    }
+                }
+            });
             //searchGUI.add(gui);
             //gui.getjLabel1().setIcon(new javax.swing.ImageIcon(getClass().getResource(getImgPath())));
         }

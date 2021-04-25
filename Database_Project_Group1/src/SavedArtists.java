@@ -1,9 +1,12 @@
+import javax.swing.*;
+import java.awt.image.Kernel;
 import java.util.ArrayList;
 
 public class SavedArtists {
     private int userId;
     private int artistId;
     private String artistName;
+    private JFrame frame = new JFrame();
 
     public String getArtistName() {
         return artistName;
@@ -70,12 +73,19 @@ public class SavedArtists {
         }
     }
 
-    public void selectSavedArtistsHandler(ArrayList<ArrayList<String>> result) {
+    public void selectSavedArtistsHandler(ArrayList<ArrayList<String>> result, SavedArtists savedArtists) {
+        JPanel rootPanel = new JPanel();
         for (int i = 1; i < result.size(); i++) {
             ArrayList<String> savedArtistData = result.get(i);
             setArtistName(savedArtistData.get(0));
             printSaved_Artists();
+            JPanel panel = new JPanel();
+            panel.add(new JLabel(savedArtists.getArtistName()));
+            rootPanel.add(panel);
         }
+        frame.add(rootPanel);
+        frame.setMinimumSize(new java.awt.Dimension(300, 300));
+        frame.setVisible(true);
     }
 
 //    /**
